@@ -1,4 +1,4 @@
-pushd .\simplic-cache\Simplic.Sql\
+pushd .\simplic-corelib\Simplic.CoreLib\
 package.bat
 pushd .\simplic-cache\Simplic.Cache\
 package.bat
