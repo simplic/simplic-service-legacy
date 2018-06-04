@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Unity;
-using Simplic.Cache;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Simplic.Cache.Service;
+using System;
 
 namespace Simplic.Cache.Test
 {

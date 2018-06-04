@@ -40,13 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICacheObject.cs" />
-    <Compile Include="IWeakReferenceCacheService.cs" />
-    <Compile Include="ICacheService.cs" />
+    <Compile Include="Interface\ICacheObject.cs" />
+    <Compile Include="Interface\IWeakReferenceCacheService.cs" />
+    <Compile Include="Interface\ICacheService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="package.bat" />
     <None Include="Simplic.Cache.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
