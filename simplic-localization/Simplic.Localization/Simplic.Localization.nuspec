@@ -1,0 +1,13 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>SIMPLIC GmbH</authors>
+    <owners>SIMPLIC GmbH</owners>
+    <projectUrl>https://github.com/simplic/simplic-framework</projectUrl>
+    <iconUrl> <![CDATA[https://avatars1.githubusercontent.com/u/14359329?v=3&s=460]]> </iconUrl>
+    <description>Core package</description>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  </metadata>
+</package>
