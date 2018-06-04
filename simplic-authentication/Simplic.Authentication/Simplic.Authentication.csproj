@@ -52,5 +52,8 @@
       <Name>Simplic.UserSession</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Simplic.Authentication.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
