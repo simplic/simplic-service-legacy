@@ -104,7 +104,6 @@
     <Compile Include="Win_32\WindowsSession.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="package.bat" />
     <None Include="Simplic.CoreLib.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
