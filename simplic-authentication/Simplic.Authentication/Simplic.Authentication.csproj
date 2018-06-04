@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C891F3E-A6C5-434F-B034-D2FB6D924825}</ProjectGuid>
+    <ProjectGuid>{EA6BBAEA-01C6-4387-85E5-B17F741F9D53}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simplic.User</RootNamespace>
-    <AssemblyName>Simplic.User</AssemblyName>
+    <RootNamespace>Simplic.Authentication</RootNamespace>
+    <AssemblyName>Simplic.Authentication</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,12 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IUserService.cs" />
-    <Compile Include="Model\User.cs" />
+    <Compile Include="Exception\LoginFailedException.cs" />
+    <Compile Include="Exception\LoginFailedType.cs" />
+    <Compile Include="Interface\IAuthenticationService.cs" />
+    <Compile Include="Interface\ICredentialProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Simplic.User.nuspec" />
+    <ProjectReference Include="..\Simplic.UserSession\Simplic.UserSession.csproj">
+      <Project>{9C5143D6-5A98-493E-AE85-51FB401FD30F}</Project>
+      <Name>Simplic.UserSession</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

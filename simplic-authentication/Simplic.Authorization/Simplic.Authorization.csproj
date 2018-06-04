@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C891F3E-A6C5-434F-B034-D2FB6D924825}</ProjectGuid>
+    <ProjectGuid>{9EA6AB91-A661-4310-8573-873627402F47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simplic.User</RootNamespace>
-    <AssemblyName>Simplic.User</AssemblyName>
+    <RootNamespace>Simplic.Authorization</RootNamespace>
+    <AssemblyName>Simplic.Authorization</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,12 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IUserService.cs" />
-    <Compile Include="Model\User.cs" />
+    <Compile Include="Interface\IAuthorizationService.cs" />
+    <Compile Include="Model\AccessRightType.cs" />
+    <Compile Include="Model\DataRowAccessRight.cs" />
+    <Compile Include="Model\RowAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Simplic.User.nuspec" />
+    <None Include="Simplic.Authorization.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simplic.UserSession\Simplic.UserSession.csproj">
+      <Project>{9C5143D6-5A98-493E-AE85-51FB401FD30F}</Project>
+      <Name>Simplic.UserSession</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
