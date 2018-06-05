@@ -39,7 +39,7 @@ namespace Simplic.Configuration
         /// <param name="PlugInName"></param>
         /// <param name="UserName"></param>
         /// <returns></returns>
-        internal static string GetKeyName(string ConfigurationName, string PlugInName, string UserName)
+        public static string GetKeyName(string ConfigurationName, string PlugInName, string UserName)
         {
             return (ConfigurationName + PlugInName + UserName).ToLower().Trim();
         }

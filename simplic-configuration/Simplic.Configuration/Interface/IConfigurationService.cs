@@ -14,7 +14,7 @@ namespace Simplic.Configuration
         /// <param name="plugInName">PlugIn-Name</param>
         /// <param name="userName">Current username, should be empty for ignoring</param>
         /// <returns>Enumerable of values</returns>
-        IEnumerable<ConfigurationValue> GetValues<T>(string plugInName, string userName);
+        IEnumerable<ConfigurationValue> GetValues<T>(string pluginName, string userName);
 
         /// <summary>
         /// Gibt einen Konfigurationswert zurück
@@ -24,7 +24,7 @@ namespace Simplic.Configuration
         /// <param name="UserName">Benutzername</param>
         /// <param name="NoCaching">Wenn true, wird kein Cache verwendet</param>
         /// <returns>Wert</returns>
-        T GetValue<T>(string ConfigurationName, string PlugInName, string UserName, bool NoCaching = false);
+        T GetValue<T>(string configurationName, string pluginName, string userName, bool noCaching = false);
         
         /// <summary>
         /// Setzt einen Konfigurationswert
@@ -33,6 +33,6 @@ namespace Simplic.Configuration
         /// <param name="PlugInName">PlugIn-Name</param>
         /// <param name="UserName">Benutzername</param>
         /// <param name="Value">Wert</param>
-        void SetValue<T>(string ConfigurationName, string PlugInName, string UserName, T Value);
+        void SetValue<T>(string configurationName, string pluginName, string userName, T value);
     }
 }
