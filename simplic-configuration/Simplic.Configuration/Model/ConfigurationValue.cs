@@ -3,46 +3,30 @@
 namespace Simplic.Configuration
 {
     /// <summary>
-    /// Konfigurationswert
+    /// ConfigurationValue
     /// </summary>
     public class ConfigurationValue : ICacheObject
     {
-        private string configName;
+        private string configurationName;
         private string plugInName;
         private string userName;
         private object value;
 
         /// <summary>
-        /// Neues Configuration-Wert erstellen
+        /// Constructor to create a new configuration value
         /// </summary>
-        /// <param name="ConfigName">Name der Einstellung</param>
-        /// <param name="PlugInName">PlugIn-Name</param>
-        /// <param name="UserName">UserName</param>
-        /// <param name="Value">Wert</param>
-        public ConfigurationValue(string ConfigName, string PlugInName, string UserName, object Value)
+        /// <param name="configName">Configuration name</param>
+        /// <param name="plugInName">Plugin name</param>
+        /// <param name="userName">User name</param>
+        /// <param name="value">Configuration value</param>
+        public ConfigurationValue(string configName, string plugInName, string userName, object value)
         {
-            configName = ConfigName;
-            plugInName = PlugInName;
-            userName = UserName;
-            value = Value;
+            this.configurationName = configName;
+            this.plugInName = plugInName;
+            this.userName = userName;
+            this.value = value;
         }
 
-        public void OnRemove()
-        {
-
-        }
-
-        /// <summary>
-        /// Generiert den eindeutigen Key eines ConvifurationValue - ICacheable
-        /// </summary>
-        /// <param name="ConfigurationName"></param>
-        /// <param name="PlugInName"></param>
-        /// <param name="UserName"></param>
-        /// <returns></returns>
-        public static string GetKeyName(string ConfigurationName, string PlugInName, string UserName)
-        {
-            return (ConfigurationName + PlugInName + UserName).ToLower().Trim();
-        }
 
         public object Value
         {
@@ -50,13 +34,6 @@ namespace Simplic.Configuration
             set { this.value = value; }
         }
 
-        /// <summary>
-        /// Eindeutiger Schlüssel
-        /// </summary>
-        public string Key
-        {
-            get { return GetKeyName(configName, plugInName, userName); }
-        }
 
         /// <summary>
         /// Gets the configuration name
@@ -65,13 +42,26 @@ namespace Simplic.Configuration
         {
             get
             {
-                return configName;
+                return configurationName;
             }
         }
 
         public string CacheKey
         {
-            get { return nameof(ConfigurationValue); }
+            get { return GetKeyName(configurationName, plugInName, userName).ToLower().Trim(); }
+        }
+
+
+        /// <summary>
+        /// Generiert den eindeutigen Key eines ConvifurationValue - ICacheable
+        /// </summary>
+        /// <param name="configName">Configuration name</param>
+        /// <param name="plugInName">Plugin name</param>
+        /// <param name="userName">User name</param>
+        /// <returns>Key name</returns>
+        public static string GetKeyName(string configurationName, string plugInName, string userName)
+        {
+            return (configurationName + plugInName + userName).ToLower().Trim();
         }
     }
 }
