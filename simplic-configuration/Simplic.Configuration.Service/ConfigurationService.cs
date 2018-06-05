@@ -1,9 +1,6 @@
 ﻿using Simplic.Cache;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simplic.Configuration.Service
 {
@@ -11,12 +8,13 @@ namespace Simplic.Configuration.Service
     {
         #region Private Members
         private readonly ICacheService cacheService;
-        //private readonly ISqlService sqlService;
+        private readonly IConfigurationRepository configurationRepository;
         #endregion
 
-        public ConfigurationService(ICacheService cacheService)
+        public ConfigurationService(ICacheService cacheService, IConfigurationRepository configurationRepository)
         {
             this.cacheService = cacheService;
+            this.configurationRepository = configurationRepository;
         }
 
         #region Private Methods
@@ -50,7 +48,7 @@ namespace Simplic.Configuration.Service
             {
                 return default(T);
             }
-        } 
+        }
         #endregion
 
         #endregion
@@ -58,33 +56,29 @@ namespace Simplic.Configuration.Service
         /// <summary>
         /// Gibt einen Konfigurationswert zurück
         /// </summary>
-        /// <param name="ConfigurationName">Konfigurationswert</param>
-        /// <param name="PlugInName">PlugInName</param>
-        /// <param name="UserName">Benutzername</param>
-        /// <param name="NoCaching">Wenn true, wird kein Cache verwendet</param>
+        /// <param name="configurationName">Konfigurationswert</param>
+        /// <param name="pluginName">PlugInName</param>
+        /// <param name="userName">Benutzername</param>
+        /// <param name="noCaching">Wenn true, wird kein Cache verwendet</param>
         /// <returns>Wert</returns>
-        public T GetValue<T>(string ConfigurationName, string PlugInName, string UserName, bool NoCaching = false)
+        public T GetValue<T>(string configurationName, string pluginName, string userName, bool noCaching = false)
         {
-            var returnValue = cacheService.Get<ConfigurationValue>(ConfigurationValue.GetKeyName(ConfigurationName, PlugInName, UserName));
+            var returnValue = cacheService.Get<ConfigurationValue>(
+                ConfigurationValue.GetKeyName(configurationName, pluginName, userName));
 
-            if (returnValue == null || NoCaching == true)
+            if (returnValue == null || noCaching == true)
             {
-                object value = BaseDAL.BaseFunctions.GetValue(PlugInName, UserName, ConfigurationName);
+                var value = configurationRepository.GetValue(pluginName, userName, configurationName);
 
                 // If no configuration value exists, try to load a user independent setting
-                if (value == null)
-                {
-                    value = BaseDAL.BaseFunctions.GetValue(PlugInName, "", ConfigurationName);
-                }
+                if (string.IsNullOrWhiteSpace(value))
+                    value = configurationRepository.GetValue(pluginName, "", configurationName);                
 
-                returnValue = new ConfigurationValue(ConfigurationName, PlugInName, UserName, value);
-
+                returnValue = new ConfigurationValue(configurationName, pluginName, userName, value);
                 returnValue.Value = CastConfigurationValue<T>(value);
 
-                if (NoCaching == false)
-                {
-                    cacheService.Set(returnValue);                    
-                }
+                if (noCaching == false)                
+                    cacheService.Set(returnValue);                                    
             }
 
             return (T)returnValue.Value;
@@ -97,51 +91,40 @@ namespace Simplic.Configuration.Service
         /// <param name="plugInName">PlugIn-Name</param>
         /// <param name="userName">Current username, should be empty for ignoring</param>
         /// <returns>Enumerable of values</returns>
-        public IEnumerable<ConfigurationValue> GetValues<T>(string plugInName, string userName)
+        public IEnumerable<ConfigurationValue> GetValues<T>(string pluginName, string userName)
         {
-
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
-            {
-                var rawValues = connection.Query("SELECT ConfigValue, ConfigName FROM ESS_MS_Intern_Config WHERE PlugInName = :plugInName AND UserName = :userName", new { plugInName, userName });
-
-                foreach (var rawValue in rawValues)
-                {
-                    yield return new ConfigurationValue(rawValue.ConfigName, plugInName, userName, CastConfigurationValue<T>(rawValue.ConfigValue));
-                }
-            }
+            return configurationRepository.GetValues<T>(pluginName, userName);
         }
 
         /// <summary>
         /// Setzt einen Konfigurationswert
         /// </summary>
-        /// <param name="ConfigurationName">Name der Konfiguration</param>
-        /// <param name="PlugInName">PlugIn-Name</param>
-        /// <param name="UserName">Benutzername</param>
-        /// <param name="Value">Wert</param>
-        public void SetValue<T>(string ConfigurationName, string PlugInName, string UserName, T Value)
+        /// <param name="configurationName">Name der Konfiguration</param>
+        /// <param name="pluginName">PlugIn-Name</param>
+        /// <param name="userName">Benutzername</param>
+        /// <param name="value">Wert</param>
+        public void SetValue<T>(string configurationName, string pluginName, string userName, T value)
         {
-            object value = Value;
+            object _value = value;
 
-            if (value != null)
+            if (_value != null)
             {
-                if (Value is bool || Value is Boolean)
+                if (value is bool || value is Boolean)
                 {
-                    value = Convert.ToInt32(Value).ToString();
+                    _value = Convert.ToInt32(value).ToString();
                 }
             }
 
-            BaseDAL.BaseFunctions.SetValue(PlugInName, UserName, ConfigurationName, value == null ? null : value.ToString());
+            configurationRepository.SetValue(pluginName, userName, configurationName,
+                _value == null ? null : _value.ToString());            
 
-            ConfigurationValue configValue = CacheManager.Singleton.GetObjectNoException<ConfigurationValue>(ConfigurationValue.GetKeyName(ConfigurationName, PlugInName, UserName));
+            var configValue = cacheService.Get<ConfigurationValue>(
+                ConfigurationValue.GetKeyName(configurationName, pluginName, userName));
 
             if (configValue != null)
-            {
-                configValue.Value = Value;
-            }
+                configValue.Value = value;
             else
-            {
-                CacheManager.Singleton.AddObject(new ConfigurationValue(ConfigurationName, PlugInName, UserName, Value));
-            }
+                cacheService.Set(new ConfigurationValue(configurationName, pluginName, userName, value));                            
         }
     }
 }
