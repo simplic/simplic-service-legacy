@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Simplic.Cache.Service;
 using System;
+using Unity;
 
 namespace Simplic.Cache.Test
 {
@@ -90,6 +91,36 @@ namespace Simplic.Cache.Test
 
             service.Remove<CacheTestObject>(obj.CacheKey);
             Assert.IsNull(service.Get<CacheTestObject>(obj.CacheKey));
+        }
+
+        [TestMethod]
+        public void LamdbaGet()
+        {
+            var value = Guid.NewGuid();
+            var key = "SAMPLE_KEY";
+
+            var service = container.Resolve<ICacheService>();
+            var newValue = service.Get<Guid>(key, () => 
+            {
+                return value;
+            });
+
+            Assert.AreEqual(newValue, value);
+        }
+
+        [TestMethod]
+        public void LamdbaGetWeakReference()
+        {
+            var value = Guid.NewGuid();
+            var key = "SAMPLE_KEY";
+
+            var service = container.Resolve<IWeakReferenceCacheService>();
+            var newValue = service.Get<Guid>(key, () =>
+            {
+                return value;
+            });
+
+            Assert.AreEqual(newValue, value);
         }
     }
 }
