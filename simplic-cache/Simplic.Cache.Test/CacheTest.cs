@@ -94,7 +94,7 @@ namespace Simplic.Cache.Test
         }
 
         [TestMethod]
-        public void LamdbaGet()
+        public void LambdaGet()
         {
             var value = Guid.NewGuid();
             var key = "SAMPLE_KEY";
@@ -109,7 +109,7 @@ namespace Simplic.Cache.Test
         }
 
         [TestMethod]
-        public void LamdbaGetWeakReference()
+        public void LambdaGetWeakReference()
         {
             var value = Guid.NewGuid();
             var key = "SAMPLE_KEY";
