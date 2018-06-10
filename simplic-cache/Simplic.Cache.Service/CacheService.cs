@@ -48,7 +48,7 @@ namespace Simplic.Cache.Service
         }
 
         /// <summary>
-        /// Get cached object or null
+        /// Get cached object or null. If the object is not cached, it will be cached using the func
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="key">Unique cache object key</param>
