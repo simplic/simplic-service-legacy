@@ -48,6 +48,33 @@ namespace Simplic.Cache.Service
         }
 
         /// <summary>
+        /// Get cached object or null. If the object is not cached, it will be cached using the func
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="key">Unique cache object key</param>
+        /// <param name="func">Function that gets executed if the value is not cached yet</param>
+        /// <returns>Cache object if found, else null</returns>
+        public T Get<T>(string key, Func<T> func)
+        {
+            lock (_lock)
+            {
+                var value = default(T);
+
+                var cacheKey = GetTypeBasedKey(key, typeof(T));
+
+                if (cache.ContainsKey(cacheKey) && cache[cacheKey]?.IsAlive == true)
+                {
+                    return Get<T>(key);
+                }
+
+                value = func();
+                Set<T>(key, value);
+
+                return value;
+            }
+        }
+
+        /// <summary>
         /// Add or replace cache object
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
