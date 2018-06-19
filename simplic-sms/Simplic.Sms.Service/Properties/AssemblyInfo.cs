@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Simplic.Sms")]
+[assembly: AssemblyTitle("Simplic.Sms.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIMPLIC GmbH")]
-[assembly: AssemblyProduct("Simplic.Sms")]
+[assembly: AssemblyProduct("Simplic.Sms.Service")]
 [assembly: AssemblyCopyright("Copyright © SIMPLIC GmbH 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f21f0d08-0450-44ff-ad08-d5d4fcc3b94b")]
+[assembly: Guid("49c9e964-45dd-4b5b-99e9-8209cf6a05de")]
 
 // Version information for an assembly consists of the following four values:
 //
