@@ -1,5 +1,4 @@
 ﻿using Simplic.UserSession;
-using System.Collections.Generic;
 
 namespace Simplic.Authentication
 {
