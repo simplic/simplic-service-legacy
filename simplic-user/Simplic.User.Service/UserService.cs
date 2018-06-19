@@ -1,10 +1,9 @@
 ﻿using Dapper;
-using iAnywhere.Data.SQLAnywhere;
-using Simplic.Framework.DAL;
+using Simplic.Security.Cryptography;
+using Simplic.Sql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using Simplic.Security.Cryptography;
 
 namespace Simplic.User.Service
 {
@@ -13,8 +12,16 @@ namespace Simplic.User.Service
     /// </summary>
     public class UserService : IUserService
     {
-        #region Private Consts
+        #region Private Members
         private const string UserTableName = "ESS_MS_Intern_User";
+        private readonly ISqlService sqlService;
+        #endregion
+
+        #region Constructor
+        public UserService(ISqlService sqlService)
+        {
+            this.sqlService = sqlService;
+        } 
         #endregion
 
         #region [Delete]
@@ -25,12 +32,10 @@ namespace Simplic.User.Service
         /// <returns>True if successfull</returns>        
         public bool Delete(int id)
         {
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
-            {
+            return sqlService.OpenConnection((connection) => {
                 var affectedRows = connection.Execute($"DELETE FROM {UserTableName} WHERE Ident = :Ident", new { Ident = id });
-
                 return affectedRows > 0;
-            }
+            });            
         }
         #endregion
 
@@ -41,10 +46,9 @@ namespace Simplic.User.Service
         /// <returns>A list of <see cref="User"/></returns>
         public IEnumerable<User> GetAll()
         {
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
-            {
+            return sqlService.OpenConnection((connection) => {
                 return connection.Query<User>($"SELECT * FROM {UserTableName} ORDER BY Ident");
-            }
+            });
         }
         #endregion
 
@@ -56,14 +60,15 @@ namespace Simplic.User.Service
         /// <returns>A list of <see cref="User"/></returns>
         public IEnumerable<User> GetAllSorted(bool activeOnly = true)
         {
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
+            return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<User>($"SELECT * FROM {UserTableName} WHERE {(activeOnly ? " IsActive = 1 AND " : "")} Ident > 0 AND Ident < 32000 ORDER BY FirstName, LastName, UserName");
-            }
+                return connection.Query<User>($"SELECT * FROM {UserTableName} WHERE {(activeOnly ? " IsActive = 1 AND " : "")} " +
+                    $" Ident > 0 AND Ident < 32000 ORDER BY FirstName, LastName, UserName");
+            });
         }
         #endregion
-
-        #region [GetById/GetByName]
+        
+        #region [GetById]
         /// <summary>
         /// Gets a user given by its id
         /// </summary>
@@ -71,13 +76,15 @@ namespace Simplic.User.Service
         /// <returns>A <see cref="User"/></returns>
         public User GetById(int id)
         {
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
+            return sqlService.OpenConnection((connection) =>
             {
                 return connection.Query<User>($"SELECT * FROM {UserTableName} WHERE Ident = :Ident", new { Ident = id })
                     .FirstOrDefault();
-            }
+            });
         }
+        #endregion
 
+        #region [GetByName]
         /// <summary>
         /// Gets a user given by its name
         /// </summary>
@@ -85,12 +92,12 @@ namespace Simplic.User.Service
         /// <returns>A <see cref="User"/></returns>
         public User GetByName(string userName)
         {
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
+            return sqlService.OpenConnection((connection) =>
             {
                 return connection.Query<User>($"SELECT * FROM {UserTableName} WHERE UserName = :userName", new { userName = userName })
                     .FirstOrDefault();
-            }
-        }
+            });
+        } 
         #endregion
 
         #region [Save]
@@ -101,7 +108,7 @@ namespace Simplic.User.Service
         /// <returns>True if successfull</returns>
         public bool Save(User user)
         {
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
+            return sqlService.OpenConnection((connection) =>
             {
                 if (user.Ident == 0)
                     user.Ident = connection.Query<int>($"SELECT Get_Identity('{UserTableName}')").FirstOrDefault();
@@ -115,7 +122,7 @@ namespace Simplic.User.Service
                      user);
 
                 return affectedRows > 0;
-            }
+            });
         }
         #endregion
 
@@ -130,8 +137,8 @@ namespace Simplic.User.Service
             if (!Save(user))
                 return false;
 
-            // Implementation to be backword compatible. Should be changed later
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
+            // Implementation to be backwards compatible. Should be changed later
+            sqlService.OpenConnection((connection) =>
             {
                 var dbUserName = "";
 
@@ -152,7 +159,9 @@ namespace Simplic.User.Service
                 connection.Execute("commit;");
                 System.Threading.Thread.Sleep(500);
                 connection.Execute("commit;");
-            }
+
+                return 0;
+            });
 
             if (user.IsADUser)
                 SetPassword(user.Ident, user.Password);
@@ -173,17 +182,17 @@ namespace Simplic.User.Service
             if (string.IsNullOrEmpty(rawPassword))
                 return false;
 
-            using (var connection = ConnectionManager.GetOpenPoolConnection<SAConnection>())
+            return sqlService.OpenConnection((connection) =>
             {
                 var affectedRows = connection.Execute($"UPDATE {UserTableName} " +
                     $" SET Passsword = :password where Ident = :userId", new
                     {
                         password = CryptographyHelper.GetMD5Hash(rawPassword),
-                        userId = userId
+                        userId
                     });
 
                 return affectedRows > 0;
-            }
+            });
         }
         #endregion
     }
