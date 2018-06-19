@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Authorization", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Authorization.Service", "Simplic.Authorization.Service\Simplic.Authorization.Service.csproj", "{305241BD-D20C-4CA0-8CCC-EC467DE78364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Authorization.UI", "Simplic.Authorization.UI\Simplic.Authorization.UI.csproj", "{8A3EECFC-E66A-41E9-9275-450E7E29E3BA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{305241BD-D20C-4CA0-8CCC-EC467DE78364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{305241BD-D20C-4CA0-8CCC-EC467DE78364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{305241BD-D20C-4CA0-8CCC-EC467DE78364}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A3EECFC-E66A-41E9-9275-450E7E29E3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A3EECFC-E66A-41E9-9275-450E7E29E3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A3EECFC-E66A-41E9-9275-450E7E29E3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A3EECFC-E66A-41E9-9275-450E7E29E3BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
