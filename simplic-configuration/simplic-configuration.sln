@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Configuration", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Configuration.Service", "Simplic.Configuration.Service\Simplic.Configuration.Service.csproj", "{A8387EF3-B312-425B-B8F3-5477B420A1E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Configuration.Data", "Simplic.Configuration.Data\Simplic.Configuration.Data.csproj", "{0D69651A-38AA-478F-80F7-D58591E46800}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Configuration.Data.DB", "Simplic.Configuration.Data.DB\Simplic.Configuration.Data.DB.csproj", "{0D69651A-38AA-478F-80F7-D58591E46800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

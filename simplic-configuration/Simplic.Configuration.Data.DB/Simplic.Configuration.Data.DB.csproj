@@ -7,8 +7,8 @@
     <ProjectGuid>{0D69651A-38AA-478F-80F7-D58591E46800}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simplic.Configuration.Data</RootNamespace>
-    <AssemblyName>Simplic.Configuration.Data</AssemblyName>
+    <RootNamespace>Simplic.Configuration.Data.DB</RootNamespace>
+    <AssemblyName>Simplic.Configuration.Data.DB</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -59,8 +59,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="package.bat" />
     <None Include="packages.config" />
-    <None Include="Simplic.Configuration.Data.nuspec" />
+    <None Include="Simplic.Configuration.Data.DB.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
