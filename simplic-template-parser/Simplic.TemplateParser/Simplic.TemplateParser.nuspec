@@ -6,10 +6,10 @@
     <title>$title$</title>
     <authors>SIMPLIC GmbH</authors>
     <owners>SIMPLIC GmbH</owners>
-    <projectUrl>https://github.com/simplic-systems/simplic-utilities</projectUrl>
-    <iconUrl>https://avatars3.githubusercontent.com/u/14359329?v=3&amp;s=400</iconUrl>
+    <projectUrl>https://github.com/simplic/simplic-service</projectUrl>
+    <iconUrl><![CDATA[https://avatars3.githubusercontent.com/u/17578084?s=400&u=e8da257ee7e886b5007b097d4881e1dbc998a826&v=4]]></iconUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>TemplateParser utility used in Simplic products.</description>    
-    <copyright>Copyright Simplic GmbH 2017</copyright>
+    <copyright>Copyright Simplic GmbH 2018</copyright>
   </metadata>
 </package>
