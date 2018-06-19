@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package >
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
+    <title>$title$</title>
     <authors>SIMPLIC GmbH</authors>
     <owners>SIMPLIC GmbH</owners>
-    <projectUrl>https://github.com/simplic/simplic-framework</projectUrl>
-    <iconUrl> <![CDATA[https://avatars1.githubusercontent.com/u/14359329?v=3&s=460]]> </iconUrl>
-    <description>Core package</description>
+    <projectUrl>https://github.com/simplic/simplic-service</projectUrl>
+    <iconUrl><![CDATA[https://avatars3.githubusercontent.com/u/17578084?s=400&u=e8da257ee7e886b5007b097d4881e1dbc998a826&v=4]]></iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$id$ core.</description>
+    <copyright>Copyright Simplic GmbH 2018</copyright>
   </metadata>
 </package>
