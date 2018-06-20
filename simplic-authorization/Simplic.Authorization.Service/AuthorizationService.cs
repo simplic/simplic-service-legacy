@@ -39,12 +39,10 @@ namespace Simplic.Authorization.Service
                 sqlSb.Append($" set_bit({id}) ");
             }
 
-            return sqlService.OpenConnection((connection) => {
-
-                var bitMask = connection.Query($"SELECT ({sqlSb.ToString()}) as BitMask")
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.Query<string>($"SELECT ({sqlSb.ToString()}) as BitMask")
                     .FirstOrDefault();
-
-                return bitMask?.BitMask;
             });
         }
         #endregion
@@ -71,10 +69,11 @@ namespace Simplic.Authorization.Service
         /// <returns>Access rights of given row of the given table</returns>
         public RowAccess GetAccessRights(string tableName, string idColName, object rowId)
         {
-            return sqlService.OpenConnection((connection) => {
+            return sqlService.OpenConnection((connection) =>
+            {
 
                 var rights = connection.Query<DataRowAccessRight>($"SELECT OwnerId, UserFullAccess, UserReadAccess, UserWriteAccess, " +
-                    $"GroupFullAccess, GroupReadAccess, GroupWriteAccess from {tableName} where {idColName} = :rowId", 
+                    $"GroupFullAccess, GroupReadAccess, GroupWriteAccess from {tableName} where {idColName} = :rowId",
                         new { rowId }).FirstOrDefault();
 
                 if (rights == null) return null;
@@ -90,7 +89,7 @@ namespace Simplic.Authorization.Service
                     GroupWriteAccess = ConvertBitToInt(rights.GroupWriteAccess)
                 };
 
-            });            
+            });
         }
         #endregion
 
@@ -112,7 +111,8 @@ namespace Simplic.Authorization.Service
             var groupReadAccess = CreateBitMask(rowAccess.GroupReadAccess);
             var groupWriteAccess = CreateBitMask(rowAccess.GroupWriteAccess);
 
-            return sqlService.OpenConnection((connection) => {
+            return sqlService.OpenConnection((connection) =>
+            {
 
                 var affectedRows = connection.Execute($"UPDATE {tableName} SET OwnerId = :OwnerId, " +
                     $"UserReadAccess = :UserReadAccess, UserWriteAccess = :UserWriteAccess, " +
@@ -193,7 +193,8 @@ namespace Simplic.Authorization.Service
         /// <returns>true if successfull</returns>
         public bool SetOwner(string tableName, string idColName, object rowId, int ownerId)
         {
-            return sqlService.OpenConnection((connection) => {
+            return sqlService.OpenConnection((connection) =>
+            {
 
                 var affectedRows = connection.Execute($"UPDATE {tableName} set OwnerId = :ownerId " +
                    $" where {idColName} = :rowId",
@@ -218,7 +219,8 @@ namespace Simplic.Authorization.Service
         /// <returns>true if successfull</returns>
         public int GetOwnerId(string tableName, string idColName, object rowId)
         {
-            return sqlService.OpenConnection((connection) => {
+            return sqlService.OpenConnection((connection) =>
+            {
 
                 var ownerId = connection.Execute($"SELECT OwnerId FROM {tableName} where {idColName} = :rowId",
                     new { rowId });
@@ -316,7 +318,7 @@ namespace Simplic.Authorization.Service
             #region Table Role
             if (AddColumns("Role"))
             {
-                sqlService.OpenConnection((connection) => 
+                sqlService.OpenConnection((connection) =>
                 {
                     try
                     {
@@ -571,7 +573,7 @@ namespace Simplic.Authorization.Service
         {
             int rowCounter = 0;
 
-            sqlService.OpenConnection((connection) => 
+            sqlService.OpenConnection((connection) =>
             {
                 int counter = 0;
                 foreach (var id in ids)
@@ -587,7 +589,9 @@ namespace Simplic.Authorization.Service
                     {
                         rightObjects = connection.Query<RightObject>("SELECT (select Ident from ESS_MS_Intern_Groups where GroupId = ESS_MS_Intern_RightObjects.GroupId) as GroupIdent, UserIdent, RightType from ESS_MS_Intern_RightObjects where Guid = :Guid and AllowAccess = 1", new { Guid = id });
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                    }
 
                     if (rightObjects == null) continue;
 
@@ -603,29 +607,29 @@ namespace Simplic.Authorization.Service
                     {
                         if (rightObj.GroupIdent > 0 && rightObj.GroupIdent < 32000)
                         {
-                            if (rightObj.RightType == 0)
-                                groupReadIds.Add(rightObj.GroupIdent);
-                            else if (rightObj.RightType == 10)
-                                groupWriteIds.Add(rightObj.GroupIdent);
-                            else if (rightObj.RightType == 100)
-                                groupFullIds.Add(rightObj.GroupIdent);
+                            // We need to set full acccess here, because the other access types are never used...
+                            groupFullIds.Add(rightObj.GroupIdent);
                         }
 
                         if (rightObj.UserIdent > 0 && rightObj.UserIdent < 32000)
                         {
-                            if (rightObj.RightType == 0)
-                                userReadIds.Add(rightObj.UserIdent);
-                            else if (rightObj.RightType == 10)
-                                userWriteIds.Add(rightObj.UserIdent);
-                            else if (rightObj.RightType == 100)
-                                userFullIds.Add(rightObj.UserIdent);
+                            // We need to set full acccess here, because the other access types are never used...
+                            userFullIds.Add(rightObj.UserIdent);
                         }
                     }
 
                     if (userReadIds.Count == 0 && userWriteIds.Count == 0 && userFullIds.Count == 0 &&
                         groupReadIds.Count == 0 && groupWriteIds.Count == 0 && groupFullIds.Count == 0)
                         continue;
-
+                    
+                    userReadIds = userReadIds.Distinct().ToList();
+                    userWriteIds = userWriteIds.Distinct().ToList();
+                    userFullIds = userFullIds.Distinct().ToList();
+                    groupReadIds = groupReadIds.Distinct().ToList();
+                    groupWriteIds = groupWriteIds.Distinct().ToList();
+                    groupFullIds = groupFullIds.Distinct().ToList();
+                    
+                    // Sort is a void, so is not part of the method chain above.
                     userReadIds.Sort(); userWriteIds.Sort(); userFullIds.Sort();
                     groupReadIds.Sort(); groupWriteIds.Sort(); groupFullIds.Sort();
 
@@ -644,7 +648,9 @@ namespace Simplic.Authorization.Service
                         else
                             SetAccess(tableName, colName, id, newAccessRights);
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                    }
 
                     counter++;
                 }
@@ -666,28 +672,28 @@ namespace Simplic.Authorization.Service
 
             return sqlService.OpenConnection((connection) =>
             {
-               try { connection.Execute($"ALTER TABLE {table} ADD \"OwnerId\" INTEGER NULL;"); }
-               catch { columnsAdded = false; }
+                try { connection.Execute($"ALTER TABLE {table} ADD \"OwnerId\" INTEGER NULL;"); }
+                catch { columnsAdded = false; }
 
-               try { connection.Execute($"ALTER TABLE {table} ADD \"UserReadAccess\" VARBIT(32767) NULL;"); }
-               catch { columnsAdded = false; }
+                try { connection.Execute($"ALTER TABLE {table} ADD \"UserReadAccess\" LONG VARBIT NULL;"); }
 
-               try { connection.Execute($"ALTER TABLE {table} ADD \"UserWriteAccess\" VARBIT(32767) NULL;"); }
-               catch { columnsAdded = false; }
+                catch { columnsAdded = false; }
+                try { connection.Execute($"ALTER TABLE {table} ADD \"UserWriteAccess\" LONG VARBIT NULL;"); }
 
-               try { connection.Execute($"ALTER TABLE {table} ADD \"UserFullAccess\" VARBIT(32767) NULL;"); }
-               catch { columnsAdded = false; }
+                catch { columnsAdded = false; }
+                try { connection.Execute($"ALTER TABLE {table} ADD \"UserFullAccess\" LONG VARBIT NULL;"); }
 
-               try { connection.Execute($"ALTER TABLE {table} ADD \"GroupReadAccess\" VARBIT(32767) NULL;"); }
-               catch { columnsAdded = false; }
+                catch { columnsAdded = false; }
+                try { connection.Execute($"ALTER TABLE {table} ADD \"GroupReadAccess\" LONG VARBIT NULL;"); }
+                catch { columnsAdded = false; }
 
-               try { connection.Execute($"ALTER TABLE {table} ADD \"GroupWriteAccess\" VARBIT(32767) NULL;"); }
-               catch { columnsAdded = false; }
+                try { connection.Execute($"ALTER TABLE {table} ADD \"GroupWriteAccess\" LONG VARBIT NULL;"); }
+                catch { columnsAdded = false; }
 
-               try { connection.Execute($"ALTER TABLE {table} ADD \"GroupFullAccess\" VARBIT(32767) NULL;"); }
-               catch { columnsAdded = false; }
+                try { connection.Execute($"ALTER TABLE {table} ADD \"GroupFullAccess\" LONG VARBIT NULL;"); }
+                catch { columnsAdded = false; }
 
-               return columnsAdded;
+                return columnsAdded;
             });
         }
         #endregion
@@ -713,14 +719,15 @@ namespace Simplic.Authorization.Service
         {
             var accessRights = GenerateAccessRightsStatement(type, userId, userBitMask, userGroupBitMask);
 
-            return sqlService.OpenConnection((connection) => {
+            return sqlService.OpenConnection((connection) =>
+            {
                 var hasAccess = connection.Query<object>($"SELECT {idColName} FROM {tableName} " +
                     $"WHERE {idColName} = :rowId AND {accessRights}", new { rowId });
 
                 return hasAccess.Any();
-            });            
+            });
         }
-        
+
 
         /// <summary>
         /// Checks if the given user has access
