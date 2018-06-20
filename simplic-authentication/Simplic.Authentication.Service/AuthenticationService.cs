@@ -135,7 +135,7 @@ namespace Simplic.Authentication.Service
         /// <summary>
         /// Check whether autologin is existing and valid for the current user
         /// </summary>
-        /// <returns>Simplic session if login was successfull, or null</returns>
+        /// <returns>Simplic session if login was successfull else or null</returns>
         public Session TryAutologin()
         {
             Session session = null;
