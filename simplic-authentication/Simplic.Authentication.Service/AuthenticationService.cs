@@ -148,7 +148,7 @@ namespace Simplic.Authentication.Service
             if (File.Exists(path))
             {
                 var obj = JsonConvert.DeserializeObject<AutologinModel>(File.ReadAllText(path));
-                if (GenerateHash(Environment.UserName, Environment.UserDomainName) == obj.Hash)
+                if (GenerateHash(obj.UserName, obj.Domain) == obj.Hash)
                 {
                     var user = userService.GetByName(obj.UserName);
                     return GenerateUserSession(user);
@@ -161,7 +161,7 @@ namespace Simplic.Authentication.Service
         /// <summary>
         /// Generate unique hash
         /// </summary>
-        /// <returns>Unique hash</returns>
+        /// <returns>Unique hash for the given user</returns>
         private string GenerateHash(string userName, string domain)
         {
             return Security.Cryptography.CryptographyHelper.HashSHA256(NetworkInterface
