@@ -138,8 +138,6 @@ namespace Simplic.Authentication.Service
         /// <returns>Simplic session if login was successfull else or null</returns>
         public Session TryAutologin()
         {
-            Session session = null;
-
             var path = GetAutologinPath();
             if (File.Exists(path))
             {
@@ -151,7 +149,7 @@ namespace Simplic.Authentication.Service
                 }
             }
 
-            return session;
+            return null;
         }
 
         /// <summary>
