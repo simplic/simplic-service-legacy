@@ -69,8 +69,6 @@ namespace Simplic.Authentication.Service
         /// <returns>UserSession object if valid</returns>
         private Session GenerateUserSession(User.User user)
         {
-            Session session = null;
-
             if (user == null)
                 throw new LoginFailedException(LoginFailedType.UserNotFound);
 
@@ -81,7 +79,7 @@ namespace Simplic.Authentication.Service
             var isSuperUser = userGroups.Any(x => x.GroupId == 0);
             var userGroupIdents = userGroups.Select(x => x.Ident).ToList();
 
-            session = new Session()
+            return new Session()
             {
                 UserId = user.Ident,
                 UserName = user.UserName,
@@ -92,8 +90,6 @@ namespace Simplic.Authentication.Service
                 UserBitMask = authorizationService.CreateBitMask(user.Ident),
                 IsADUser = user.IsADUser
             };
-
-            return session;
         }
 
         /// <summary>
