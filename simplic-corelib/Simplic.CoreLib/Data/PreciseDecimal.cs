@@ -31,7 +31,7 @@ namespace Simplic.Data
         {
             _value = value._value;
         }
-        
+
         // Example of one member of double:
         public static PreciseDecimal operator *(PreciseDecimal d1, PreciseDecimal d2)
         {
@@ -97,7 +97,7 @@ namespace Simplic.Data
         {
             return c1._value < c2._value;
         }
-        
+
         /// <summary>
         /// Implicit conversion from double to PrecisedDecimal. 
         /// Implicit: No cast operator is required.
@@ -106,7 +106,7 @@ namespace Simplic.Data
         {
             return new PreciseDecimal(value);
         }
-        
+
         /// <summary>
         /// Explicit conversion from PrecisedDecimal to int. 
         /// Explicit: A cast operator is required.
@@ -124,7 +124,7 @@ namespace Simplic.Data
         {
             return new PreciseDecimal((double)value);
         }
-        
+
         /// <summary>
         /// Explicit conversion from PrecisedDecimal to int. 
         /// Explicit: A cast operator is required.
@@ -295,6 +295,9 @@ namespace Simplic.Data
         /// <returns></returns>
         public static PreciseDecimal Sum(this IEnumerable<PreciseDecimal> source)
         {
+            if (!source.Any())
+                return source.FirstOrDefault();
+
             return source.Aggregate((x, y) => x + y);
         }
 
@@ -305,6 +308,9 @@ namespace Simplic.Data
         /// <returns></returns>
         public static PreciseDecimal Sum<T>(this IEnumerable<T> source, Func<T, PreciseDecimal> selector)
         {
+            if (!source.Any())
+                return source.Select(selector).FirstOrDefault();
+
             return source.Select(selector).Aggregate((x, y) => x + y);
         }
     }
