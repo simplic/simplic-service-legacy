@@ -308,7 +308,7 @@ namespace Simplic.Data
         /// <returns></returns>
         public static PreciseDecimal Sum<T>(this IEnumerable<T> source, Func<T, PreciseDecimal> selector)
         {
-            if (!source.Any())
+            if (!source.Select(selector).Any())
                 return source.Select(selector).FirstOrDefault();
 
             return source.Select(selector).Aggregate((x, y) => x + y);
