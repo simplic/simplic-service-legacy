@@ -1,4 +1,6 @@
-﻿namespace Simplic.Cache
+﻿using System;
+
+namespace Simplic.Cache
 {
     /// <summary>
     /// Cache service interface
@@ -12,7 +14,7 @@
         /// <param name="key">Unique cache object key</param>Add or replace cache object
         /// <param name="cacheObject">Object to cache</param>
         void Set<T>(string key, T cacheObject);
-        
+
         /// <summary>
         /// Add or replace cache object
         /// </summary>
@@ -27,6 +29,15 @@
         /// <param name="key">Unique cache object key</param>
         /// <returns>Cache object if found, else null</returns>
         T Get<T>(string key);
+
+        /// <summary>
+        /// Get cached object or null. If the object is not cached, it will be cached using the func
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="key">Unique cache object key</param>
+        /// <param name="func">Function that gets executed if the value is not cached yet</param>
+        /// <returns>Cache object if found, else null</returns>
+        T Get<T>(string key, Func<T> func);
 
         /// <summary>
         /// Remove object from cache

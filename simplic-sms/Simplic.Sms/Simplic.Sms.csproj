@@ -46,6 +46,7 @@
     <Compile Include="Model\SmsStatus.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="package.bat" />
     <None Include="Simplic.Sms.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

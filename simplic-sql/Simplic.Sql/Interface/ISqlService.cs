@@ -18,6 +18,13 @@ namespace Simplic.Sql
         T OpenConnection<T>(Func<IDbConnection, T> action, string name = "default");
 
         /// <summary>
+        /// Open new connection and dont return a value
+        /// </summary>
+        /// <param name="action">Action which will be executed after opening the connection</param>
+        /// <param name="name">Connection name</param>
+        void OpenConnection(Action<IDbConnection> action, string name = "default");
+
+        /// <summary>
         /// Get identity from table
         /// </summary>
         /// <typeparam name="T">Return type</typeparam>

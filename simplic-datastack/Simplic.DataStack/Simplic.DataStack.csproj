@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\StackReportExecutionResult.cs" />
+    <None Include="package.bat" />
     <None Include="Simplic.DataStack.nuspec" />
   </ItemGroup>
   <ItemGroup>
