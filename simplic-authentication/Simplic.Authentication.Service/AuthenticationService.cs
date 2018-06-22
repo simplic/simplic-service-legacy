@@ -4,6 +4,10 @@ using Simplic.User;
 using Simplic.UserSession;
 using System.Linq;
 using Unity;
+using System;
+using System.IO;
+using System.Net.NetworkInformation;
+using Newtonsoft.Json;
 
 namespace Simplic.Authentication.Service
 {
@@ -31,7 +35,7 @@ namespace Simplic.Authentication.Service
             this.authorizationService = authorizationService;
             this.groupService = groupService;
         }
-        
+
         /// <summary>
         /// Authenticate a user and create a use session
         /// </summary>
@@ -41,8 +45,6 @@ namespace Simplic.Authentication.Service
         /// <returns>A user session if the user could be logged in, else an exception will be thrown</returns>
         public Session Login(string domain, string userName, string password)
         {
-            Session session = null;
-
             if (string.IsNullOrWhiteSpace(userName))
                 throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
 
@@ -51,11 +53,8 @@ namespace Simplic.Authentication.Service
 
             var user = userService.GetByName(userName);
 
-            if (user == null)
-                throw new LoginFailedException(LoginFailedType.UserNotFound);
-
-            if (!user.IsActive)
-                throw new LoginFailedException(LoginFailedType.UserNotActive);
+            if(user == null)
+                throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
 
             var providerName = user.IsADUser ? "ActiveDirectoryCredentialProvider" : "DefaultCredentialProvider";
             var provider = container.Resolve<ICredentialProvider>(providerName);
@@ -63,23 +62,118 @@ namespace Simplic.Authentication.Service
             if (!provider.CheckCredentials(domain, userName, password, user.Password))
                 throw new LoginFailedException(LoginFailedType.InvalidCredentials);
 
+            return GenerateUserSession(user);
+        }
+
+        /// <summary>
+        /// Generate user session by current user instance
+        /// </summary>
+        /// <param name="user">User instance</param>
+        /// <returns>UserSession object if valid</returns>
+        private Session GenerateUserSession(User.User user)
+        {
+            if (user == null)
+                throw new LoginFailedException(LoginFailedType.UserNotFound);
+
+            if (!user.IsActive)
+                throw new LoginFailedException(LoginFailedType.UserNotActive);
+
             var userGroups = groupService.GetAllByUserId(user.Ident);
             var isSuperUser = userGroups.Any(x => x.GroupId == 0);
             var userGroupIdents = userGroups.Select(x => x.Ident).ToList();
 
-            session = new Session()
+            return new Session
             {
                 UserId = user.Ident,
                 UserName = user.UserName,
-                
+
                 IsSuperUser = isSuperUser,
                 UserAccessGroups = userGroupIdents,
                 UserAccessGroupsBitMask = authorizationService.CreateBitMask(userGroupIdents),
                 UserBitMask = authorizationService.CreateBitMask(user.Ident),
                 IsADUser = user.IsADUser
             };
+        }
 
-            return session;
+        /// <summary>
+        /// Activate autologin and write autologin file
+        /// </summary>
+        /// <param name="domain">Current domain</param>
+        /// <param name="userName">Current user</param>
+        /// <param name="password">Current password</param>
+        public void SetAutologin(string domain, string userName, string password)
+        {
+            try
+            {
+                if (Login(domain, userName, password) != null)
+                {
+                    // Create autologin object
+                    var hash = GenerateHash(userName, domain);
+                    var loginObject = new AutologinModel() { Hash = hash, UserName = userName, Domain = domain };
+
+                    // Ensure directory
+                    IO.DirectoryHelper.CreateDirectoryIfNotExists(Path.GetDirectoryName(AutologinPath));
+
+                    File.WriteAllText(AutologinPath, JsonConvert.SerializeObject(loginObject));
+                }
+            }
+            catch
+            {
+                /* swallow */
+            }
+        }
+
+        /// <summary>
+        /// Remove autologin for the current windows user
+        /// </summary>
+        public void RemoveAutologin()
+        {
+            if (File.Exists(AutologinPath))
+                File.Delete(AutologinPath);
+        }
+
+        /// <summary>
+        /// Check whether autologin is existing and valid for the current user
+        /// </summary>
+        /// <returns>Simplic session if login was successfull else or null</returns>
+        public Session TryAutologin()
+        {
+            if (File.Exists(AutologinPath))
+            {
+                var obj = JsonConvert.DeserializeObject<AutologinModel>(File.ReadAllText(AutologinPath));
+                if (GenerateHash(obj.UserName, obj.Domain) == obj.Hash)
+                {
+                    var user = userService.GetByName(obj.UserName);
+                    return GenerateUserSession(user);
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Generate unique hash
+        /// </summary>
+        /// <returns>Unique hash for the given user</returns>
+        private string GenerateHash(string userName, string domain)
+        {
+            return Security.Cryptography.CryptographyHelper.HashSHA256(NetworkInterface
+                   .GetAllNetworkInterfaces()
+                   .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                   .Select(nic => nic.GetPhysicalAddress().ToString())
+                   .FirstOrDefault() + $"{Environment.UserDomainName}_{Environment.UserName}_{userName}_{domain}");
+        }
+
+        /// <summary>
+        /// Get autologin file path
+        /// </summary>
+        /// <returns>Autologin file path</returns>
+        private string AutologinPath
+        {
+            get
+            {
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Simplic Studio\\Login.json";
+            }
         }
     }
 }

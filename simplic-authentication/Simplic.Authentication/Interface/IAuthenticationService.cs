@@ -15,5 +15,24 @@ namespace Simplic.Authentication
         /// <param name="password">Password</param>
         /// <returns>A user session if the user could be logged in, else an exception will be thrown</returns>
         Session Login(string domain, string userName, string password);
+
+        /// <summary>
+        /// Activate autologin
+        /// </summary>
+        /// <param name="domain">Current domain</param>
+        /// <param name="userName">Current user</param>
+        /// <param name="password">Current password</param>
+        void SetAutologin(string domain, string userName, string password);
+
+        /// <summary>
+        /// Remove autologin for the current windows user
+        /// </summary>
+        void RemoveAutologin();
+
+        /// <summary>
+        /// Check whether autologin is existing and valid for the current user
+        /// </summary>
+        /// <returns>Simplic session if login was successfull, or null</returns>
+        Session TryAutologin();
     }
 }
