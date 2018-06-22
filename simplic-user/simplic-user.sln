@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.User", "Simplic.Use
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.User.Service", "Simplic.User.Service\Simplic.User.Service.csproj", "{317D9AE7-0039-4D4C-991A-C8E709C7671E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Session", "Simplic.Session\Simplic.Session.csproj", "{99EDC33D-D2F4-4311-A21B-931940CFBABC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Session.Service", "Simplic.Session.Service\Simplic.Session.Service.csproj", "{FFB4870B-A518-4EFF-A8EB-853153B3835E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{317D9AE7-0039-4D4C-991A-C8E709C7671E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{317D9AE7-0039-4D4C-991A-C8E709C7671E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{317D9AE7-0039-4D4C-991A-C8E709C7671E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
