@@ -53,6 +53,9 @@ namespace Simplic.Authentication.Service
 
             var user = userService.GetByName(userName);
 
+            if(user == null)
+                throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
+
             var providerName = user.IsADUser ? "ActiveDirectoryCredentialProvider" : "DefaultCredentialProvider";
             var provider = container.Resolve<ICredentialProvider>(providerName);
 
@@ -79,7 +82,7 @@ namespace Simplic.Authentication.Service
             var isSuperUser = userGroups.Any(x => x.GroupId == 0);
             var userGroupIdents = userGroups.Select(x => x.Ident).ToList();
 
-            return new Session()
+            return new Session
             {
                 UserId = user.Ident,
                 UserName = user.UserName,
@@ -102,8 +105,6 @@ namespace Simplic.Authentication.Service
         {
             try
             {
-                var path = GetAutologinPath();
-
                 if (Login(domain, userName, password) != null)
                 {
                     // Create autologin object
@@ -111,9 +112,9 @@ namespace Simplic.Authentication.Service
                     var loginObject = new AutologinModel() { Hash = hash, UserName = userName, Domain = domain };
 
                     // Ensure directory
-                    IO.DirectoryHelper.CreateDirectoryIfNotExists(Path.GetDirectoryName(GetAutologinPath()));
+                    IO.DirectoryHelper.CreateDirectoryIfNotExists(Path.GetDirectoryName(AutologinPath));
 
-                    File.WriteAllText(GetAutologinPath(), JsonConvert.SerializeObject(loginObject));
+                    File.WriteAllText(AutologinPath, JsonConvert.SerializeObject(loginObject));
                 }
             }
             catch
@@ -127,9 +128,8 @@ namespace Simplic.Authentication.Service
         /// </summary>
         public void RemoveAutologin()
         {
-            var path = GetAutologinPath();
-            if (File.Exists(path))
-                File.Delete(path);
+            if (File.Exists(AutologinPath))
+                File.Delete(AutologinPath);
         }
 
         /// <summary>
@@ -138,10 +138,9 @@ namespace Simplic.Authentication.Service
         /// <returns>Simplic session if login was successfull else or null</returns>
         public Session TryAutologin()
         {
-            var path = GetAutologinPath();
-            if (File.Exists(path))
+            if (File.Exists(AutologinPath))
             {
-                var obj = JsonConvert.DeserializeObject<AutologinModel>(File.ReadAllText(path));
+                var obj = JsonConvert.DeserializeObject<AutologinModel>(File.ReadAllText(AutologinPath));
                 if (GenerateHash(obj.UserName, obj.Domain) == obj.Hash)
                 {
                     var user = userService.GetByName(obj.UserName);
@@ -169,9 +168,12 @@ namespace Simplic.Authentication.Service
         /// Get autologin file path
         /// </summary>
         /// <returns>Autologin file path</returns>
-        private string GetAutologinPath()
+        private string AutologinPath
         {
-            return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Simplic Studio\\Login.json";
+            get
+            {
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Simplic Studio\\Login.json";
+            }
         }
     }
 }
