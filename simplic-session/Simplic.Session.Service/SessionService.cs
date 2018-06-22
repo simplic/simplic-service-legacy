@@ -19,7 +19,7 @@
         /// </summary>
         public SessionService()
         {
-            CurrentSession = new Session();
+            // empty constructor
         }
 
         /// <summary>
