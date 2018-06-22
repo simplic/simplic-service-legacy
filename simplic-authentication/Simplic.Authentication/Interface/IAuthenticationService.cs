@@ -1,6 +1,4 @@
-﻿using Simplic.UserSession;
-
-namespace Simplic.Authentication
+﻿namespace Simplic.Authentication
 {
     /// <summary>
     /// Authentication service handles logging a user in and holding the current session data
@@ -14,7 +12,7 @@ namespace Simplic.Authentication
         /// <param name="userName">User name</param>
         /// <param name="password">Password</param>
         /// <returns>A user session if the user could be logged in, else an exception will be thrown</returns>
-        Session Login(string domain, string userName, string password);
+        Simplic.Session.Session Login(string domain, string userName, string password);
 
         /// <summary>
         /// Activate autologin
@@ -33,6 +31,6 @@ namespace Simplic.Authentication
         /// Check whether autologin is existing and valid for the current user
         /// </summary>
         /// <returns>Simplic session if login was successfull, or null</returns>
-        Session TryAutologin();
+        Simplic.Session.Session TryAutologin();
     }
 }
