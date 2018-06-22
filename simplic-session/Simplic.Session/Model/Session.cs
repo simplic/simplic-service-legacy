@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Simplic.UserSession
+namespace Simplic.Session
 {
     /// <summary>
     /// An object holding information about the current logged in user 

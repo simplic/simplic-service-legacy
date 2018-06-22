@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Session", "Simplic.Session\Simplic.Session.csproj", "{99EDC33D-D2F4-4311-A21B-931940CFBABC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Session.Service", "Simplic.Session.Service\Simplic.Session.Service.csproj", "{FFB4870B-A518-4EFF-A8EB-853153B3835E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99EDC33D-D2F4-4311-A21B-931940CFBABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB4870B-A518-4EFF-A8EB-853153B3835E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {428D5815-18A4-4272-BBD7-E8359CDB8DAB}
+	EndGlobalSection
+EndGlobal
