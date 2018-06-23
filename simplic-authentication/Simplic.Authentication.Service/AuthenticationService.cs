@@ -1,13 +1,12 @@
-﻿using Simplic.Authorization;
+﻿using Newtonsoft.Json;
+using Simplic.Authorization;
 using Simplic.Group;
 using Simplic.User;
-using Simplic.UserSession;
-using System.Linq;
-using Unity;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.NetworkInformation;
-using Newtonsoft.Json;
+using Unity;
 
 namespace Simplic.Authentication.Service
 {
@@ -43,7 +42,7 @@ namespace Simplic.Authentication.Service
         /// <param name="userName">User name</param>
         /// <param name="password">Password</param>
         /// <returns>A user session if the user could be logged in, else an exception will be thrown</returns>
-        public Session Login(string domain, string userName, string password)
+        public Session.Session Login(string domain, string userName, string password)
         {
             if (string.IsNullOrWhiteSpace(userName))
                 throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
@@ -70,7 +69,7 @@ namespace Simplic.Authentication.Service
         /// </summary>
         /// <param name="user">User instance</param>
         /// <returns>UserSession object if valid</returns>
-        private Session GenerateUserSession(User.User user)
+        private Session.Session GenerateUserSession(User.User user)
         {
             if (user == null)
                 throw new LoginFailedException(LoginFailedType.UserNotFound);
@@ -82,7 +81,7 @@ namespace Simplic.Authentication.Service
             var isSuperUser = userGroups.Any(x => x.GroupId == 0);
             var userGroupIdents = userGroups.Select(x => x.Ident).ToList();
 
-            return new Session
+            return new Session.Session
             {
                 UserId = user.Ident,
                 UserName = user.UserName,
@@ -136,7 +135,7 @@ namespace Simplic.Authentication.Service
         /// Check whether autologin is existing and valid for the current user
         /// </summary>
         /// <returns>Simplic session if login was successfull else or null</returns>
-        public Session TryAutologin()
+        public Session.Session TryAutologin()
         {
             if (File.Exists(AutologinPath))
             {

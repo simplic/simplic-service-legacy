@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Simplic.Memory;
 using Simplic.Sql;
-using Simplic.UserSession;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -738,11 +737,11 @@ namespace Simplic.Authorization.Service
         /// <param name="rowId">Row id</param>       
         /// <param name="session">Session instance</param>
         /// <returns>True if the user has access</returns>
-        public bool HasAccess(AccessRightType type, string tableName, string idColName, object rowId, Session session)
+        public bool HasAccess(AccessRightType type, string tableName, string idColName, object rowId, Session.Session session)
         {
             return HasAccess(type, tableName, idColName, rowId, session.UserId,
                 session.UserBitMask, session.UserAccessGroupsBitMask);
-        }
+        }        
 
         #endregion
 
