@@ -17,7 +17,7 @@ namespace Simplic.Sql
 
         public override PreciseDecimal Parse(object value)
         {
-            if(value.GetType() == typeof(decimal))
+            if(value is decimal)
             {
                 return new PreciseDecimal(Convert.ToDouble((decimal)value));
             }
