@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Simplic.Data;
+using System;
 using System.Data;
 
 namespace Simplic.Sql
@@ -16,6 +17,10 @@ namespace Simplic.Sql
 
         public override PreciseDecimal Parse(object value)
         {
+            if(value.GetType() == typeof(decimal))
+            {
+                return new PreciseDecimal(Convert.ToDouble((decimal)value));
+            }
             return new PreciseDecimal((double)value);
         }
     }
