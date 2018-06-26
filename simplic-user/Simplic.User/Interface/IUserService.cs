@@ -61,6 +61,13 @@ namespace Simplic.User
         /// <param name="userId">Current user id</param>
         /// <param name="rawPassword">Raw password</param>
         /// <returns>True if setting the password was successfull</returns>
-        bool SetPassword(int userId, string rawPassword);  
+        bool SetPassword(int userId, string rawPassword);
+
+        /// <summary>
+        /// Get the simplic user id by an external account name
+        /// </summary>
+        /// <param name="userName">External account name</param>
+        /// <returns>User id if found</returns>
+        int? GetUserIdByExternAccount(string userName);
     }
 }

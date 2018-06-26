@@ -195,5 +195,23 @@ namespace Simplic.User.Service
             });
         }
         #endregion
+
+        #region [GetUserIdByExternAccount]
+        /// <summary>
+        /// Get the simplic user id by an external account name
+        /// </summary>
+        /// <param name="userName">External account name</param>        
+        /// <returns>User id if found</returns>
+        public int? GetUserIdByExternAccount(string userName)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+
+                return connection.Query<int?>("SELECT UserId FROM User_Extern_Account " +
+                    " WHERE UserName = :userName AND IsActive = 1", new { userName })
+                    .FirstOrDefault();
+            });
+        }
+        #endregion
     }
 }
