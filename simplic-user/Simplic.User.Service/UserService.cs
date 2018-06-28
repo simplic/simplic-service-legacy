@@ -97,7 +97,7 @@ namespace Simplic.User.Service
                 return connection.Query<User>($"SELECT * FROM {UserTableName} WHERE UserName = :userName", new { userName = userName })
                     .FirstOrDefault();
             });
-        } 
+        }
         #endregion
 
         #region [Save]
@@ -115,9 +115,9 @@ namespace Simplic.User.Service
 
                 var affectedRows = connection.Execute($"INSERT INTO {UserTableName} " +
                     $"(Ident, UserName, IsADUser, IsActive, FirstName, LastName, EMail, KeepLoggedIn, " +
-                    $"LanguageID, ApiKey) "
+                    $" LanguageID, ApiKey) "
                      + " ON EXISTING UPDATE VALUES " +
-                     "(:Ident, :UserName, :IsADUser, :IsActive, :FirstName, :LastName, :EMail, :KeepLoggedIn,"
+                     "(:Ident, :UserName, :IsADUser, :IsActive, :FirstName, :LastName, :EMail, :KeepLoggedIn, "
                      + " :LanguageID, :ApiKey)",
                      user);
 
@@ -158,9 +158,7 @@ namespace Simplic.User.Service
                 System.Threading.Thread.Sleep(500);
                 connection.Execute("commit;");
                 System.Threading.Thread.Sleep(500);
-                connection.Execute("commit;");
-
-                return 0;
+                connection.Execute("commit;");             
             });
 
             if (!user.IsADUser)
@@ -184,10 +182,11 @@ namespace Simplic.User.Service
 
             return sqlService.OpenConnection((connection) =>
             {
+                var passwordHash = CryptographyHelper.GetMD5Hash(rawPassword);
                 var affectedRows = connection.Execute($"UPDATE {UserTableName} " +
-                    $" SET Passsword = :password where Ident = :userId", new
+                    $" SET Password = :password WHERE Ident = :userId", new
                     {
-                        password = CryptographyHelper.GetMD5Hash(rawPassword),
+                        password = passwordHash,
                         userId
                     });
 
