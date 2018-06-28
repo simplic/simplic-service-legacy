@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.Preference, Version=6.0.18.622, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Preference.6.0.18.622\lib\net451\Simplic.Preference.dll</HintPath>
+    <Reference Include="Simplic.Preference, Version=6.1.18.628, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Preference.6.1.18.628\lib\net451\Simplic.Preference.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
