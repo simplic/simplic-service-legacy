@@ -223,7 +223,7 @@ namespace Simplic.User.Service
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<User>($"SELECT Ident from {UserTableName} WHERE ApiKey = :apiKey " +
+                return connection.Query<User>($"SELECT * from {UserTableName} WHERE ApiKey = :apiKey " +
                     $" AND UserName = :userName ", new { apiKey, userName }).FirstOrDefault();
             });
         }
