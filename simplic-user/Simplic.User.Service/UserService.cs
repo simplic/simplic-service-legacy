@@ -205,10 +205,26 @@ namespace Simplic.User.Service
         {
             return sqlService.OpenConnection((connection) =>
             {
-
                 return connection.Query<User>("SELECT UserId FROM User_Extern_Account " +
                     " WHERE UserName = :externAccountName AND IsActive = 1", new { externAccountName })
                     .FirstOrDefault();
+            });
+        }
+        #endregion
+
+        #region [GetApiUser]
+        /// <summary>
+        /// Get user by apikey and username
+        /// </summary>
+        /// <param name="apiKey">api key</param>
+        /// <param name="userName">User name</param>
+        /// <returns>A <see cref="User"/></returns>
+        public User GetApiUser(string apiKey, string userName)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.Query<User>($"SELECT Ident from {UserTableName} WHERE ApiKey = :apiKey " +
+                    $" AND UserName = :userName ", new { apiKey, userName }).FirstOrDefault();
             });
         }
         #endregion

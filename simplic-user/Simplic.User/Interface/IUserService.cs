@@ -46,7 +46,15 @@ namespace Simplic.User
         /// </summary>
         /// <param name="userName">Name of the user to search</param>
         /// <returns>A <see cref="User"/></returns>
-        User GetByName(string userName);        
+        User GetByName(string userName);
+
+        /// <summary>
+        /// Get user by apikey and username
+        /// </summary>
+        /// <param name="apiKey">api key</param>
+        /// <param name="userName">User name</param>
+        /// <returns>A <see cref="User"/></returns>
+        User GetApiUser(string apiKey, string userName);
 
         /// <summary>
         /// Inserts or updates a user into the database
