@@ -15,11 +15,14 @@ namespace Simplic.Authentication.Service
     /// </summary>
     public class AuthenticationService : IAuthenticationService
     {
+        #region Services
         private readonly IUserService userService;
         private readonly IGroupService groupService;
         private readonly IUnityContainer container;
         private readonly IAuthorizationService authorizationService;
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Create new authentication service
         /// </summary>
@@ -34,36 +37,11 @@ namespace Simplic.Authentication.Service
             this.authorizationService = authorizationService;
             this.groupService = groupService;
         }
+        #endregion
 
-        /// <summary>
-        /// Authenticate a user and create a use session
-        /// </summary>
-        /// <param name="domain">Domain</param>
-        /// <param name="userName">User name</param>
-        /// <param name="password">Password</param>
-        /// <returns>A user session if the user could be logged in, else an exception will be thrown</returns>
-        public Session.Session Login(string domain, string userName, string password)
-        {
-            if (string.IsNullOrWhiteSpace(userName))
-                throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
+        #region Private Methods
 
-            if (string.IsNullOrWhiteSpace(password))
-                throw new LoginFailedException(LoginFailedType.PasswordNotEntered);
-
-            var user = userService.GetByName(userName);
-
-            if(user == null)
-                throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
-
-            var providerName = user.IsADUser ? "ActiveDirectoryCredentialProvider" : "DefaultCredentialProvider";
-            var provider = container.Resolve<ICredentialProvider>(providerName);
-
-            if (!provider.CheckCredentials(domain, userName, password, user.Password))
-                throw new LoginFailedException(LoginFailedType.InvalidCredentials);
-
-            return GenerateUserSession(user);
-        }
-
+        #region [GenerateUserSession]
         /// <summary>
         /// Generate user session by current user instance
         /// </summary>
@@ -93,7 +71,73 @@ namespace Simplic.Authentication.Service
                 IsADUser = user.IsADUser
             };
         }
+        #endregion
 
+        #region [GenerateHash]
+        /// <summary>
+        /// Generate unique hash
+        /// </summary>
+        /// <returns>Unique hash for the given user</returns>
+        private string GenerateHash(string userName, string domain)
+        {
+            return Security.Cryptography.CryptographyHelper.HashSHA256(NetworkInterface
+                   .GetAllNetworkInterfaces()
+                   .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                   .Select(nic => nic.GetPhysicalAddress().ToString())
+                   .FirstOrDefault() + $"{Environment.UserDomainName}_{Environment.UserName}_{userName}_{domain}");
+        }
+        #endregion
+
+        #region [AutologinPath]
+        /// <summary>
+        /// Get autologin file path
+        /// </summary>
+        /// <returns>Autologin file path</returns>
+        private string AutologinPath
+        {
+            get
+            {
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Simplic Studio\\Login.json";
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Public Methods
+
+        #region [Login]
+        /// <summary>
+        /// Authenticate a user and create a use session
+        /// </summary>
+        /// <param name="domain">Domain</param>
+        /// <param name="userName">User name</param>
+        /// <param name="password">Password</param>
+        /// <returns>A user session if the user could be logged in, else an exception will be thrown</returns>
+        public Session.Session Login(string domain, string userName, string password)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+                throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
+
+            if (string.IsNullOrWhiteSpace(password))
+                throw new LoginFailedException(LoginFailedType.PasswordNotEntered);
+
+            var user = userService.GetByName(userName);
+
+            if (user == null)
+                throw new LoginFailedException(LoginFailedType.UserNameNotEntered);
+
+            var providerName = user.IsADUser ? "ActiveDirectoryCredentialProvider" : "DefaultCredentialProvider";
+            var provider = container.Resolve<ICredentialProvider>(providerName);
+
+            if (!provider.CheckCredentials(domain, userName, password, user.Password))
+                throw new LoginFailedException(LoginFailedType.InvalidCredentials);
+
+            return GenerateUserSession(user);
+        }
+        #endregion
+
+        #region [SetAutologin]
         /// <summary>
         /// Activate autologin and write autologin file
         /// </summary>
@@ -121,7 +165,9 @@ namespace Simplic.Authentication.Service
                 /* swallow */
             }
         }
+        #endregion
 
+        #region [RemoveAutologin]
         /// <summary>
         /// Remove autologin for the current windows user
         /// </summary>
@@ -130,7 +176,9 @@ namespace Simplic.Authentication.Service
             if (File.Exists(AutologinPath))
                 File.Delete(AutologinPath);
         }
+        #endregion
 
+        #region [TryAutologin]
         /// <summary>
         /// Check whether autologin is existing and valid for the current user
         /// </summary>
@@ -149,30 +197,21 @@ namespace Simplic.Authentication.Service
 
             return null;
         }
+        #endregion
 
+        #region [LoginByExternAccount]
         /// <summary>
-        /// Generate unique hash
+        /// Authenticate a user and create a user session
         /// </summary>
-        /// <returns>Unique hash for the given user</returns>
-        private string GenerateHash(string userName, string domain)
+        /// <param name="externAccountName">External account name</param>
+        /// <returns>A user session</returns>
+        public Session.Session LoginByExternAccount(string externAccountName)
         {
-            return Security.Cryptography.CryptographyHelper.HashSHA256(NetworkInterface
-                   .GetAllNetworkInterfaces()
-                   .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                   .Select(nic => nic.GetPhysicalAddress().ToString())
-                   .FirstOrDefault() + $"{Environment.UserDomainName}_{Environment.UserName}_{userName}_{domain}");
-        }
+            var user = userService.GetByExternAccount(externAccountName);
+            return GenerateUserSession(user);
+        } 
+        #endregion
 
-        /// <summary>
-        /// Get autologin file path
-        /// </summary>
-        /// <returns>Autologin file path</returns>
-        private string AutologinPath
-        {
-            get
-            {
-                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Simplic Studio\\Login.json";
-            }
-        }
+        #endregion
     }
 }

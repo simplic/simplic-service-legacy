@@ -28,6 +28,13 @@ namespace Simplic.User
         IEnumerable<User> GetAllSorted(bool activeOnly = true);
 
         /// <summary>
+        /// Get the simplic user by an external account name
+        /// </summary>
+        /// <param name="externAccountName">External account name</param>
+        /// <returns>User id if found</returns>
+        User GetByExternAccount(string externAccountName);
+
+        /// <summary>
         /// Gets a user given by its id
         /// </summary>
         /// <param name="id">Id of the user to search</param>
@@ -39,7 +46,7 @@ namespace Simplic.User
         /// </summary>
         /// <param name="userName">Name of the user to search</param>
         /// <returns>A <see cref="User"/></returns>
-        User GetByName(string userName);
+        User GetByName(string userName);        
 
         /// <summary>
         /// Inserts or updates a user into the database
@@ -61,6 +68,8 @@ namespace Simplic.User
         /// <param name="userId">Current user id</param>
         /// <param name="rawPassword">Raw password</param>
         /// <returns>True if setting the password was successfull</returns>
-        bool SetPassword(int userId, string rawPassword);  
+        bool SetPassword(int userId, string rawPassword);
+
+        
     }
 }
