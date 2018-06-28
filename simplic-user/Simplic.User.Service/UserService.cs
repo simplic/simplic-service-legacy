@@ -163,7 +163,7 @@ namespace Simplic.User.Service
                 return 0;
             });
 
-            if (user.IsADUser)
+            if (!user.IsADUser)
                 SetPassword(user.Ident, user.Password);
 
             return true;
