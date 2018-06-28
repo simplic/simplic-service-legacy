@@ -21,7 +21,15 @@ namespace Simplic.Authentication
         /// </summary>
         /// <param name="externAccountName">External account name</param>
         /// <returns>A user session</returns>
-        Session.Session LoginByExternAccount(string externAccountName);        
+        Session.Session LoginByExternAccount(string externAccountName);
+
+        /// <summary>
+        /// Authenticate a user and create a user session by given api key and user name
+        /// </summary>
+        /// <param name="apiKey">Api key</param>
+        /// <param name="userName">User name</param>
+        /// <returns>A user session</returns>
+        Session.Session LoginByApiKey(string apiKey, string userName);
 
         /// <summary>
         /// Activate autologin

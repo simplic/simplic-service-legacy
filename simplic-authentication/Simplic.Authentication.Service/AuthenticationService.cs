@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Simplic.Authorization;
 using Simplic.Group;
+using Simplic.Session;
 using Simplic.User;
 using System;
 using System.IO;
@@ -209,7 +210,21 @@ namespace Simplic.Authentication.Service
         {
             var user = userService.GetByExternAccount(externAccountName);
             return GenerateUserSession(user);
-        } 
+        }
+        #endregion
+
+        #region [LoginByApiKey]
+        /// <summary>
+        /// Authenticate a user and create a user session by given api key and user name
+        /// </summary>
+        /// <param name="apiKey">Api key</param>
+        /// <param name="userName">User name</param>
+        /// <returns>A user session</returns>
+        public Session.Session LoginByApiKey(string apiKey, string userName)
+        {
+            var user = userService.GetApiUser(apiKey, userName);
+            return GenerateUserSession(user);
+        }
         #endregion
 
         #endregion
