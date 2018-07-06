@@ -103,13 +103,48 @@ namespace Simplic.Authorization.Service
         /// <returns>true if successfull</returns>
         public bool SetAccess(string tableName, string idColName, object rowId, RowAccess rowAccess)
         {
-            var userFullAccess = CreateBitMask(rowAccess.UserFullAccess);
-            var userReadAccess = CreateBitMask(rowAccess.UserReadAccess);
-            var userWriteAccess = CreateBitMask(rowAccess.UserWriteAccess);
-            var groupFullAccess = CreateBitMask(rowAccess.GroupFullAccess);
-            var groupReadAccess = CreateBitMask(rowAccess.GroupReadAccess);
-            var groupWriteAccess = CreateBitMask(rowAccess.GroupWriteAccess);
+            var groupReadIds = rowAccess.GroupReadAccess.ToList();
+            var groupWriteIds = rowAccess.GroupWriteAccess.ToList();
+            var groupFullIds = rowAccess.GroupFullAccess.ToList();
 
+            var userReadIds = rowAccess.UserReadAccess.ToList();
+            var userWriteIds = rowAccess.UserWriteAccess.ToList();
+            var userFullIds = rowAccess.UserFullAccess.ToList();
+
+            // if full access is given, give read and write access manually
+            if (groupFullIds.Count() > 0)
+            {
+                groupReadIds.AddRange(groupFullIds.Except(groupReadIds));
+                groupWriteIds.AddRange(groupFullIds.Except(groupWriteIds));
+            }
+
+            // if write access is given, give read access manually
+            if (groupWriteIds.Count() > 0)
+            {
+                groupReadIds.AddRange(groupWriteIds.Except(groupReadIds));
+            }
+
+            // if full access is given, give read and write access manually
+            if (userFullIds.Count() > 0)
+            {
+                userReadIds.AddRange(userFullIds.Except(userReadIds));
+                userWriteIds.AddRange(userFullIds.Except(userWriteIds));
+            }
+
+            // if write access is given, give read access manually
+            if (userWriteIds.Count() > 0)
+            {
+                userReadIds.AddRange(userWriteIds.Except(userReadIds));
+            }
+
+            var groupReadAccess = CreateBitMask(groupReadIds);
+            var groupWriteAccess = CreateBitMask(groupWriteIds);
+            var groupFullAccess = CreateBitMask(groupFullIds);
+
+            var userReadAccess = CreateBitMask(userReadIds);
+            var userWriteAccess = CreateBitMask(userWriteIds);
+            var userFullAccess = CreateBitMask(userFullIds);
+                                    
             return sqlService.OpenConnection((connection) =>
             {
 
