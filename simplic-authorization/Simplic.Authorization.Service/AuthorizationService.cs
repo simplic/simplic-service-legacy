@@ -103,13 +103,13 @@ namespace Simplic.Authorization.Service
         /// <returns>true if successfull</returns>
         public bool SetAccess(string tableName, string idColName, object rowId, RowAccess rowAccess)
         {
-            var groupReadIds = rowAccess.GroupReadAccess.ToList();
-            var groupWriteIds = rowAccess.GroupWriteAccess.ToList();
-            var groupFullIds = rowAccess.GroupFullAccess.ToList();
+            var groupReadIds = rowAccess.GroupReadAccess?.ToList() ?? new List<int>();
+            var groupWriteIds = rowAccess.GroupWriteAccess?.ToList() ?? new List<int>();
+            var groupFullIds = rowAccess.GroupFullAccess?.ToList() ?? new List<int>();
 
-            var userReadIds = rowAccess.UserReadAccess.ToList();
-            var userWriteIds = rowAccess.UserWriteAccess.ToList();
-            var userFullIds = rowAccess.UserFullAccess.ToList();
+            var userReadIds = rowAccess.UserReadAccess?.ToList() ?? new List<int>();
+            var userWriteIds = rowAccess.UserWriteAccess?.ToList() ?? new List<int>();
+            var userFullIds = rowAccess.UserFullAccess?.ToList() ?? new List<int>();
 
             // if full access is given, give read and write access manually
             if (groupFullIds.Count() > 0)
