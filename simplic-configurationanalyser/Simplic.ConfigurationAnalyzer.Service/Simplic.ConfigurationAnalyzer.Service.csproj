@@ -34,9 +34,24 @@
       <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="IronPython, Version=2.7.6.3, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\simplic-framework\dependencies\IronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.1.21, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\simplic-framework\dependencies\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1" />
     <Reference Include="Simplic.CoreLib, Version=6.0.18.63, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.CoreLib.6.0.18.63\lib\net451\Simplic.CoreLib.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Simplic.Dlr">
+      <HintPath>..\..\..\simplic-framework\dependencies\Simplic.Dlr.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Framework.Base">
+      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.Base.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.Sql, Version=6.1.18.625, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Sql.6.1.18.625\lib\net451\Simplic.Sql.dll</HintPath>
@@ -57,11 +72,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationAnalyzerService.cs" />
-    <Compile Include="GridOrderByAnalyzer.cs" />
+    <Compile Include="Model\GridProfileStatement.cs" />
+    <Compile Include="Linter\GridCascadingAddonAnalyzer.cs" />
+    <Compile Include="Linter\GridJoinSelectStarAnalyzer.cs" />
+    <Compile Include="Linter\GridOrderByAnalyzer.cs" />
+    <Compile Include="Linter\GridSearchStringWhereConditionAnalyzer.cs" />
+    <Compile Include="Linter\PythonImportAnalyzer.cs" />
+    <Compile Include="Linter\PythonSyntaxAnalyzer.cs" />
+    <Compile Include="Model\PythonScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="package.bat" />
     <None Include="packages.config" />
+    <None Include="Simplic.ConfigurationAnalyzer.Service.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simplic.ConfigurationAnalyzer\Simplic.ConfigurationAnalyzer.csproj">

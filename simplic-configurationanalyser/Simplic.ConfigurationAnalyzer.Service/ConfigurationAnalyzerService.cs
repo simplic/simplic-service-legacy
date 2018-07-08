@@ -11,7 +11,7 @@ namespace Simplic.ConfigurationAnalyzer.Service
     /// <summary>
     /// Configuration analyzer service
     /// </summary>
-    public class ConfigurationAnalyzerService
+    public class ConfigurationAnalyzerService : IConfigurationAnalyzerService
     {
         private IUnityContainer container;
 
@@ -55,7 +55,7 @@ namespace Simplic.ConfigurationAnalyzer.Service
             // Analyzer text
             builder.AppendLine($"Analyzer: {results.GroupBy(x => x.AnalyzerName).Count()}");
             foreach (var instance in results.GroupBy(x => x.AnalyzerName))
-                builder.AppendLine($" > {instance}");
+                builder.AppendLine($" > {instance.FirstOrDefault()?.AnalyzerName}");
 
 
             builder.AppendLine($"Results: {results?.Count.ToString() ?? "<NULL>"} | {DateTime.Now}");

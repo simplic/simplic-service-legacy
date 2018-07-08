@@ -1,4 +1,5 @@
-﻿using Simplic.Sql;
+﻿using Dapper;
+using Simplic.Sql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,25 @@ namespace Simplic.ConfigurationAnalyzer.Service
         {
             var results = new List<Result>();
 
-            
+            sqlService.OpenConnection((connection) => 
+            {
+                var grids = connection.Query<GridProfileStatement>("SELECT g.Name AS GridName, p.SelectStatement as Statement, p.DisplayName as ProfileName FROM UI_Grid g JOIN UI_Grid_Profile p on p.GridId = g.Id");
+                foreach (var grid in grids)
+                {
+                    var statement = grid.Statement.Replace("\r", " ").Replace("\n", " ").ToLower();
+                    if (!statement.Contains(" order ") || !statement.Contains(" by "))
+                    {
+                        results.Add(new Result()
+                        {
+                            AnalyzerName = Name,
+                            Name = $"{grid.GridName}/{grid.ProfileName}",
+                            ResultType = ResultType.Error,
+                            Message = "Missing order by in sql statement",
+                            ConfigurationType = "grid"
+                        });
+                    }
+                }
+            });
 
             return results;
         }
