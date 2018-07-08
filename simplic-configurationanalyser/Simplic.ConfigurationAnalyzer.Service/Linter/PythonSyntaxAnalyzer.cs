@@ -35,7 +35,9 @@ namespace Simplic.ConfigurationAnalyzer.Service
 
             sqlService.OpenConnection((connection) =>
             {
-                var scripts = connection.Query<PythonScript>("select ScriptName as Name, ScriptContent as Code from ESS_MS_Dynamic_Script");
+                var scripts = connection.Query<PythonScript>("select ScriptName as Name, ScriptContent as Code from ESS_MS_Dynamic_Script").ToList();
+                scripts.AddRange(connection.Query<PythonScript>("select Name as Name, CodeBehind as Code from ESS_MS_Dynamic_Mask"));
+
                 foreach (var script in scripts)
                 {
                     try
