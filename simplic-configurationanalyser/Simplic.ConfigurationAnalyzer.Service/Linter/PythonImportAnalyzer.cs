@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Simplic.Dlr;
 using Simplic.Framework.Core;
 using Simplic.Sql;
 using System;
@@ -46,7 +47,8 @@ namespace Simplic.ConfigurationAnalyzer.Service
                         {
                             try
                             {
-                                GlobalDlrHost.Host.DefaultScope.Execute(line);
+                                var scope = new DlrScriptScope(GlobalDlrHost.Host);
+                                scope.Execute(line);
                             }
                             catch (Exception ex)
                             {
