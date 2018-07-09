@@ -74,7 +74,6 @@
     <Compile Include="ConfigurationAnalyzerService.cs" />
     <Compile Include="Linter\DbEventAnalyzer.cs" />
     <Compile Include="Linter\DbTriggerAnalyzer.cs" />
-    <Compile Include="Linter\GridMenuHasTextAnalyzer.cs" />
     <Compile Include="Linter\NotExportedWithProductAnalyzer.cs" />
     <Compile Include="Model\GridProfileStatement.cs" />
     <Compile Include="Linter\GridCascadingAddonAnalyzer.cs" />

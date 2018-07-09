@@ -38,7 +38,7 @@ namespace Simplic.ConfigurationAnalyzer.Service
                         AnalyzerName = Name,
                         Name = $"{evt}",
                         ResultType = ResultType.Warning,
-                        Message = "Events are not allowed",
+                        Message = "Trigger are not allowed",
                         ConfigurationType = "db-trigger"
                     });
                 }
