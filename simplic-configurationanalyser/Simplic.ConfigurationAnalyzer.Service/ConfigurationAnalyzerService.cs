@@ -70,7 +70,7 @@ namespace Simplic.ConfigurationAnalyzer.Service
             {
                 foreach (var result in results)
                 {
-                    builder.AppendLine($"{result.ConfigurationType} - {result.Name}");
+                    builder.AppendLine($"{result.ResultType}: {result.ConfigurationType} - {result.Name}");
                     builder.AppendLine(result.Message);
                     builder.AppendLine("---");
                 }
