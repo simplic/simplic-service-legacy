@@ -167,7 +167,7 @@ namespace Simplic.Collections.Generic
             }
             foreach (var item in items)
             {
-                yield return newItems;
+                yield return item;
             }
         }
 
