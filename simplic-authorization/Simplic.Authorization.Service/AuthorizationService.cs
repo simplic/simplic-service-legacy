@@ -628,6 +628,8 @@ namespace Simplic.Authorization.Service
                 });
             }
             #endregion            
+
+            return result;
         }
 
         #region [Migrate - Private Methods]
