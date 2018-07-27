@@ -347,8 +347,10 @@ namespace Simplic.Authorization.Service
         /// <summary>
         /// Creates new columns and converts all existing access rights
         /// </summary>
-        public void Migrate()
+        public IList<MigrationResult> Migrate()
         {
+            var result = new List<MigrationResult>();
+
             #region Table Role
             if (AddColumns("Role"))
             {
@@ -357,10 +359,16 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var roleIds = connection.Query<Guid>("Select RoleId from Role order by RoleId");
-                        MigrateAccessRights("Role", "RoleId", roleIds);
+                        MigrateAccessRights(result, "Role", "RoleId", roleIds);                        
                     }
                     catch (Exception ex)
                     {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "Role",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
                     }
 
                     return 0;
@@ -378,10 +386,16 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var ids = connection.Query<Guid>("select RegisterGuid from ESS_DCC_StackRegister order by RegisterGuid");
-                        MigrateAccessRights("ESS_DCC_StackRegister", "RegisterGuid", ids);
+                        MigrateAccessRights(result, "ESS_DCC_StackRegister", "RegisterGuid", ids);                        
                     }
                     catch (Exception ex)
                     {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "ESS_DCC_StackRegister",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
                     }
 
                     return 0;
@@ -399,10 +413,16 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var ids = connection.Query<Guid>("select Guid from ESS_DCC_Structure_Stack_Register order by Guid");
-                        MigrateAccessRights("ESS_DCC_Structure_Stack_Register", "RegisterGuid", ids);
+                        MigrateAccessRights(result, "ESS_DCC_Structure_Stack_Register", "RegisterGuid", ids);
                     }
                     catch (Exception ex)
                     {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "ESS_DCC_Structure_Stack_Register",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
                     }
 
                     return 0;
@@ -420,14 +440,22 @@ namespace Simplic.Authorization.Service
                     {
                         var directories = connection.Query<DirectoryOrFile>("SELECT Ident, ReadGuid, ReadWriteGuid, FullGuid FROM ESS_MS_Intern_Explorer_Directory Order By Ident");
 
-                        MigrateAccessRights("ESS_MS_Intern_Explorer_Directory", "Ident",
+                        MigrateAccessRights(result, "ESS_MS_Intern_Explorer_Directory", "Ident",
                             directories.Select(x => x.ReadGuid), directories.Select(x => x.Ident));
-                        MigrateAccessRights("ESS_MS_Intern_Explorer_Directory", "Ident",
+                        MigrateAccessRights(result, "ESS_MS_Intern_Explorer_Directory", "Ident",
                             directories.Select(x => x.ReadWriteGuid), directories.Select(x => x.Ident));
-                        MigrateAccessRights("ESS_MS_Intern_Explorer_Directory", "Ident",
+                        MigrateAccessRights(result, "ESS_MS_Intern_Explorer_Directory", "Ident",
                             directories.Select(x => x.FullGuid), directories.Select(x => x.Ident));
                     }
-                    catch { }
+                    catch(Exception ex)
+                    {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "ESS_MS_Intern_Explorer_Directory",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
+                    }
 
                     return 0;
                 });
@@ -445,14 +473,24 @@ namespace Simplic.Authorization.Service
                     {
                         var files = connection.Query<DirectoryOrFile>("SELECT Ident, ReadGuid, ReadWriteGuid, FullGuid FROM ESS_MS_Intern_Explorer_File Order By Ident");
 
-                        MigrateAccessRights("ESS_MS_Intern_Explorer_File", "Ident",
+                        MigrateAccessRights(result, "ESS_MS_Intern_Explorer_File", "Ident",
                             files.Select(x => x.ReadGuid), files.Select(x => x.Ident));
-                        MigrateAccessRights("ESS_MS_Intern_Explorer_File", "Ident",
+
+                        MigrateAccessRights(result, "ESS_MS_Intern_Explorer_File", "Ident",
                             files.Select(x => x.ReadWriteGuid), files.Select(x => x.Ident));
-                        MigrateAccessRights("ESS_MS_Intern_Explorer_File", "Ident",
+
+                        MigrateAccessRights(result, "ESS_MS_Intern_Explorer_File", "Ident",
                             files.Select(x => x.FullGuid), files.Select(x => x.Ident));
                     }
-                    catch { }
+                    catch(Exception ex)
+                    {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "ESS_MS_Intern_Explorer_File",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });                        
+                    }
 
                     return 0;
                 });
@@ -468,9 +506,17 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var ids = connection.Query<Guid>("select Guid from ESS_MS_Intern_Page order by Guid");
-                        MigrateAccessRights("ESS_MS_Intern_Page", "Guid", ids);
+                        MigrateAccessRights(result, "ESS_MS_Intern_Page", "Guid", ids);
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "ESS_MS_Intern_Page",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
+                    }
 
                     return 0;
                 });
@@ -486,9 +532,17 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var ids = connection.Query<Guid>("select Id from UI_Grid_Menu order by Id");
-                        MigrateAccessRights("UI_Grid_Menu", "Id", ids);
+                        MigrateAccessRights(result, "UI_Grid_Menu", "Id", ids);
                     }
-                    catch { }
+                    catch(Exception ex)
+                    {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "UI_Grid_Menu",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
+                    }
 
                     return 0;
                 });
@@ -504,9 +558,17 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var ids = connection.Query<Guid>("select Guid from ESS_DCC_Stack order by Guid");
-                        MigrateAccessRights("ESS_DCC_Stack", "Guid", ids);
+                        MigrateAccessRights(result, "ESS_DCC_Stack", "Guid", ids);
                     }
-                    catch { }
+                    catch(Exception ex)
+                    {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = "ESS_DCC_Stack",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
+                    }
 
                     return 0;
                 });
@@ -527,9 +589,17 @@ namespace Simplic.Authorization.Service
                         try
                         {
                             ids = connection.Query<Guid>($"select Guid from {tbl} order by Guid");
-                            MigrateAccessRights(tbl, "Guid", ids);
+                            MigrateAccessRights(result, tbl, "Guid", ids);
                         }
-                        catch { }
+                        catch (Exception ex)
+                        {
+                            result.Add(new MigrationResult
+                            {
+                                TableName = tbl,
+                                Status = MigrationStatus.Failed,
+                                Exception = ex
+                            });
+                        }
                     }
 
                     MemAlloc.FinalizeCollectedData();
@@ -539,10 +609,18 @@ namespace Simplic.Authorization.Service
                         if (AddColumns($"{tbl}_Classification_Configuration"))
                         {
                             ids = connection.Query<Guid>($"select Guid from {tbl}_Classification_Configuration order by Guid");
-                            MigrateAccessRights($"{tbl}_Classification_Configuration", "Guid", ids);
+                            MigrateAccessRights(result, $"{tbl}_Classification_Configuration", "Guid", ids);
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        result.Add(new MigrationResult
+                        {
+                            TableName = $"{tbl}_Classification_Configuration",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
+                    }
 
                     MemAlloc.FinalizeCollectedData();
 
@@ -603,7 +681,7 @@ namespace Simplic.Authorization.Service
         /// <param name="colName"></param>
         /// <param name="ids"></param>
         /// <param name="idents">if given, will be used as row id</param>
-        private void MigrateAccessRights(string tableName, string colName, IEnumerable<Guid> ids, IEnumerable<int> idents = null)
+        private void MigrateAccessRights(IList<MigrationResult> migrationResults, string tableName, string colName, IEnumerable<Guid> ids, IEnumerable<int> idents = null)
         {
             int rowCounter = 0;
 
@@ -622,9 +700,21 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         rightObjects = connection.Query<RightObject>("SELECT (select Ident from ESS_MS_Intern_Groups where GroupId = ESS_MS_Intern_RightObjects.GroupId) as GroupIdent, UserIdent, RightType from ESS_MS_Intern_RightObjects where Guid = :Guid and AllowAccess = 1", new { Guid = id });
+
+                        migrationResults.Add(new MigrationResult
+                        {
+                            TableName = "ESS_MS_Intern_Groups",
+                            Status = MigrationStatus.Done
+                        });
                     }
                     catch (Exception ex)
                     {
+                        migrationResults.Add(new MigrationResult
+                        {
+                            TableName = "ESS_MS_Intern_Groups",
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
                     }
 
                     if (rightObjects == null) continue;
@@ -681,9 +771,20 @@ namespace Simplic.Authorization.Service
                             SetAccess(tableName, colName, idents.ElementAtOrDefault(counter), newAccessRights);
                         else
                             SetAccess(tableName, colName, id, newAccessRights);
+
+                        migrationResults.Add(new MigrationResult
+                        {
+                            TableName = tableName,
+                            Status = MigrationStatus.Done                            
+                        });
                     }
                     catch (Exception ex)
                     {
+                        migrationResults.Add(new MigrationResult {
+                            TableName = tableName,
+                            Status = MigrationStatus.Failed,
+                            Exception = ex
+                        });
                     }
 
                     counter++;
