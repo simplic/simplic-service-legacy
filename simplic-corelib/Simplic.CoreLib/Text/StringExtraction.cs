@@ -53,12 +53,12 @@ namespace Simplic.Text
         /// <returns>Result instance, which fits the most</returns>
         public static ExtractionResult FindInLine(string textBlock, IList<ExtractionKey> keys, string regex, string charsToRemove = ".:;")
         {
-            var whiteList = new List<string>();
+            var whiteList = new List<ExtractionValue>();
 
             if (!string.IsNullOrWhiteSpace(regex))
             {
                 MatchCollection matchList = Regex.Matches(textBlock, regex);
-                whiteList = matchList.Cast<Match>().Select(match => match.Value).ToList();
+                whiteList = matchList.Cast<Match>().Select(match => match.Value).Select(x => new ExtractionValue { Value = x }).ToList();
             }
 
             return FindInLine(textBlock, keys, whiteList, charsToRemove);
@@ -72,7 +72,7 @@ namespace Simplic.Text
         /// <param name="valueWhiteList">List of allowed values</param>
         /// <param name="charsToRemove">Chars to remove from a key while comparing</param>
         /// <returns>Result instance, which fits the most</returns>
-        public static ExtractionResult FindInLine(string textBlock, IList<ExtractionKey> keys, IList<string> valueWhiteList, string charsToRemove = ".:;")
+        public static ExtractionResult FindInLine(string textBlock, IList<ExtractionKey> keys, IList<ExtractionValue> valueWhiteList, string charsToRemove = ".:;")
         {
             var values = new List<ExtractionResult>();
 
@@ -114,11 +114,12 @@ namespace Simplic.Text
                             {
                                 Similarity = similarity,
                                 Key = key,
-                                Value = words[i + 1],
+                                Value = valueWhiteList.FirstOrDefault(x => x.Value == words[i + 1]),
                                 OriginalKey = word,
-                                CleanedKey = cleanedWord,
-                                ValueMatched = valueWhiteList.Contains(valueString)
+                                CleanedKey = cleanedWord
                             };
+
+                            value.ValueMatched = value.Value != null;
 
                             values.Add(value);
                         }

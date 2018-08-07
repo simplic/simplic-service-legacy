@@ -29,7 +29,7 @@ namespace Simplic.Text
         /// <summary>
         /// Gets or sets the raw value
         /// </summary>
-        public string Value { get; set; }
+        public ExtractionValue Value { get; set; }
 
         /// <summary>
         /// Gets or sets whether the values matches the white-list
@@ -43,6 +43,22 @@ namespace Simplic.Text
     }
 
     /// <summary>
+    /// Extraction value
+    /// </summary>
+    public class ExtractionValue
+    {
+        /// <summary>
+        /// Gets or sets the value to compate
+        /// </summary>
+        public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id of the key
+        /// </summary>
+        public object Id { get; set; }
+    }
+
+    /// <summary>
     /// Extraction key
     /// </summary>
     public class ExtractionKey
@@ -51,10 +67,5 @@ namespace Simplic.Text
         /// Gets or sets the key to compare
         /// </summary>
         public string Key { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id of the key
-        /// </summary>
-        public object Id { get; set; }
     }
 }
