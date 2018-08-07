@@ -28,6 +28,6 @@ namespace Simplic.DataStack
         /// </summary>
         /// <param name="stackName">Stack name</param>
         /// <returns>Stack guid</returns>
-        Guid GetStackName(string stackName);
+        Guid GetStackId(string stackName);
     }
 }
