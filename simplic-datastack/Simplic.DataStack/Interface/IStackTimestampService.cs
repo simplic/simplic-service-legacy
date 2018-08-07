@@ -33,13 +33,15 @@ namespace Simplic.DataStack
         /// <summary>
         /// Get timestamp by stack name
         /// </summary>
+        /// <param name="stackName">Stack name</param>
         /// <returns>Timestamp object or null</returns>
-        InstanceDataTimestampModel GetByStackName();
+        InstanceDataTimestampModel GetByStackName(string stackName);
 
         /// <summary>
         /// Get timestamp by stack id
         /// </summary>
+        /// <param name="stackId">Stack id</param>
         /// <returns>Timestamp object or null</returns>
-        InstanceDataTimestampModel GetByStackId();
+        InstanceDataTimestampModel GetByStackId(Guid stackId);
     }
 }
