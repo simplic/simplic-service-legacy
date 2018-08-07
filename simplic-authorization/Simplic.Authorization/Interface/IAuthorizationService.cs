@@ -1,5 +1,4 @@
-﻿using Simplic.UserSession;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Simplic.Authorization
 {
@@ -100,7 +99,7 @@ namespace Simplic.Authorization
         /// <summary>
         /// Creates new columns and converts all existing access rights
         /// </summary>
-        void Migrate();
+        IList<MigrationResult> Migrate();
 
         /// <summary>
         /// Checks if the given user has access
@@ -124,7 +123,7 @@ namespace Simplic.Authorization
         /// <param name="rowId">Row id</param>       
         /// <param name="session">User session</param>
         /// <returns>True if the user has access</returns>
-        bool HasAccess(AccessRightType type, string tableName, string idColName, object rowId, Session session);
+        bool HasAccess(AccessRightType type, string tableName, string idColName, object rowId, Session.Session session);
 
         ///// <summary>
         ///// Checks if the given user is a super user (admin)

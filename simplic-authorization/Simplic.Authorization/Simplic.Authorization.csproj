@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.UserSession, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.UserSession.1.0.0\lib\net451\Simplic.UserSession.dll</HintPath>
+    <Reference Include="Simplic.Session, Version=6.1.118.622, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.6.1.118.622\lib\net451\Simplic.Session.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,6 +46,8 @@
     <Compile Include="Interface\IAuthorizationService.cs" />
     <Compile Include="Model\AccessRightType.cs" />
     <Compile Include="Model\DataRowAccessRight.cs" />
+    <Compile Include="Model\MigrationResult.cs" />
+    <Compile Include="Model\MigrationStatus.cs" />
     <Compile Include="Model\RowAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
