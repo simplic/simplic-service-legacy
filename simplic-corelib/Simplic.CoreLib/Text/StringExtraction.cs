@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Simplic.Text
 {
@@ -43,6 +44,15 @@ namespace Simplic.Text
             return null;
         }
 
+        private class FindNextLineMatch
+        {
+            public int LineIndex { get; set; }
+            public int WordIndex { get; set; }
+            public string OriginalKey { get; set; }
+            public ExtractionKey Key { get; set; }
+            public int Distance { get; set; }
+        }
+
         /// <summary>
         /// Find value within text block
         /// </summary>
@@ -51,17 +61,158 @@ namespace Simplic.Text
         /// <param name="regex">Regex which matches the value</param>
         /// <param name="charsToRemove">Chars to remove from a key while comparing</param>
         /// <returns>Result instance, which fits the most</returns>
-        public static ExtractionResult FindInLine(string textBlock, IList<ExtractionKey> keys, string regex, string charsToRemove = ".:;")
+        public static ExtractionResult FindInNextLine(string textBlock, IList<ExtractionKey> keys, string regex, Func<string, bool> validateValue = null, string charsToRemove = ".:;", int minSplitChars = 3)
         {
             var whiteList = new List<ExtractionValue>();
 
             if (!string.IsNullOrWhiteSpace(regex))
             {
-                MatchCollection matchList = Regex.Matches(textBlock, regex);
-                whiteList = matchList.Cast<Match>().Select(match => match.Value).Select(x => new ExtractionValue { Value = x }).ToList();
+                var lines = textBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    MatchCollection matchList = Regex.Matches(textBlock, regex);
+                    whiteList.AddRange(matchList.Cast<Match>().Select(match => match.Value).Select(x => new ExtractionValue { Value = x }));
+                }
             }
 
-            return FindInLine(textBlock, keys, whiteList, charsToRemove);
+            return FindInNextLine(textBlock, keys, whiteList, validateValue, charsToRemove, minSplitChars);
+        }
+
+        /// <summary>
+        /// Find value within text block and retrieve it from the next line
+        /// </summary>
+        /// <param name="textBlock">Text block as string</param>
+        /// <param name="keys">List of keys to search for</param>
+        /// <param name="valueWhiteList">List of allowed values</param>
+        /// <param name="charsToRemove">Chars to remove from a key while comparing</param>
+        /// <returns>Result instance, which fits the most</returns>
+        public static ExtractionResult FindInNextLine(string textBlock, IList<ExtractionKey> keys, IList<ExtractionValue> valueWhiteList, Func<string, bool> validateValue = null, string charsToRemove = ".:;", int minSplitChars = 3)
+        {
+            var values = new List<ExtractionResult>();
+
+            // Clean keys
+            foreach (var charToRemove in charsToRemove)
+            {
+                foreach (var key in keys)
+                {
+                    key.Key = key.Key.Replace(charToRemove.ToString(), "");
+                }
+            }
+
+            var lines = textBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var splittedReversedLines = new List<IList<string>>();
+            foreach (var line in lines)
+            {
+                splittedReversedLines.Add(SplitLine(line, ' ', minSplitChars, 2).Reverse().ToList());
+            }
+
+            var lineIndex = 0;
+            ExtractionKey matchedKey = null;
+            int distance = 0;
+            var matches = new List<FindNextLineMatch>();
+
+            foreach (var line in splittedReversedLines)
+            {
+                int wordIndex = 0;
+
+                foreach (var word in line)
+                {
+                    var cleanedWord = word;
+                    foreach (var charToRemove in charsToRemove)
+                    {
+                        cleanedWord = cleanedWord.Replace(charToRemove.ToString(), "");
+                    }
+
+                    foreach (var key in keys)
+                    {
+                        distance = LevenshteinDistance.Compute(key.Key, cleanedWord);
+                        if (distance <= 3)
+                        {
+                            matchedKey = key;
+                            break;
+                        }
+                    }
+
+                    if (matchedKey != null)
+                    {
+                        matches.Add(new FindNextLineMatch
+                        {
+                            Key = matchedKey,
+                            LineIndex = lineIndex,
+                            WordIndex = wordIndex,
+                            OriginalKey = cleanedWord,
+                            Distance = distance
+                        });
+                        
+                        matchedKey = null;
+                        break;
+                    }
+
+                    wordIndex++;
+                }
+                
+                lineIndex++;
+            }
+
+            foreach (var match in matches)
+            {
+                if (splittedReversedLines.Count >= match.LineIndex + 1)
+                {
+                    var line = splittedReversedLines[match.LineIndex + 1];
+                    if (line.Count > match.WordIndex)
+                    {
+                        var valueString = line[match.WordIndex];
+
+                        if (validateValue == null || validateValue(valueString))
+                        {
+                            // Add as validated value
+                            if (validateValue != null)
+                                valueWhiteList.Add(new ExtractionValue { Value = valueString });
+
+                            var value = new ExtractionResult
+                            {
+                                KeyDistance = match.Distance,
+                                Key = matchedKey,
+                                Value = valueWhiteList.FirstOrDefault(x => x.Value == valueString),
+                                OriginalValue = valueString,
+                                CleanedKey = match.OriginalKey
+                            };
+
+                            value.ValueMatched = value.Value != null;
+
+                            values.Add(value);
+                        }
+                    }
+                }                
+            }
+
+            // Return most similar value
+            return values.OrderByDescending(x => x.ValueMatched).ThenBy(x => x.KeyDistance).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Find value within text block
+        /// </summary>
+        /// <param name="textBlock">Text block as string</param>
+        /// <param name="keys">List of keys to search for</param>
+        /// <param name="regex">Regex which matches the value</param>
+        /// <param name="charsToRemove">Chars to remove from a key while comparing</param>
+        /// <returns>Result instance, which fits the most</returns>
+        public static ExtractionResult FindInLine(string textBlock, IList<ExtractionKey> keys, string regex, Func<string, bool> validateValue = null, string charsToRemove = ".:;")
+        {
+            var whiteList = new List<ExtractionValue>();
+
+            if (!string.IsNullOrWhiteSpace(regex))
+            {
+                var lines = textBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    MatchCollection matchList = Regex.Matches(textBlock, regex);
+                    whiteList.AddRange(matchList.Cast<Match>().Select(match => match.Value).Select(x => new ExtractionValue { Value = x }));
+                }
+            }
+
+            return FindInLine(textBlock, keys, whiteList, validateValue, charsToRemove);
         }
 
         /// <summary>
@@ -72,7 +223,7 @@ namespace Simplic.Text
         /// <param name="valueWhiteList">List of allowed values</param>
         /// <param name="charsToRemove">Chars to remove from a key while comparing</param>
         /// <returns>Result instance, which fits the most</returns>
-        public static ExtractionResult FindInLine(string textBlock, IList<ExtractionKey> keys, IList<ExtractionValue> valueWhiteList, string charsToRemove = ".:;")
+        public static ExtractionResult FindInLine(string textBlock, IList<ExtractionKey> keys, IList<ExtractionValue> valueWhiteList, Func<string, bool> validateValue = null, string charsToRemove = ".:;")
         {
             var values = new List<ExtractionResult>();
 
@@ -96,6 +247,9 @@ namespace Simplic.Text
                 {
                     var word = words[i];
                     var cleanedWord = word;
+                    var keyMatched = false;
+                    var similarity = 0;
+                    ExtractionKey matchedKey = null;
 
                     foreach (var charToRemove in charsToRemove)
                     {
@@ -105,30 +259,73 @@ namespace Simplic.Text
                     foreach (var key in keys)
                     {
                         // Compare word an key
-                        var similarity = LevenshteinDistance.Compute(key.Key, cleanedWord);
+                        similarity = LevenshteinDistance.Compute(key.Key, cleanedWord);
                         if (similarity <= 3)
                         {
-                            var valueString = words[i + 1];
-
-                            var value = new ExtractionResult
-                            {
-                                Similarity = similarity,
-                                Key = key,
-                                Value = valueWhiteList.FirstOrDefault(x => x.Value == words[i + 1]),
-                                OriginalKey = word,
-                                CleanedKey = cleanedWord
-                            };
-
-                            value.ValueMatched = value.Value != null;
-
-                            values.Add(value);
+                            keyMatched = true;
+                            matchedKey = key;
+                            break;
                         }
+                    }
+
+                    if (keyMatched)
+                    {
+                        // Continue line loop
+                        for (i = i + 1; i < words.Length; i++)
+                        {
+                            var valueString = words[i];
+
+                            // Check value-string is not similar to a key
+                            if (valueString != null && valueString.Length >= 3)
+                            {
+                                foreach (var key in keys)
+                                {
+                                    if (key.Key.Length <= 3)
+                                        continue;
+
+                                    // Compare value and keys
+                                    var keyValueDistance = LevenshteinDistance.Compute(key.Key, valueString);
+                                    if (keyValueDistance <= 3)
+                                        continue;
+                                }
+                            }
+
+                            // Validate values
+                            if (validateValue == null || validateValue(valueString))
+                            {
+                                // Add as validated value
+                                if (validateValue != null)
+                                    valueWhiteList.Add(new ExtractionValue { Value = valueString });
+
+                                var value = new ExtractionResult
+                                {
+                                    KeyDistance = similarity,
+                                    Key = matchedKey,
+                                    Value = valueWhiteList.FirstOrDefault(x => x.Value == valueString),
+                                    OriginalValue = valueString,
+                                    CleanedKey = cleanedWord
+                                };
+
+                                value.ValueMatched = value.Value != null;
+
+                                values.Add(value);
+
+                                // Break loop, because a word was found
+                                i = int.MaxValue - 2;
+                                break;
+                            }
+                        }
+
+                        // Reset matches
+                        keyMatched = false;
+                        similarity = 0;
+                        matchedKey = null;
                     }
                 }
             }
 
             // Return most similar value
-            return values.OrderByDescending(x => x.ValueMatched).ThenBy(x => x.Similarity).FirstOrDefault();
+            return values.OrderByDescending(x => x.ValueMatched).ThenBy(x => x.KeyDistance).FirstOrDefault();
         }
 
         /// <summary>
@@ -205,9 +402,9 @@ namespace Simplic.Text
         /// Extract a number from string and remove thousand-separator
         /// </summary>
         /// <param name="input">Input string</param>
-        /// <param name="separator">Separator char</param>
+        /// <param name="minDecimalNumbers">Minimum decimal numbers</param>
         /// <returns>Extracted double or null. Throws an exception if casting failed</returns>
-        public static double CastAsNumber(string input, char separator)
+        public static double CastAsNumber(string input, int minDecimalNumbers = 2)
         {
             var value = 0d;
 
@@ -227,15 +424,15 @@ namespace Simplic.Text
                     }
                     else if (i > 0)
                     {
-                        if ((current == '.' || current == ',') && !separatorReplaced)
+                        if ((current == '.' || current == ',') && !separatorReplaced && cleanValue.Length >= minDecimalNumbers)
                         {
-                            cleanValue.Insert(0, separator);
+                            cleanValue.Insert(0, '.');
                             separatorReplaced = true;
                         }
                     }
                 }
 
-                value = double.Parse(cleanValue.ToString());
+                value = double.Parse(cleanValue.ToString(), CultureInfo.InvariantCulture);
             }
 
             return value;

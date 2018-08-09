@@ -12,9 +12,9 @@ namespace Simplic.Text
     public class ExtractionResult
     {
         /// <summary>
-        /// Gets sets the similarity
+        /// Gets sets the similarity. Lower = more equal
         /// </summary>
-        public int Similarity { get; set; }
+        public int KeyDistance { get; set; }
 
         /// <summary>
         /// Gets or sets the extraction key
@@ -24,7 +24,7 @@ namespace Simplic.Text
         /// <summary>
         /// Gets or sets the original key word
         /// </summary>
-        public string OriginalKey { get; set; }
+        public string OriginalValue { get; set; }
 
         /// <summary>
         /// Gets or sets the raw value
