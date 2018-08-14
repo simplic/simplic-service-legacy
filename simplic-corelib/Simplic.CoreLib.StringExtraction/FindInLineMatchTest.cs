@@ -85,5 +85,46 @@ namespace Simplic.CoreLib.StringExtraction
             Assert.AreEqual("02.08.2018", result.OriginalValue);
             Assert.AreEqual("02.08.2018", result.Value.Value);
         }
+
+        [TestMethod]
+        public void FindInLineCustomerNr()
+        {
+            string demo = @"
+                DEMO STRING
+                Tief- & Straßenbau GmbH              Kunden-Nr. :      110030
+                DEMO STRING
+            ";
+
+            var id = Guid.NewGuid();
+            var result = Text.StringExtraction.FindInLine(demo, new[] { new ExtractionKey { Key = "Kunden-Nr." }, new ExtractionKey { Key = "Kunden-Nr" } }, new[] { new ExtractionValue { Id = id, Value = "110030" } }, forceWhiteList: true);
+
+            Assert.AreEqual("110030", result.OriginalValue);
+            Assert.AreEqual(id, result.Value.Id);
+        }
+
+        [TestMethod]
+        public void FindInLineMinLength()
+        {
+            string demo = @"
+                DEMO STRING
+                Beleg-Nr. : 7125567
+                DEMO STRING
+            ";
+
+            var id = Guid.NewGuid();
+            var result = Text.StringExtraction.FindInLine(demo, new[] { new ExtractionKey { Key = "Beleg-Nr." } }, "", minResultLenght: 3);
+
+            Assert.AreEqual("7125567", result.OriginalValue);
+        }
+
+        [TestMethod]
+        public void SplitLineTest()
+        {
+            string demo = "1    8242            Diverse  Deponiegebühren                                   2 , 38       to           3 , 00     / E          7 , 14       1";
+
+            var splittedLine = Text.StringExtraction.SplitLine(demo, ' ', 3, 0);
+
+            Assert.AreEqual(splittedLine.Count, 9);
+        }
     }
 }
