@@ -38,31 +38,31 @@ namespace Simplic.Interval
         /// <summary>
         /// Gets or sets the unique id
         /// </summary>
-        public Guid Guid { get => guid; set => guid = value; }
+        public Guid Guid { get { return guid; } set { guid = value; } }
         /// <summary>
         /// Gets or sets the name (enum) of the start day 
         /// </summary>
-        public int DayNameOfExecution { get => dayNameOfExecution; set => dayNameOfExecution = value; }
+        public int DayNameOfExecution { get { return dayNameOfExecution; } set { dayNameOfExecution = value; } }
         /// <summary>
         /// Gets or sets the number of a day in the selected month where to start
         /// </summary>
-        public int DayNumberOfExecution { get => dayNumberOfExecution; set => dayNumberOfExecution = value; }
+        public int DayNumberOfExecution { get { return dayNumberOfExecution; } set { dayNumberOfExecution = value; } }
         /// <summary>
         /// Gets or sets the count of exections of this interval
         /// </summary>
-        public int ExecuteCount { get => executeCount; set => executeCount = value; }
+        public int ExecuteCount { get { return executeCount; } set { executeCount = value; } }
         /// <summary>
         /// Gets or sets the date of the last execution
         /// </summary>
-        public DateTime LastExecute { get => lastExecute; set => lastExecute = value; }
+        public DateTime LastExecute { get { return lastExecute; } set { lastExecute = value; } }
         /// <summary>
         /// Gets or sets the selected month by number 
         /// </summary>
-        public int MonthNrofExecution { get => monthNrofExecution; set => monthNrofExecution = value; }
+        public int MonthNrofExecution { get { return monthNrofExecution; } set { monthNrofExecution = value; } }
         /// <summary>
         /// Gets or sets the number of the selected type
         /// </summary>
-        public int TypeNumber { get => typeNumber; set => typeNumber = value; }
+        public int TypeNumber { get { return typeNumber; } set { typeNumber = value; } }
 
         #endregion
     }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\IntervalType.cs" />
     <Compile Include="Interface\IIntervalService.cs" />
     <Compile Include="Model\Interval.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

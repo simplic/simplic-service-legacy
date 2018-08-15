@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Interval", "Simplic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Interval.Service", "..\Simplic.Interval.Service\Simplic.Interval.Service.csproj", "{D5A5F0BC-9B2B-4DAE-B9EB-75E28048C9B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Interval.UI", "..\Simplic.Interval.UI\Simplic.Interval.UI.csproj", "{A4701188-DF6A-46C8-BDC4-97D3CAD199C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D5A5F0BC-9B2B-4DAE-B9EB-75E28048C9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5A5F0BC-9B2B-4DAE-B9EB-75E28048C9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5A5F0BC-9B2B-4DAE-B9EB-75E28048C9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4701188-DF6A-46C8-BDC4-97D3CAD199C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4701188-DF6A-46C8-BDC4-97D3CAD199C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4701188-DF6A-46C8-BDC4-97D3CAD199C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4701188-DF6A-46C8-BDC4-97D3CAD199C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -31,6 +31,6 @@ namespace Simplic.Interval
         /// Removes the interval by id
         /// </summary>
         /// <param name="intervalId"></param>
-        void Delete(Guid intervalId);
+        bool Delete(Guid intervalId);
     }
 }

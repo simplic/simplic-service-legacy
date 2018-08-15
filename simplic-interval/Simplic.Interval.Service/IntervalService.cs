@@ -21,9 +21,9 @@ namespace Simplic.Interval.Service
         /// Constructor
         /// </summary>
         /// <param name="sqlService"></param>
-        public IntervalService()
+        public IntervalService(ISqlService sqlService)
         {
-            this.sqlService = CommonServiceLocator.ServiceLocator.Current.GetInstance<Simplic.Sql.ISqlService>();
+            this.sqlService = sqlService;
         }
 
         #endregion Constructor
@@ -51,12 +51,12 @@ namespace Simplic.Interval.Service
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<Interval>("Select * from IT_Interval where Guid = :id",new {id= intervalId }).SingleOrDefault();
+                return connection.Query<Interval>("Select * from IT_Interval where Guid = :id", new { id = intervalId }).SingleOrDefault();
             });
         }
 
         /// <summary>
-        /// Write interval 
+        /// Write interval
         /// </summary>
         /// <param name="interval"></param>
         public void Save(Interval interval)
@@ -79,12 +79,13 @@ namespace Simplic.Interval.Service
         /// Removes the interval by id
         /// </summary>
         /// <param name="intervalId"></param>
-        public void Delete(Guid intervalId)
+        public bool Delete(Guid intervalId)
         {
             sqlService.OpenConnection((connection) =>
             {
-                connection.Execute("Delete from IT_Interval  WHERE Guid = :id", new { id = intervalId });
+                return 0 < connection.Execute("Delete from IT_Interval WHERE Guid = :id", new { id = intervalId });
             });
+            return false;
         }
 
         #endregion Public methods
