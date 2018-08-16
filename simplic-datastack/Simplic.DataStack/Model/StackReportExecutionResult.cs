@@ -9,6 +9,10 @@
         ActionNotSupported,
         ReportTypeNotSupported,
         ReportNotFound,
+        ClassBeforeNotFound,
+        ClassAfterNotFound,
+        Canceled,
+        MethodAfterFalse,
         UnknownError
     }
 }
