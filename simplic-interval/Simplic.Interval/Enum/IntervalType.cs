@@ -19,12 +19,12 @@ namespace Simplic.Interval
         /// <summary>
         /// interval everey quarter of the year
         /// </summary>
-        Quarter = 1,
+        Quarterly = 1,
 
         /// <summary>
         /// interval everey half of the year
         /// </summary>
-        HalfYear = 2,
+        HalfYearly = 2,
 
         /// <summary>
         /// interval ones in a year

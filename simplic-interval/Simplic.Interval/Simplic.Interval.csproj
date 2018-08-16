@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Simplic.Interval</RootNamespace>
     <AssemblyName>Simplic.Interval</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.CoreLib, Version=6.12.18.814, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.12.18.814\lib\net451\Simplic.CoreLib.dll</HintPath>
+    <Reference Include="Simplic.CoreLib, Version=6.14.18.814, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.14.18.814\lib\net451\Simplic.CoreLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

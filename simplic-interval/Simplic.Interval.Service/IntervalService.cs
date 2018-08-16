@@ -81,11 +81,10 @@ namespace Simplic.Interval.Service
         /// <param name="intervalId"></param>
         public bool Delete(Guid intervalId)
         {
-            sqlService.OpenConnection((connection) =>
+            return sqlService.OpenConnection((connection) =>
             {
                 return 0 < connection.Execute("Delete from IT_Interval WHERE Guid = :id", new { id = intervalId });
             });
-            return false;
         }
 
         #endregion Public methods

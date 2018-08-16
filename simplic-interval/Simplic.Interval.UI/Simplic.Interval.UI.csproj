@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Simplic.Interval.UI</RootNamespace>
     <AssemblyName>Simplic.Interval.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\Simplic.Interval\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -265,10 +266,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="package.bat" />
     <None Include="packages.config" />
+    <None Include="Simplic.Interval.UI.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Simplic.Interval\Simplic.Interval\Simplic.Interval.csproj">
+    <ProjectReference Include="..\Simplic.Interval\Simplic.Interval.csproj">
       <Project>{8cf0b453-693d-4a3f-92cc-6f339f661897}</Project>
       <Name>Simplic.Interval</Name>
     </ProjectReference>
