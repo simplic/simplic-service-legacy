@@ -9,10 +9,9 @@
         ActionNotSupported,
         ReportTypeNotSupported,
         ReportNotFound,
-        ClassBeforeNotFound,
-        ClassAfterNotFound,
+        PythonClassBeforeNotFound,
+        PythonClassAfterNotFound,
         Canceled,
-        MethodAfterFalse,
         UnknownError
     }
 }
