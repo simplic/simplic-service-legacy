@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{382ED555-27EB-44B7-9934-99DC71B3D4DD}</ProjectGuid>
+    <ProjectGuid>{34A7D59D-1D29-40AB-8168-B9816F073DD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simplic.DataStack</RootNamespace>
-    <AssemblyName>Simplic.DataStack</AssemblyName>
+    <RootNamespace>Simplic.ComponentLicense</RootNamespace>
+    <AssemblyName>Simplic.ComponentLicense</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,23 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IStackReportService.cs" />
-    <Compile Include="Interface\IStackService.cs" />
-    <Compile Include="Interface\IStackTimestampService.cs" />
-    <Compile Include="Model\Scripting\BeforeReportPythonParameter.cs" />
-    <Compile Include="Model\InstanceDataTimeStamp.cs" />
-    <Compile Include="Model\Scripting\PostReportPythonParameter.cs" />
-    <Compile Include="Model\Scripting\ReportPythonParameter.cs" />
-    <Compile Include="Model\StackReport.cs" />
+    <Compile Include="ComponentLicense.cs" />
+    <Compile Include="IComponentLicenseRepository.cs" />
+    <Compile Include="IComponentLicenseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\StackReportExecutionResult.cs" />
     <None Include="package.bat" />
-    <None Include="Simplic.DataStack.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
+    <None Include="Simplic.ComponentLicense.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
