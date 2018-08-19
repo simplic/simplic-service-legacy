@@ -38,7 +38,8 @@ namespace Simplic.Interval.Service
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<Interval>("Select * from IT_Interval");
+                //todo order by
+                return connection.Query<Interval>("Select * from IT_Interval order by LastExecute");
             });
         }
 
@@ -83,7 +84,7 @@ namespace Simplic.Interval.Service
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return 0 < connection.Execute("Delete from IT_Interval WHERE Guid = :id", new { id = intervalId });
+                return connection.Execute("Delete from IT_Interval WHERE Guid = :id", new { id = intervalId }) > 0;
             });
         }
 

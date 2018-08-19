@@ -32,6 +32,7 @@ namespace Simplic.Interval.UI
         /// Sets the datacontext 
         /// </summary>
         /// <param name="interval"></param>
+        //todo: dependency property
         public void InitContext(Interval interval)
         {
             DataContext = new IntervalViewModel(interval);

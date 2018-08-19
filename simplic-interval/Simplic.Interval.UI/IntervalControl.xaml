@@ -27,7 +27,7 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Intervall"></Label>
         <simplic:LookupTextBox x:Name="intervalTypeLookupTextBox" Uid="T32" Margin="3" Height="24" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" Width="200" IsTabStop="True"
-                                   Identity="{Binding TypeNumber, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" 
+                                   Identity="{Binding TypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" 
                                    ShowIdentityTextBox="False" >
             <dbui:LookupTextBox.SelectionProvider>
                 <dbui:ItemBoxSelectionProvider ItemBoxName="IB_Interval_Type" DisplayColumn="DisplayName" IdentityColumn="EntryValue" DisplayFriendlyColumn="DisplayName"
@@ -46,7 +46,7 @@
             </dbui:LookupTextBox.SelectionProvider>
         </simplic:LookupTextBox>
         <Label Grid.Column="0" Grid.Row="2" Content="Monat"></Label>
-        <simplic:RadNumericUpDownKeyControl ShowButtons="False" ValueFormat="Numeric" IsInteger="True" Margin="3" Height="24" Maximum="12" Minimum="1" Grid.Column="1" Grid.Row="2" Value="{Binding MonthNrofExecution,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
+        <simplic:RadNumericUpDownKeyControl ShowButtons="False" ValueFormat="Numeric" IsInteger="True" Margin="3" Height="24" Maximum="12" Minimum="1" Grid.Column="1" Grid.Row="2" Value="{Binding MonthNumberOfExecution,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
         <Label Grid.Column="0" Grid.Row="3" Content="Ausführungstag"></Label>
         <simplic:RadNumericUpDownKeyControl IsEnabled="{Binding DayByNumber}"  ShowButtons="False" ValueFormat="Numeric" IsInteger="True" Margin="3" Height="24" Maximum="31" Minimum="1" Grid.Column="1" Grid.Row="3" Value="{Binding DayNumberOfExecution,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
         <Label Grid.Column="0" Grid.Row="4" Content="Letzte Ausführung"></Label>
