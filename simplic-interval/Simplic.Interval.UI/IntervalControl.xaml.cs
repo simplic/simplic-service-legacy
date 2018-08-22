@@ -1,5 +1,4 @@
-﻿using Simplic.Framework.UI;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Simplic.Interval.UI
@@ -38,6 +37,7 @@ namespace Simplic.Interval.UI
             set
             {
                 context = new IntervalViewModel(value);
+                DataContext = context;
                 SetValue(IntervalContextProperty, value);
             }
         }
@@ -47,7 +47,7 @@ namespace Simplic.Interval.UI
             DependencyProperty.Register("IntervalContext", typeof(Interval), typeof(IntervalControl), new PropertyMetadata(0));
 
         /// <summary>
-        /// Sets the datacontext 
+        /// Sets the datacontext
         /// </summary>
         /// <param name="interval"></param>
         //todo: dependency property
@@ -57,6 +57,6 @@ namespace Simplic.Interval.UI
             context = (IntervalViewModel)DataContext;
         }
 
-        #endregion
+        #endregion Public methods
     }
 }
