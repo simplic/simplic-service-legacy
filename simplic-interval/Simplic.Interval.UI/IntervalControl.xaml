@@ -6,10 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 
                      xmlns:dbui="clr-namespace:Simplic.Framework.DBUI;assembly=Simplic.Framework.DBUI"
-    xmlns:local="clr-namespace:Simplic.Interval.UI;assembly=Simplic.Interval.UI"
-    xmlns:templating="clr-namespace:Simplic.Framework.UI.Templating;assembly=Simplic.Framework.Base"
-             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-    xmlns:baseUI="clr-namespace:Simplic.UI;assembly=Simplic.UI"
+
              mc:Ignorable="d" 
              d:DesignHeight="200" Height="200" d:DesignWidth="300">
     <Grid>
