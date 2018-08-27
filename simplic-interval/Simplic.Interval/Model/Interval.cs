@@ -19,7 +19,7 @@ namespace Simplic.Interval
         private int executeCount;
         private DateTime lastExecute;
         private int monthNumberOfExecution;
-        private int typeId;
+        private int intervalTypeId;
 
         #endregion
 
@@ -62,7 +62,7 @@ namespace Simplic.Interval
         /// <summary>
         /// Gets or sets the number of the selected type
         /// </summary>
-        public int TypeId { get { return typeId; } set { typeId = value; } }
+        public int IntervalTypeId { get { return intervalTypeId; } set { intervalTypeId = value; } }
 
         #endregion
     }

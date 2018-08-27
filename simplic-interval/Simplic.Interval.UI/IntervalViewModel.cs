@@ -68,12 +68,12 @@ namespace Simplic.Interval.UI
         /// <summary>
         /// Gets or sets the selected month by number
         /// </summary>
-        public int MonthNrofExecution { get { return model.MonthNumberOfExecution; } set { PropertySetter(value, (newValue) => { model.MonthNumberOfExecution = newValue; }); } }
+        public int MonthNumberOfExecution { get { return model.MonthNumberOfExecution; } set { PropertySetter(value, (newValue) => { model.MonthNumberOfExecution = newValue; }); } }
 
         /// <summary>
         /// Gets or sets the number of the selected type
         /// </summary>
-        public int TypeNumber { get { return model.TypeId; } set { PropertySetter(value, (newValue) => { model.TypeId = newValue; }); } }
+        public int IntervalTypeId { get { return model.IntervalTypeId; } set { PropertySetter(value, (newValue) => { model.IntervalTypeId = newValue; }); } }
 
         /// <summary>
         /// Gets the enabled state of the day number control 
@@ -82,7 +82,7 @@ namespace Simplic.Interval.UI
         {
             get
             {
-                if ((IntervalType)TypeNumber == IntervalType.Monthly) return false;
+                if ((IntervalDefinition)IntervalTypeId == IntervalDefinition.Monthly) return false;
                 return true;
             }
         }

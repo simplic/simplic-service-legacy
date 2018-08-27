@@ -9,7 +9,7 @@ namespace Simplic.Interval
     /// <summary>
     /// Defines the interval type
     /// </summary>
-    public enum IntervalType : byte
+    public enum IntervalDefinition : byte
     {
         /// <summary>
         /// interval everey month

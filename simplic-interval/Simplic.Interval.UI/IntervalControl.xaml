@@ -8,7 +8,7 @@
                      xmlns:dbui="clr-namespace:Simplic.Framework.DBUI;assembly=Simplic.Framework.DBUI"
 
              mc:Ignorable="d" 
-             d:DesignHeight="200" Height="200" d:DesignWidth="300">
+             d:DesignHeight="200" Height="240" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Intervall"></Label>
         <simplic:LookupTextBox x:Name="intervalTypeLookupTextBox" Uid="T32" Margin="3" Height="24" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" Width="200" IsTabStop="True"
-                                   Identity="{Binding TypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" 
+                                   Identity="{Binding IntervalTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" 
                                    ShowIdentityTextBox="False" >
             <dbui:LookupTextBox.SelectionProvider>
                 <dbui:ItemBoxSelectionProvider ItemBoxName="IB_Interval_Type" DisplayColumn="DisplayName" IdentityColumn="EntryValue" DisplayFriendlyColumn="DisplayName"

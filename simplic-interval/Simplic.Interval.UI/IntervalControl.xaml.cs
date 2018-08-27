@@ -29,24 +29,6 @@ namespace Simplic.Interval.UI
         #region Public methods
 
         /// <summary>
-        /// Dependency property for the datacontext
-        /// </summary>
-        public Interval IntervalContext
-        {
-            get { return (Interval)GetValue(IntervalContextProperty); }
-            set
-            {
-                context = new IntervalViewModel(value);
-                DataContext = context;
-                SetValue(IntervalContextProperty, value);
-            }
-        }
-
-        // Using a DependencyProperty as the backing store for IntervalContext.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IntervalContextProperty =
-            DependencyProperty.Register("IntervalContext", typeof(Interval), typeof(IntervalControl));
-
-        /// <summary>
         /// Sets the datacontext
         /// </summary>
         /// <param name="interval"></param>
