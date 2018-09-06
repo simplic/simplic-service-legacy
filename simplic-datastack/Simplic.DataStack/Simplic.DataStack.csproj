@@ -44,7 +44,14 @@
     <Compile Include="Interface\IStackReportService.cs" />
     <Compile Include="Interface\IStackService.cs" />
     <Compile Include="Interface\IStackTimestampService.cs" />
+<<<<<<< HEAD
     <Compile Include="Model\InstanceDataTimeStamp.cs" />
+=======
+    <Compile Include="Model\Scripting\BeforeReportPythonParameter.cs" />
+    <Compile Include="Model\InstanceDataTimeStamp.cs" />
+    <Compile Include="Model\Scripting\PostReportPythonParameter.cs" />
+    <Compile Include="Model\Scripting\ReportPythonParameter.cs" />
+>>>>>>> f_decimal
     <Compile Include="Model\StackReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
