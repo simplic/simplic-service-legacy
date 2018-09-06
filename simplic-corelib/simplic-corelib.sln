@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.CoreLib.StringExtra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3CF243E9-C314-4F05-B7E6-925EECF865F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.CoreLib.PreciseDecimal", "Simplic.CoreLib.PreciseDecimal\Simplic.CoreLib.PreciseDecimal.csproj", "{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_x86x_64|Any CPU = Debug_x86x_64|Any CPU
@@ -28,11 +30,18 @@ Global
 		{3956D8A9-71B3-49B5-A4F5-16EBB15684E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3956D8A9-71B3-49B5-A4F5-16EBB15684E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3956D8A9-71B3-49B5-A4F5-16EBB15684E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31}.Debug_x86x_64|Any CPU.ActiveCfg = Debug|Any CPU
+		{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31}.Debug_x86x_64|Any CPU.Build.0 = Debug|Any CPU
+		{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3956D8A9-71B3-49B5-A4F5-16EBB15684E2} = {3CF243E9-C314-4F05-B7E6-925EECF865F2}
+		{77184F27-F7B4-4245-A9FC-EDBBE5D5BA31} = {3CF243E9-C314-4F05-B7E6-925EECF865F2}
 	EndGlobalSection
 EndGlobal
