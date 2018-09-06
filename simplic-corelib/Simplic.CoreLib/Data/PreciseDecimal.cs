@@ -65,12 +65,9 @@ namespace Simplic.Data
 
         public int CompareTo(object obj)
         {
-<<<<<<< HEAD
-=======
             if (obj is PreciseDecimal)
                 return _value.CompareTo(((PreciseDecimal)obj)._value);
 
->>>>>>> f_decimal
             return _value.CompareTo(obj);
         }
 
