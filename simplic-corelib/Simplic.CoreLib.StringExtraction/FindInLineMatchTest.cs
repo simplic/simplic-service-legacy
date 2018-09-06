@@ -61,8 +61,6 @@ namespace Simplic.CoreLib.StringExtraction
         }
 
         [TestMethod]
-<<<<<<< HEAD
-=======
         public void FindInLineDateWithSpaceTest()
         {
             string demo = @"
@@ -89,7 +87,6 @@ namespace Simplic.CoreLib.StringExtraction
         }
 
         [TestMethod]
->>>>>>> f_decimal
         public void FindInNextLine()
         {
             string demo = @"
