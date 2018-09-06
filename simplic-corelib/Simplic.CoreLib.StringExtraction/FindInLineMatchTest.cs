@@ -61,6 +61,32 @@ namespace Simplic.CoreLib.StringExtraction
         }
 
         [TestMethod]
+        public void FindInLineDateWithSpaceTest()
+        {
+            string demo = @"
+                DEMO STRING
+                Rechnungs Datum   Test/Datum2 07.09.2019 T
+                DEMO STRING
+            ";
+
+            var result = Text.StringExtraction.FindInLine(demo, new[] { new ExtractionKey { Key = "Rechnungs Datum" } }, "", (value) =>
+            {
+                try
+                {
+                    DateTime.ParseExact(value, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
+
+            Assert.AreEqual("07.09.2019", result.OriginalValue);
+            Assert.AreEqual("07.09.2019", result.Value.Value);
+        }
+
+        [TestMethod]
         public void FindInNextLine()
         {
             string demo = @"

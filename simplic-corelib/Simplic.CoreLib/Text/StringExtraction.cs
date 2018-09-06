@@ -96,6 +96,14 @@ namespace Simplic.Text
                 foreach (var key in keys)
                 {
                     key.Key = key.Key.Replace(charToRemove.ToString(), "");
+
+                    if (key.Key.Contains(" "))
+                    {
+                        var newKey = key.Key.Replace(" ", "-"); ;
+                        textBlock = textBlock.Replace(key.Key, newKey);
+
+                        key.Key = newKey;
+                    }
                 }
             }
 
@@ -240,6 +248,14 @@ namespace Simplic.Text
                 foreach (var key in keys)
                 {
                     key.Key = key.Key.Replace(charToRemove.ToString(), "");
+
+                    if (key.Key.Contains(" "))
+                    {
+                        var newKey = key.Key.Replace(" ", "-"); ;
+                        textBlock = textBlock.Replace(key.Key, newKey);
+
+                        key.Key = newKey;
+                    }
                 }
             }
 
