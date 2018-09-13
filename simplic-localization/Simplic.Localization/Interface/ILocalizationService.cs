@@ -16,6 +16,14 @@ namespace Simplic.Localization
         string Translate(string key);
 
         /// <summary>
+        /// Translates a key formatted to a language
+        /// </summary>
+        /// <param name="key">Key to translate</param>
+        /// <param name="formatValues">Values to put in the string interpolation</param>
+        /// <returns>Translated formatted text</returns>
+        string Translate(string key, params string[] formatValues);
+
+        /// <summary>
         /// Changes the current language
         /// </summary>
         /// <param name="language">Language to change</param>
