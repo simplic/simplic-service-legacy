@@ -9,35 +9,35 @@ namespace Simplic.Data
     /// <summary>
     /// Simplic repository data base
     /// </summary>
-    /// <typeparam name="T">Entity type</typeparam>
-    /// <typeparam name="I">Entity key type</typeparam>
-    public interface IRepositoryBase<T, I>
+    /// <typeparam name="TModel">Entity type</typeparam>
+    /// <typeparam name="TId">Entity key type</typeparam>
+    public interface IRepositoryBase<TId, TModel>
     {
         /// <summary>
         /// Get data by id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>Instance of <see cref="T"/> if exists</returns>
-        T Get(I id);
+        /// <returns>Instance of <see cref="TModel"/> if exists</returns>
+        TModel Get(TId id);
 
         /// <summary>
         /// Get all objects
         /// </summary>
-        /// <returns>Enumerable of <see cref="T"/></returns>
-        IEnumerable<T> GetAll();
+        /// <returns>Enumerable of <see cref="TModel"/></returns>
+        IEnumerable<TModel> GetAll();
 
         /// <summary>
         /// Create or update data
         /// </summary>
         /// <param name="obj">Object to save</param>
         /// <returns>True if successful</returns>
-        bool Save(T obj);
+        bool Save(TModel obj);
 
         /// <summary>
         /// Delete data
         /// </summary>
         /// <param name="obj">Object to delete</param>
         /// <returns>True if successful</returns>
-        bool Delete(T obj);
+        bool Delete(TModel obj);
     }
 }

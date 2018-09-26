@@ -15,7 +15,7 @@ namespace Simplic.Data.Sql
     /// </summary>
     /// <typeparam name="TModel">Model</typeparam>
     /// <typeparam name="TId">Id</typeparam>
-    public abstract class SqlRepositoryBase<TModel, TId> : IRepositoryBase<TModel, TId>
+    public abstract class SqlRepositoryBase<TId, TModel> : IRepositoryBase<TId, TModel>
     {
         private readonly ISqlService sqlService;
         private readonly ISqlColumnService sqlColumnService;
