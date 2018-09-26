@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Simplic.Framework.Repository;
+using System;
 using System.Collections.Generic;
 
-namespace Simplic.TaskScheduler.Repository
+namespace Simplic.TaskScheduler.Data.DB
 {
     /// <summary>
     /// Repository implementation
@@ -40,6 +41,15 @@ namespace Simplic.TaskScheduler.Repository
                     yield return JsonConvert.DeserializeObject<TaskSchedulerConfiguration>(content.ContentAsString);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get by id
+        /// </summary>
+        /// <returns>Configuration instance</returns>
+        public TaskSchedulerConfiguration Get(Guid id)
+        {
+            return JsonConvert.DeserializeObject<TaskSchedulerConfiguration>(RepositoryManager.Singleton.ReadAllText($"{BasePath}{id}.json"));
         }
 
         /// <summary>

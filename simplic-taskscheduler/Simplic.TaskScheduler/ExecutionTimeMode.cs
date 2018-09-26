@@ -8,7 +8,7 @@
         /// <summary>
         /// In seconds
         /// </summary>
-        Secods = 0,
+        Seconds = 0,
 
         /// <summary>
         /// Cron job configuration

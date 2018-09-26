@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Simplic.TaskScheduler.Repository")]
+[assembly: AssemblyTitle("Simplic.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Simplic.TaskScheduler.Repository")]
+[assembly: AssemblyProduct("Simplic.Data")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f97ec76f-4721-4b8c-8890-1d07080600a7")]
+[assembly: Guid("dda22fe5-3893-4c26-a1ad-eb19a9379bc7")]
 
 // Version information for an assembly consists of the following four values:
 //

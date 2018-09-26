@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Simplic.Data, Version=1.0.18.925, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.0.18.925\lib\net451\Simplic.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="package.bat" />
+    <None Include="packages.config" />
     <None Include="Simplic.TaskScheduler.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

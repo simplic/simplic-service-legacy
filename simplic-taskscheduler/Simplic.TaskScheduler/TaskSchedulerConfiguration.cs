@@ -18,6 +18,24 @@ namespace Simplic.TaskScheduler
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the current machine name
+        /// </summary>
+        public string MachineName
+        {
+            get;
+            set;
+        } = Environment.MachineName;
+
+        /// <summary>
+        /// Gets or sets the application server name
+        /// </summary>
+        public string AppServerName
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets whether the scheduler is private
         /// </summary>
         public bool IsPrivate { get; set; }

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.TaskScheduler", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.TaskScheduler.Service", "Simplic.TaskScheduler.Service\Simplic.TaskScheduler.Service.csproj", "{73192760-F6D4-43B5-98D1-9DD2C2D9EC10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.TaskScheduler.Repository", "Simplic.TaskScheduler.Repository\Simplic.TaskScheduler.Repository.csproj", "{F97EC76F-4721-4B8C-8890-1D07080600A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.TaskScheduler.Data.DB", "Simplic.TaskScheduler.Data.DB\Simplic.TaskScheduler.Data.DB.csproj", "{F97EC76F-4721-4B8C-8890-1D07080600A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

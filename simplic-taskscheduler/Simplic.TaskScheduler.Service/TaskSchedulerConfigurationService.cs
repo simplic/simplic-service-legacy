@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Simplic.TaskScheduler.Service
 {
@@ -36,6 +37,15 @@ namespace Simplic.TaskScheduler.Service
         public bool Delete(TaskSchedulerConfiguration configuration)
         {
             return repositoryService.Delete(configuration);
+        }
+
+        /// <summary>
+        /// Get by id
+        /// </summary>
+        /// <returns>Configuration instance</returns>
+        public TaskSchedulerConfiguration Get(Guid id)
+        {
+            return repositoryService.Get(id);
         }
 
         /// <summary>
