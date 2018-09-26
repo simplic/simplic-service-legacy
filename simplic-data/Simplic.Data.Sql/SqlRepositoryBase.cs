@@ -10,7 +10,12 @@ using System.Threading.Tasks;
 
 namespace Simplic.Data.Sql
 {
-    public abstract class SqlRepositoryBase<T, I> : IRepositoryBase<T, I>
+    /// <summary>
+    /// Sql repository base implementation
+    /// </summary>
+    /// <typeparam name="TModel">Model</typeparam>
+    /// <typeparam name="TId">Id</typeparam>
+    public abstract class SqlRepositoryBase<TModel, TId> : IRepositoryBase<TModel, TId>
     {
         private readonly ISqlService sqlService;
         private readonly ISqlColumnService sqlColumnService;
@@ -32,24 +37,24 @@ namespace Simplic.Data.Sql
         /// Get data by id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>Instance of <see cref="T"/> if exists</returns>
-        public T Get(I id)
+        /// <returns>Instance of <see cref="TModel"/> if exists</returns>
+        public TModel Get(TId id)
         {
-            T obj = default(T);
+            TModel obj = default(TModel);
             if (UseCache)
             {
-                obj = cacheService.Get<T>(id?.ToString());
+                obj = cacheService.Get<TModel>(id?.ToString());
                 if (obj != null)
                     return obj;
             }
 
             return sqlService.OpenConnection((connection) =>
             {
-                obj = connection.Query<T>($"SELECT * FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
+                obj = connection.Query<TModel>($"SELECT * FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
                     new { id = id }).FirstOrDefault();
 
                 if (UseCache)
-                    cacheService.Set<T>(id?.ToString(), obj);
+                    cacheService.Set<TModel>(id?.ToString(), obj);
 
                 return obj;
             });
@@ -58,12 +63,12 @@ namespace Simplic.Data.Sql
         /// <summary>
         /// Get all objects
         /// </summary>
-        /// <returns>Enumerable of <see cref="T"/></returns>
-        public IEnumerable<T> GetAll()
+        /// <returns>Enumerable of <see cref="TModel"/></returns>
+        public IEnumerable<TModel> GetAll()
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<T>($"SELECT * FROM {TableName} ORDER BY {PrimaryKeyColumn}");
+                return connection.Query<TModel>($"SELECT * FROM {TableName} ORDER BY {PrimaryKeyColumn}");
             });
         }
 
@@ -72,14 +77,14 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="obj">Object to save</param>
         /// <returns>True if successful</returns>
-        public bool Save(T obj)
+        public bool Save(TModel obj)
         {
-            var columns = sqlColumnService.GetModelDBColumnNames(TableName, typeof(T), DifferentColumnNames);
+            var columns = sqlColumnService.GetModelDBColumnNames(TableName, typeof(TModel), DifferentColumnNames);
 
             return sqlService.OpenConnection((connection) =>
             {
                 if (UseCache)
-                    cacheService.Remove<T>(GetId(obj).ToString());
+                    cacheService.Remove<TModel>(GetId(obj).ToString());
 
                 string sqlStatement = $"INSERT INTO {TableName} ({string.Join(", ", columns.Select(item => item.Key))}) ON EXISTING UPDATE VALUES "
                     + $" ({string.Join(", ", columns.Select(k => "?" + (string.IsNullOrWhiteSpace(k.Value) ? k.Key : k.Value) + "?"))});";
@@ -93,7 +98,7 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="obj">Object to delete</param>
         /// <returns>True if successful</returns>
-        public bool Delete(T obj)
+        public bool Delete(TModel obj)
         {
             return sqlService.OpenConnection((connection) =>
             {
@@ -107,7 +112,7 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="obj">Model to get the id of</param>
         /// <returns>Id value</returns>
-        public abstract I GetId(T obj);
+        public abstract TId GetId(TModel obj);
 
         /// <summary>
         /// Gets the current table name
