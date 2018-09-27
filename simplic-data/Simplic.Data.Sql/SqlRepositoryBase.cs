@@ -94,7 +94,7 @@ namespace Simplic.Data.Sql
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<TModel>($"SELECT * FROM {TableName} WHERE {columnName} = :id",
+                return connection.Query<TModel>($"SELECT * FROM {TableName} WHERE {columnName} = :id ORDER BY {columnName}",
                     new { id = id });
             });
         }
