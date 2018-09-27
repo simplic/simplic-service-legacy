@@ -39,5 +39,12 @@ namespace Simplic.Data
         /// <param name="obj">Object to delete</param>
         /// <returns>True if successful</returns>
         bool Delete(TModel obj);
+
+        /// <summary>
+        /// Delete data by id
+        /// </summary>
+        /// <param name="obj">Object to delete</param>
+        /// <returns>True if successful</returns>
+        bool Delete(TId id);
     }
 }

@@ -138,6 +138,20 @@ namespace Simplic.Data.Sql
         }
 
         /// <summary>
+        /// Delete data by id
+        /// </summary>
+        /// <param name="obj">Object to delete</param>
+        /// <returns>True if successful</returns>
+        public bool Delete(TId id)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.Execute($"DELETE FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
+                    new { id = id }) > 0;
+            });
+        }
+
+        /// <summary>
         /// Gets the id of a model
         /// </summary>
         /// <param name="obj">Model to get the id of</param>
