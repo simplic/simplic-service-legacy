@@ -7,7 +7,7 @@ namespace Simplic.TaskScheduler
     /// <summary>
     /// Repository interface
     /// </summary>
-    public interface ITaskSchedulerConfigurationRepository : IRepositoryBase<TaskSchedulerConfiguration, Guid>
+    public interface ITaskSchedulerConfigurationRepository : IRepositoryBase<Guid, TaskSchedulerConfiguration>
     {
 
     }

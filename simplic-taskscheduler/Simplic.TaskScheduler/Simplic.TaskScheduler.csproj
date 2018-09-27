@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.Data, Version=1.0.18.925, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.0.18.925\lib\net451\Simplic.Data.dll</HintPath>
+    <Reference Include="Simplic.Data, Version=1.1.18.926, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.1.18.926\lib\net451\Simplic.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

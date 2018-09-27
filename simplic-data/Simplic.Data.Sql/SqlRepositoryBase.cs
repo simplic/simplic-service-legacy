@@ -40,21 +40,35 @@ namespace Simplic.Data.Sql
         /// <returns>Instance of <see cref="TModel"/> if exists</returns>
         public TModel Get(TId id)
         {
+            return GetByColumn<TId>(PrimaryKeyColumn, id);
+        }
+
+        /// <summary>
+        /// Get a model instance from the database, using a custom column name
+        /// </summary>
+        /// <typeparam name="T">Id type</typeparam>
+        /// <param name="columnName">Column name</param>
+        /// <param name="id">Id value</param>
+        /// <returns>Model if exists</returns>
+        protected TModel GetByColumn<T>(string columnName, T id)
+        {
+            var key = $"{TableName}_{columnName}_{id}";
+
             TModel obj = default(TModel);
             if (UseCache)
             {
-                obj = cacheService.Get<TModel>(id?.ToString());
+                obj = cacheService.Get<TModel>(key);
                 if (obj != null)
                     return obj;
             }
 
             return sqlService.OpenConnection((connection) =>
             {
-                obj = connection.Query<TModel>($"SELECT * FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
+                obj = connection.Query<TModel>($"SELECT * FROM {TableName} WHERE {columnName} = :id",
                     new { id = id }).FirstOrDefault();
 
                 if (UseCache)
-                    cacheService.Set<TModel>(id?.ToString(), obj);
+                    cacheService.Set<TModel>(key, obj);
 
                 return obj;
             });
@@ -73,6 +87,19 @@ namespace Simplic.Data.Sql
         }
 
         /// <summary>
+        /// Get all objects where a given column value match
+        /// </summary>
+        /// <returns>Enumerable of <see cref="TModel"/></returns>
+        protected IEnumerable<TModel> GetAllByColumn<T>(string columnName, T id)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.Query<TModel>($"SELECT * FROM {TableName} WHERE {columnName} = :id",
+                    new { id = id });
+            });
+        }
+
+        /// <summary>
         /// Create or update data
         /// </summary>
         /// <param name="obj">Object to save</param>
@@ -84,7 +111,10 @@ namespace Simplic.Data.Sql
             return sqlService.OpenConnection((connection) =>
             {
                 if (UseCache)
-                    cacheService.Remove<TModel>(GetId(obj).ToString());
+                {
+                    var key = $"{TableName}_{PrimaryKeyColumn}_{GetId(obj)}";
+                    cacheService.Remove<TModel>(key);
+                }
 
                 string sqlStatement = $"INSERT INTO {TableName} ({string.Join(", ", columns.Select(item => item.Key))}) ON EXISTING UPDATE VALUES "
                     + $" ({string.Join(", ", columns.Select(k => "?" + (string.IsNullOrWhiteSpace(k.Value) ? k.Key : k.Value) + "?"))});";
