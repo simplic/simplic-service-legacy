@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="SqlRepositoryBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simplic.Data\Simplic.Data.csproj">
