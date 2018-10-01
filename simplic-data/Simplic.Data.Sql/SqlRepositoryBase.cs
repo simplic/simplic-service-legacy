@@ -38,7 +38,7 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>Instance of <see cref="TModel"/> if exists</returns>
-        public TModel Get(TId id)
+        public virtual TModel Get(TId id)
         {
             return GetByColumn<TId>(PrimaryKeyColumn, id);
         }
@@ -50,7 +50,7 @@ namespace Simplic.Data.Sql
         /// <param name="columnName">Column name</param>
         /// <param name="id">Id value</param>
         /// <returns>Model if exists</returns>
-        protected TModel GetByColumn<T>(string columnName, T id)
+        protected virtual TModel GetByColumn<T>(string columnName, T id)
         {
             var key = $"{TableName}_{columnName}_{id}";
 
@@ -78,7 +78,7 @@ namespace Simplic.Data.Sql
         /// Get all objects
         /// </summary>
         /// <returns>Enumerable of <see cref="TModel"/></returns>
-        public IEnumerable<TModel> GetAll()
+        public virtual IEnumerable<TModel> GetAll()
         {
             return sqlService.OpenConnection((connection) =>
             {
@@ -90,7 +90,7 @@ namespace Simplic.Data.Sql
         /// Get all objects where a given column value match
         /// </summary>
         /// <returns>Enumerable of <see cref="TModel"/></returns>
-        protected IEnumerable<TModel> GetAllByColumn<T>(string columnName, T id)
+        protected virtual IEnumerable<TModel> GetAllByColumn<T>(string columnName, T id)
         {
             return sqlService.OpenConnection((connection) =>
             {
@@ -104,7 +104,7 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="obj">Object to save</param>
         /// <returns>True if successful</returns>
-        public bool Save(TModel obj)
+        public virtual bool Save(TModel obj)
         {
             var columns = sqlColumnService.GetModelDBColumnNames(TableName, typeof(TModel), DifferentColumnNames);
 
@@ -128,7 +128,7 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="obj">Object to delete</param>
         /// <returns>True if successful</returns>
-        public bool Delete(TModel obj)
+        public virtual bool Delete(TModel obj)
         {
             return sqlService.OpenConnection((connection) =>
             {
@@ -142,7 +142,7 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="obj">Object to delete</param>
         /// <returns>True if successful</returns>
-        public bool Delete(TId id)
+        public virtual bool Delete(TId id)
         {
             return sqlService.OpenConnection((connection) =>
             {

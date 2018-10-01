@@ -28,6 +28,18 @@ namespace Simplic.TaskScheduler.Data.DB
         }
 
         /// <summary>
+        /// Delete configuration from database
+        /// </summary>
+        /// <param name="id">Configuration id</param>
+        /// <returns>True if successfull</returns>
+        public bool Delete(Guid id)
+        {
+            RepositoryManager.Singleton.DeleteFromDatabase($"{BasePath}{id}.json");
+
+            return true;
+        }
+
+        /// <summary>
         /// Get all configurations
         /// </summary>
         /// <returns>Configuration list</returns>

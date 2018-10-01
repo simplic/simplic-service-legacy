@@ -40,6 +40,16 @@ namespace Simplic.TaskScheduler.Service
         }
 
         /// <summary>
+        /// Delete configuration from database
+        /// </summary>
+        /// <param name="id">Configuration id</param>
+        /// <returns>True if successfull</returns>
+        public bool Delete(Guid id)
+        {
+            return repositoryService.Delete(id);
+        }
+
+        /// <summary>
         /// Get by id
         /// </summary>
         /// <returns>Configuration instance</returns>

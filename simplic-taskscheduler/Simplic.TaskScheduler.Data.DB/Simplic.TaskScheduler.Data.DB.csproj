@@ -42,8 +42,8 @@
       <HintPath>..\packages\Simplic.CoreLib.6.14.318.906\lib\net451\Simplic.CoreLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Simplic.Data, Version=1.1.18.926, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.1.18.926\lib\net451\Simplic.Data.dll</HintPath>
+    <Reference Include="Simplic.Data, Version=1.2.18.927, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.2.18.927\lib\net451\Simplic.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Simplic.Framework.Repository">
