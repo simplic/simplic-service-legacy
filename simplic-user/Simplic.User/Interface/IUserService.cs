@@ -85,5 +85,13 @@ namespace Simplic.User
         /// <param name="groupId">Group Id</param>
         /// <returns>True if successfull</returns>
         bool SetGroup(int userId, int groupId);
+
+        /// <summary>
+        /// Removes a group from a user
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        bool RemoveGroup(int userId, int groupId);
     }
 }
