@@ -3,7 +3,7 @@
 namespace Simplic.User
 {
     /// <summary>
-    /// This service contains methods to manipulate user data 
+    /// Contains methods to manipulate user data 
     /// </summary>
     public interface IUserService
     {
@@ -78,6 +78,12 @@ namespace Simplic.User
         /// <returns>True if setting the password was successfull</returns>
         bool SetPassword(int userId, string rawPassword);
 
-        
+        /// <summary>
+        /// Assigns a user to a group (updates on existing values)
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        bool SetGroup(int userId, int groupId);
     }
 }
