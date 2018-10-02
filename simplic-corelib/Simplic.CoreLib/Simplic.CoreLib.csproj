@@ -88,6 +88,8 @@
     <Compile Include="Reflection\TypeHelper.cs" />
     <Compile Include="Simplic\GuidUtility.cs" />
     <Compile Include="Simplic\SeperatedStringBuilder.cs" />
+    <Compile Include="Text\ExtractionResult.cs" />
+    <Compile Include="Text\LevenshteinDistance.cs" />
     <Compile Include="Text\QueryParameterParser.cs" />
     <Compile Include="Text\RegularExpressions\RegexFilter.cs" />
     <Compile Include="Security\Cryptography\CryptographyHelper.cs" />

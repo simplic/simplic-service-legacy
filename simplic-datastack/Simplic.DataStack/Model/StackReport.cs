@@ -16,6 +16,10 @@ namespace Simplic.DataStack
         private Guid stackId;
         private Guid iconId;
         private string text;
+        private string pathBefore;
+        private string classBefore;
+        private string pathAfter;
+        private string classAfter;
 
         #endregion
 
@@ -147,6 +151,68 @@ namespace Simplic.DataStack
             set
             {
                 text = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the path to the script
+        /// </summary>
+        public string PathBefore
+        {
+            get
+            {
+                return pathBefore;
+            }
+
+            set
+            {
+                pathBefore = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the class name of the class which contains execute_before_report that should be executed before the report is done
+        /// </summary>
+        public string ClassBefore
+        {
+            get
+            {
+                return classBefore;
+            }
+            set
+            {
+                classBefore = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the path to the script
+        /// </summary>
+        public string PathAfter
+        {
+            get
+            {
+                return pathAfter;
+            }
+
+            set
+            {
+                pathAfter = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the class name of the class which contains the method execute_after_report that should be executed after the report is done
+        /// </summary>
+        public string ClassAfter
+        {
+            get
+            {
+                return classAfter;
+            }
+            set
+            {
+                classAfter = value;
             }
         }
 

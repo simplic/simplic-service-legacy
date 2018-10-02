@@ -99,7 +99,7 @@ namespace Simplic.Authorization
         /// <summary>
         /// Creates new columns and converts all existing access rights
         /// </summary>
-        void Migrate();
+        IList<MigrationResult> Migrate();
 
         /// <summary>
         /// Checks if the given user has access
