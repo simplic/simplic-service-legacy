@@ -251,7 +251,24 @@ namespace Simplic.User.Service
             });            
         }
         #endregion
-        
+
+        #region [RemoveGroup]
+        /// <summary>
+        /// Removes a group from a user
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        public bool RemoveGroup(int userId, int groupId)
+        {
+            return sqlService.OpenConnection((connection) => {
+                var affectedRows = connection.Execute($"DELETE FROM {UserAssignmentTableName} WHERE " +
+                    $" UserId = :userId and GroupId = :groupId", new { userId, groupId });
+                return affectedRows > 0;
+            });
+        } 
+        #endregion
+
         #endregion
     }
 }
