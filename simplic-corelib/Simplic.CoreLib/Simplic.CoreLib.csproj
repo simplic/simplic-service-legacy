@@ -49,6 +49,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +72,7 @@
     <Compile Include="Collections\Generic\Deqeue.cs" />
     <Compile Include="Collections\Generic\ThreadsafeDictionary.cs" />
     <Compile Include="Console\ConsoleHelper.cs" />
+    <Compile Include="Data\Converter\PreciseDecimalJsonConverter.cs" />
     <Compile Include="Data\DbTypeMap.cs" />
     <Compile Include="Data\ObservableDataRow.cs" />
     <Compile Include="Data\ObservableDataTable.cs">
@@ -107,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="package.bat" />
+    <None Include="packages.config" />
     <None Include="Simplic.CoreLib.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
