@@ -12,9 +12,9 @@ namespace Simplic.Interval
     public enum IntervalDefinition : byte
     {
         /// <summary>
-        /// interval everey month
+        /// interval everey month by weekday
         /// </summary>
-        Monthly = 0,
+        MonthlyDay = 0,
 
         /// <summary>
         /// interval everey quarter of the year
@@ -30,5 +30,10 @@ namespace Simplic.Interval
         /// interval ones in a year
         /// </summary>
         Yearly = 3,
+
+        /// <summary>
+        /// interval everey month by day number
+        /// </summary>
+        MonthlyDayNumber = 4,
     }
 }
