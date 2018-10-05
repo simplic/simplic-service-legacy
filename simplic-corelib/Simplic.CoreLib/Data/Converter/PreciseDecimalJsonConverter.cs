@@ -6,7 +6,7 @@ namespace Simplic.Data.Converter
     /// <summary>
     /// Custom converter for PreciseDecimal, only needed for serialize
     /// </summary>
-    internal class PreciseDecimalJsonConverter : JsonConverter
+    public class PreciseDecimalJsonConverter : JsonConverter
     {
         /// <summary>
         /// Sets what type can convert
@@ -29,16 +29,24 @@ namespace Simplic.Data.Converter
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var value = reader.Value;
-            if (reader.ValueType == typeof(float) || reader.ValueType == typeof(double) || reader.ValueType == typeof(decimal))
+            if (objectType == typeof(PreciseDecimal) || objectType == typeof(PreciseDecimal?))
             {
-                PreciseDecimal newValue = new PreciseDecimal(Convert.ToDouble(value));
-                return newValue;
+                if (value == null) return null;
+                return new PreciseDecimal(Convert.ToDouble(value));
             }
+
             return serializer.Deserialize(reader);
         }
 
+        /// <summary>
+        /// Not required  
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="value"></param>
+        /// <param name="serializer"></param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+
         }
     }
 }
