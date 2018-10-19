@@ -216,6 +216,14 @@ namespace Simplic.DataStack
             }
         }
 
+        /// <summary>
+        /// Gets or sets the flow event key
+        /// </summary>
+        public string FlowEventKey
+        {
+            get;
+            set;
+        }
         #endregion
     }
 }
