@@ -21,9 +21,18 @@ namespace Simplic.DataStack
         }
 
         /// <summary>
-        /// Gets or sets the stack name
+        /// Gets or sets the blob id
         /// </summary>
-        public string StackName
+        public Guid BlobId
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the file extension
+        /// </summary>
+        public string FileExtension
         {
             get;
             set;
