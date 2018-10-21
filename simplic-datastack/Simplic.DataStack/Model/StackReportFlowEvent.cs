@@ -12,15 +12,6 @@ namespace Simplic.DataStack
     public class StackReportFlowEvent
     {
         /// <summary>
-        /// Gets or sets the flow event name
-        /// </summary>
-        public string EventName
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the display name
         /// </summary>
         public string DisplayName
@@ -32,7 +23,7 @@ namespace Simplic.DataStack
         /// <summary>
         /// Gets or sets the icon name
         /// </summary>
-        public string IconName
+        public Guid IconId
         {
             get;
             set;
