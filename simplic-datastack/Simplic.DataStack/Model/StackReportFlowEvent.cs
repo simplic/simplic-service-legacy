@@ -12,6 +12,15 @@ namespace Simplic.DataStack
     public class StackReportFlowEvent
     {
         /// <summary>
+        /// Gets or sets the flow identification
+        /// </summary>
+        public string FlowIdentification
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the display name
         /// </summary>
         public string DisplayName

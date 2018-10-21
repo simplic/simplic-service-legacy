@@ -57,6 +57,15 @@ namespace Simplic.DataStack
         }
 
         /// <summary>
+        /// Gets or sets the flow identification
+        /// </summary>
+        public string FlowIdentification
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the event payload
         /// </summary>
         public object Payload
