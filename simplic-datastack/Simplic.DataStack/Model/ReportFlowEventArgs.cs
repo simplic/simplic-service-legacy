@@ -23,7 +23,7 @@ namespace Simplic.DataStack
         /// <summary>
         /// Gets or sets the stack name
         /// </summary>
-        public Guid StackName
+        public string StackName
         {
             get;
             set;
