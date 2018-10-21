@@ -217,9 +217,9 @@ namespace Simplic.DataStack
         }
 
         /// <summary>
-        /// Gets or sets the flow event key
+        /// Gets or sets the flow event configuration
         /// </summary>
-        public string FlowEventKey
+        public byte[] FlowEventConfiguration
         {
             get;
             set;
