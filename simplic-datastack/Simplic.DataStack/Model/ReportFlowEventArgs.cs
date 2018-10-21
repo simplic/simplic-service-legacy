@@ -48,6 +48,15 @@ namespace Simplic.DataStack
         }
 
         /// <summary>
+        /// Gets or sets the report name
+        /// </summary>
+        public string ReportName
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the event payload
         /// </summary>
         public object Payload
