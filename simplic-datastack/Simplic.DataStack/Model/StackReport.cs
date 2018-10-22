@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Simplic.DataStack
 {
@@ -217,9 +220,19 @@ namespace Simplic.DataStack
         }
 
         /// <summary>
-        /// Gets or sets the flow event key
+        /// Gets or sets the flow event configuration
         /// </summary>
-        public string FlowEventKey
+        [JsonIgnore]
+        public byte[] FlowEventConfiguration
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the flow events
+        /// </summary>
+        public IList<StackReportFlowEvent> FlowEvents
         {
             get;
             set;

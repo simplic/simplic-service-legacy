@@ -14,8 +14,7 @@ namespace Simplic.DataStack
         /// <param name="instanceDataGuid">Guid of the instancedata</param>
         /// <returns>All values of the instancedata as string</returns>
         string GetInstanceDataContent(Guid stackGuid, Guid instanceDataGuid);
-
-
+        
         /// <summary>
         /// Get the current stack table name by id
         /// </summary>
