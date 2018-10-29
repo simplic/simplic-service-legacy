@@ -63,6 +63,12 @@
     <None Include="packages.config" />
     <None Include="Simplic.Data.Sql.nuspec" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simplic.Data\Simplic.Data.csproj">
+      <Project>{dda22fe5-3893-4c26-a1ad-eb19a9379bc7}</Project>
+      <Name>Simplic.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

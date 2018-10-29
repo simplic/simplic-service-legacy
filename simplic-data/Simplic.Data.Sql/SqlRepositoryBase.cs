@@ -1,12 +1,8 @@
 ﻿using Dapper;
 using Simplic.Cache;
-using Simplic.Data;
 using Simplic.Sql;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simplic.Data.Sql
 {
