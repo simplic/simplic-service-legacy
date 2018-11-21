@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Simplic.Sql")]
-[assembly: AssemblyDescription("Contains interfaces for the simplic sql/dal base")]
+[assembly: AssemblyTitle("Simplic.TaskScheduler")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SIMPLIC GmbH")]
-[assembly: AssemblyProduct("Simplic.Sql")]
-[assembly: AssemblyCopyright("Copyright © SIMPLIC GmbH 2018")]
-[assembly: AssemblyTrademark("SIMPLIC GmbH")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Simplic.TaskScheduler")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9245a30a-50a1-452e-9021-71a8f9f66d6d")]
+[assembly: Guid("e24b2ba8-3b06-49a3-9211-89229378d859")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("6.2.18.926")]
-[assembly: AssemblyFileVersion("6.2.18.926")]
+[assembly: AssemblyVersion("1.4.118.927")]
+[assembly: AssemblyFileVersion("1.4.118.927")]
