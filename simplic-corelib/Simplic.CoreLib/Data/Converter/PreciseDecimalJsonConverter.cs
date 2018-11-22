@@ -46,7 +46,7 @@ namespace Simplic.Data.Converter
         /// <param name="serializer"></param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-
+            serializer.Serialize(writer, value);
         }
     }
 }

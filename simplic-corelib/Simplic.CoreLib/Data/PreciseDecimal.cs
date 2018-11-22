@@ -55,6 +55,9 @@ namespace Simplic.Data
 
         public override bool Equals(object obj)
         {
+            if (obj is PreciseDecimal)
+                return ((PreciseDecimal)obj)._value == _value;
+
             return _value.Equals(obj);
         }
 
