@@ -74,6 +74,7 @@
     <Compile Include="Console\ConsoleHelper.cs" />
     <Compile Include="Data\Converter\PreciseDecimalJsonConverter.cs" />
     <Compile Include="Data\DbTypeMap.cs" />
+    <Compile Include="Data\Numeric.cs" />
     <Compile Include="Data\ObservableDataRow.cs" />
     <Compile Include="Data\ObservableDataTable.cs">
       <SubType>Component</SubType>
