@@ -70,6 +70,7 @@
     <Compile Include="Collections\Generic\ThreadsafeDictionary.cs" />
     <Compile Include="Console\ConsoleHelper.cs" />
     <Compile Include="Data\DbTypeMap.cs" />
+    <Compile Include="Data\Numeric.cs" />
     <Compile Include="Data\ObservableDataRow.cs" />
     <Compile Include="Data\ObservableDataTable.cs">
       <SubType>Component</SubType>
@@ -107,7 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="package.bat" />
-    <None Include="Simplic.CoreLib.nuspec" />
+    <None Include="Simplic.CoreLib.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
