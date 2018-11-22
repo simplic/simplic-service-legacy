@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\ISqlColumnService.cs" />
     <Compile Include="TypeHandler\PreciseDecimalHandler.cs" />
     <Compile Include="Interface\ISqlService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

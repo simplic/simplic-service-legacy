@@ -144,7 +144,7 @@ namespace Simplic.Authorization.Service
             var userReadAccess = CreateBitMask(userReadIds);
             var userWriteAccess = CreateBitMask(userWriteIds);
             var userFullAccess = CreateBitMask(userFullIds);
-                                    
+
             return sqlService.OpenConnection((connection) =>
             {
 
@@ -359,7 +359,7 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var roleIds = connection.Query<Guid>("Select RoleId from Role order by RoleId");
-                        MigrateAccessRights(result, "Role", "RoleId", roleIds);                        
+                        MigrateAccessRights(result, "Role", "RoleId", roleIds);
                     }
                     catch (Exception ex)
                     {
@@ -386,7 +386,7 @@ namespace Simplic.Authorization.Service
                     try
                     {
                         var ids = connection.Query<Guid>("select RegisterGuid from ESS_DCC_StackRegister order by RegisterGuid");
-                        MigrateAccessRights(result, "ESS_DCC_StackRegister", "RegisterGuid", ids);                        
+                        MigrateAccessRights(result, "ESS_DCC_StackRegister", "RegisterGuid", ids);
                     }
                     catch (Exception ex)
                     {
@@ -447,7 +447,7 @@ namespace Simplic.Authorization.Service
                         MigrateAccessRights(result, "ESS_MS_Intern_Explorer_Directory", "Ident",
                             directories.Select(x => x.FullGuid), directories.Select(x => x.Ident));
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         result.Add(new MigrationResult
                         {
@@ -482,14 +482,14 @@ namespace Simplic.Authorization.Service
                         MigrateAccessRights(result, "ESS_MS_Intern_Explorer_File", "Ident",
                             files.Select(x => x.FullGuid), files.Select(x => x.Ident));
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         result.Add(new MigrationResult
                         {
                             TableName = "ESS_MS_Intern_Explorer_File",
                             Status = MigrationStatus.Failed,
                             Exception = ex
-                        });                        
+                        });
                     }
 
                     return 0;
@@ -534,7 +534,7 @@ namespace Simplic.Authorization.Service
                         var ids = connection.Query<Guid>("select Id from UI_Grid_Menu order by Id");
                         MigrateAccessRights(result, "UI_Grid_Menu", "Id", ids);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         result.Add(new MigrationResult
                         {
@@ -560,7 +560,7 @@ namespace Simplic.Authorization.Service
                         var ids = connection.Query<Guid>("select Guid from ESS_DCC_Stack order by Guid");
                         MigrateAccessRights(result, "ESS_DCC_Stack", "Guid", ids);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         result.Add(new MigrationResult
                         {
@@ -747,14 +747,14 @@ namespace Simplic.Authorization.Service
                     if (userReadIds.Count == 0 && userWriteIds.Count == 0 && userFullIds.Count == 0 &&
                         groupReadIds.Count == 0 && groupWriteIds.Count == 0 && groupFullIds.Count == 0)
                         continue;
-                    
+
                     userReadIds = userReadIds.Distinct().ToList();
                     userWriteIds = userWriteIds.Distinct().ToList();
                     userFullIds = userFullIds.Distinct().ToList();
                     groupReadIds = groupReadIds.Distinct().ToList();
                     groupWriteIds = groupWriteIds.Distinct().ToList();
                     groupFullIds = groupFullIds.Distinct().ToList();
-                    
+
                     // Sort is a void, so is not part of the method chain above.
                     userReadIds.Sort(); userWriteIds.Sort(); userFullIds.Sort();
                     groupReadIds.Sort(); groupWriteIds.Sort(); groupFullIds.Sort();
@@ -777,12 +777,13 @@ namespace Simplic.Authorization.Service
                         migrationResults.Add(new MigrationResult
                         {
                             TableName = tableName,
-                            Status = MigrationStatus.Done                            
+                            Status = MigrationStatus.Done
                         });
                     }
                     catch (Exception ex)
                     {
-                        migrationResults.Add(new MigrationResult {
+                        migrationResults.Add(new MigrationResult
+                        {
                             TableName = tableName,
                             Status = MigrationStatus.Failed,
                             Exception = ex
@@ -858,6 +859,10 @@ namespace Simplic.Authorization.Service
 
             return sqlService.OpenConnection((connection) =>
             {
+                var recordExists = connection.Query<object>($"SELECT {idColName} FROM {tableName} WHERE {idColName} = :rowId", new { rowId });
+
+                if (!recordExists.Any()) return true;
+
                 var hasAccess = connection.Query<object>($"SELECT {idColName} FROM {tableName} " +
                     $"WHERE {idColName} = :rowId AND {accessRights}", new { rowId });
 
@@ -879,7 +884,7 @@ namespace Simplic.Authorization.Service
         {
             return HasAccess(type, tableName, idColName, rowId, session.UserId,
                 session.UserBitMask, session.UserAccessGroupsBitMask);
-        }        
+        }
 
         #endregion
 

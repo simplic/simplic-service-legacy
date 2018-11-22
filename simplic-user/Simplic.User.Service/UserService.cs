@@ -8,21 +8,24 @@ using System.Linq;
 namespace Simplic.User.Service
 {
     /// <summary>
-    /// This service contains methods to manipulate user data 
+    /// Contains methods to manipulate user data 
     /// </summary>
     public class UserService : IUserService
     {
         #region Private Members
         private const string UserTableName = "ESS_MS_Intern_User";
-        private readonly ISqlService sqlService;
+        private const string UserAssignmentTableName = "ESS_MS_Intern_UserAssignment";
+        private readonly ISqlService sqlService;        
         #endregion
 
         #region Constructor
         public UserService(ISqlService sqlService)
         {
             this.sqlService = sqlService;
-        } 
+        }
         #endregion
+
+        #region Public Methods
 
         #region [Delete]
         /// <summary>
@@ -227,6 +230,45 @@ namespace Simplic.User.Service
                     $" AND UserName = :userName ", new { apiKey, userName }).FirstOrDefault();
             });
         }
+        #endregion
+        
+        #region [SetGroup]
+        /// <summary>
+        /// Assigns a user to a group (updates on existing values)
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        public bool SetGroup(int userId, int groupId)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                var affectedRows = connection.Execute($"INSERT INTO {UserAssignmentTableName}" +
+                    $" (UserId, GroupId) ON EXISTING UPDATE VALUES (:userId, :groupId)",
+                    new { userId, groupId });
+
+                return affectedRows > 0;
+            });            
+        }
+        #endregion
+
+        #region [RemoveGroup]
+        /// <summary>
+        /// Removes a group from a user
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        public bool RemoveGroup(int userId, int groupId)
+        {
+            return sqlService.OpenConnection((connection) => {
+                var affectedRows = connection.Execute($"DELETE FROM {UserAssignmentTableName} WHERE " +
+                    $" UserId = :userId and GroupId = :groupId", new { userId, groupId });
+                return affectedRows > 0;
+            });
+        } 
+        #endregion
+
         #endregion
     }
 }
