@@ -44,5 +44,12 @@ namespace Simplic.DataStack
         /// </summary>
         /// <param name="report"></param>
         void SaveStackReport(StackReport report);
+
+        /// <summary>
+        /// Invoke stack report flow event
+        /// </summary>
+        /// <param name="flowEvent">Flow event</param>
+        /// <param name="args">Flow arguments</param>
+        void InvokeFlowEvent(StackReportFlowEvent flowEvent, ReportFlowEventArgs args);
     }
 }
