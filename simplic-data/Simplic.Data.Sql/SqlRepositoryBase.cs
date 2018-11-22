@@ -1,12 +1,8 @@
 ﻿using Dapper;
 using Simplic.Cache;
-using Simplic.Data;
 using Simplic.Sql;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simplic.Data.Sql
 {
@@ -106,7 +102,7 @@ namespace Simplic.Data.Sql
         /// <returns>True if successful</returns>
         public virtual bool Save(TModel obj)
         {
-            var columns = sqlColumnService.GetModelDBColumnNames(TableName, typeof(TModel), DifferentColumnNames);
+            var columns = sqlColumnService.GetModelDBColumnNames(TableName, obj.GetType(), DifferentColumnNames);
 
             return sqlService.OpenConnection((connection) =>
             {
@@ -118,7 +114,6 @@ namespace Simplic.Data.Sql
 
                 string sqlStatement = $"INSERT INTO {TableName} ({string.Join(", ", columns.Select(item => item.Key))}) ON EXISTING UPDATE VALUES "
                     + $" ({string.Join(", ", columns.Select(k => "?" + (string.IsNullOrWhiteSpace(k.Value) ? k.Key : k.Value) + "?"))});";
-
                 return connection.Execute(sqlStatement, obj) > 0;
             });
         }
