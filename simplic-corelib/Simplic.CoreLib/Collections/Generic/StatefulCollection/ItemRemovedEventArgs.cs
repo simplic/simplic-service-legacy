@@ -2,6 +2,9 @@
 
 namespace Simplic.Collections.Generic
 {
+    /// <summary>
+    /// Item removed event args
+    /// </summary>
     public class ItemRemovedEventArgs : EventArgs
     {
         /// <summary>

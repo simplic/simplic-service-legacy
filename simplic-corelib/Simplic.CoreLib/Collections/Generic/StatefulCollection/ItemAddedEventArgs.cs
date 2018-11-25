@@ -2,6 +2,9 @@
 
 namespace Simplic.Collections.Generic
 {
+    /// <summary>
+    /// Item added event arguments
+    /// </summary>
     public class ItemAddedEventArgs : EventArgs
     {
         /// <summary>
