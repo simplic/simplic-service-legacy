@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Simplic.Session, Version=6.1.118.622, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.6.1.118.622\lib\net451\Simplic.Session.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Tenant, Version=1.0.19.101, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Tenant.1.0.19.101\lib\net451\Simplic.Tenant.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,18 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="package.bat" />
+    <None Include="packages.config" />
     <None Include="Simplic.Session.Service.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Simplic.Session\Simplic.Session.csproj">
-      <Project>{99edc33d-d2f4-4311-a21b-931940cfbabc}</Project>
-      <Name>Simplic.Session</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Simplic.Tenant">
-      <Version>1.0.19.101</Version>
-    </PackageReference>
+    <Folder Include="Arguments\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

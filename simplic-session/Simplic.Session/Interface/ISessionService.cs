@@ -1,6 +1,13 @@
 ﻿namespace Simplic.Session
 {
     /// <summary>
+    /// Tenant changed delegate
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="args">Args</param>
+    public delegate void TenantSelectionChangedEventHandler(object sender, SelectedTenantsChangedArgs args);
+
+    /// <summary>
     /// Session service holds a variable to the current session
     /// </summary>
     public interface ISessionService

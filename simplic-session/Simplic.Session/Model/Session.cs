@@ -7,6 +7,13 @@ namespace Simplic.Session
     /// </summary>
     public class Session
     {
+        private IList<Tenant.OrganizationTenant> tenantOrganizations = new List<Tenant.OrganizationTenant>();
+
+        /// <summary>
+        /// Tenant changed event
+        /// </summary>
+        public event TenantSelectionChangedEventHandler TenantOrganizationSelectionChanged;
+
         /// <summary>
         /// Gets the currently logged in user id
         /// </summary>
@@ -41,5 +48,26 @@ namespace Simplic.Session
         /// Gets or sets whether the current user is an active directory user
         /// </summary>
         public bool IsADUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets all available tenant organizations
+        /// </summary>
+        private IList<Tenant.OrganizationTenant> TenantOrganizations
+        {
+            get => tenantOrganizations;
+            set
+            {
+                var args = new SelectedTenantsChangedArgs
+                {
+                    NewOrganizationTenants = value,
+                    OldOrganizationTenants = tenantOrganizations
+                };
+
+                // Set new organization tenants
+                tenantOrganizations = value;
+
+                TenantOrganizationSelectionChanged?.Invoke(this, args);
+            }
+        }
     }
 }
