@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments\SelectedTenantsChangedArgs.cs" />
+    <Compile Include="Arguments\SelectedOrganizationsChangedArgs.cs" />
     <Compile Include="Interface\ISessionService.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Simplic.Tenant">
-      <Version>1.0.19.101</Version>
+      <Version>1.1.19.1011</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

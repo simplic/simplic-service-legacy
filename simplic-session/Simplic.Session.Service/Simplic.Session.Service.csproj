@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Simplic.Tenant">
-      <Version>1.0.19.101</Version>
+      <Version>1.1.19.1011</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

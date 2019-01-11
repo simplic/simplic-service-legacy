@@ -7,12 +7,12 @@ namespace Simplic.Session
     /// </summary>
     public class Session
     {
-        private IList<Tenant.OrganizationTenant> tenantOrganizations = new List<Tenant.OrganizationTenant>();
+        private IList<Tenant.Organization> organizations = new List<Tenant.Organization>();
 
         /// <summary>
         /// Tenant changed event
         /// </summary>
-        public event TenantSelectionChangedEventHandler TenantOrganizationSelectionChanged;
+        public event OrganizationSelectionChangedEventHandler OrganizationSelectionChanged;
 
         /// <summary>
         /// Gets the currently logged in user id
@@ -52,21 +52,21 @@ namespace Simplic.Session
         /// <summary>
         /// Gets or sets all available tenant organizations
         /// </summary>
-        private IList<Tenant.OrganizationTenant> TenantOrganizations
+        private IList<Tenant.Organization> Organizations
         {
-            get => tenantOrganizations;
+            get => organizations;
             set
             {
-                var args = new SelectedTenantsChangedArgs
+                var args = new SelectedOrganizationsChangedArgs
                 {
-                    NewOrganizationTenants = value,
-                    OldOrganizationTenants = tenantOrganizations
+                    NewOrganizations = value,
+                    OldOrganizations = organizations
                 };
 
                 // Set new organization tenants
-                tenantOrganizations = value;
+                organizations = value;
 
-                TenantOrganizationSelectionChanged?.Invoke(this, args);
+                OrganizationSelectionChanged?.Invoke(this, args);
             }
         }
     }
