@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Simplic.Session
 {
@@ -52,19 +53,21 @@ namespace Simplic.Session
         /// <summary>
         /// Gets or sets all available tenant organizations
         /// </summary>
-        private IList<Tenant.Organization> Organizations
+        public IReadOnlyList<Tenant.Organization> Organizations
         {
-            get => organizations;
+            get => organizations.ToList();
             set
             {
+                var organizationList = value.ToList();
+
                 var args = new SelectedOrganizationsChangedArgs
                 {
-                    NewOrganizations = value,
+                    NewOrganizations = organizationList,
                     OldOrganizations = organizations
                 };
 
                 // Set new organization tenants
-                organizations = value;
+                organizations = organizationList;
 
                 OrganizationSelectionChanged?.Invoke(this, args);
             }
