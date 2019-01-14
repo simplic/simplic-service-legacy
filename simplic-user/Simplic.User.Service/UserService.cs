@@ -8,21 +8,24 @@ using System.Linq;
 namespace Simplic.User.Service
 {
     /// <summary>
-    /// This service contains methods to manipulate user data 
+    /// Contains methods to manipulate user data 
     /// </summary>
     public class UserService : IUserService
     {
         #region Private Members
         private const string UserTableName = "ESS_MS_Intern_User";
-        private readonly ISqlService sqlService;
+        private const string UserAssignmentTableName = "ESS_MS_Intern_UserAssignment";
+        private readonly ISqlService sqlService;        
         #endregion
 
         #region Constructor
         public UserService(ISqlService sqlService)
         {
             this.sqlService = sqlService;
-        } 
+        }
         #endregion
+
+        #region Public Methods
 
         #region [Delete]
         /// <summary>
@@ -97,7 +100,7 @@ namespace Simplic.User.Service
                 return connection.Query<User>($"SELECT * FROM {UserTableName} WHERE UserName = :userName", new { userName = userName })
                     .FirstOrDefault();
             });
-        } 
+        }
         #endregion
 
         #region [Save]
@@ -115,9 +118,9 @@ namespace Simplic.User.Service
 
                 var affectedRows = connection.Execute($"INSERT INTO {UserTableName} " +
                     $"(Ident, UserName, IsADUser, IsActive, FirstName, LastName, EMail, KeepLoggedIn, " +
-                    $"LanguageID, ApiKey) "
+                    $" LanguageID, ApiKey) "
                      + " ON EXISTING UPDATE VALUES " +
-                     "(:Ident, :UserName, :IsADUser, :IsActive, :FirstName, :LastName, :EMail, :KeepLoggedIn,"
+                     "(:Ident, :UserName, :IsADUser, :IsActive, :FirstName, :LastName, :EMail, :KeepLoggedIn, "
                      + " :LanguageID, :ApiKey)",
                      user);
 
@@ -158,12 +161,10 @@ namespace Simplic.User.Service
                 System.Threading.Thread.Sleep(500);
                 connection.Execute("commit;");
                 System.Threading.Thread.Sleep(500);
-                connection.Execute("commit;");
-
-                return 0;
+                connection.Execute("commit;");             
             });
 
-            if (user.IsADUser)
+            if (!user.IsADUser)
                 SetPassword(user.Ident, user.Password);
 
             return true;
@@ -184,16 +185,90 @@ namespace Simplic.User.Service
 
             return sqlService.OpenConnection((connection) =>
             {
+                var passwordHash = CryptographyHelper.GetMD5Hash(rawPassword);
                 var affectedRows = connection.Execute($"UPDATE {UserTableName} " +
-                    $" SET Passsword = :password where Ident = :userId", new
+                    $" SET Password = :password WHERE Ident = :userId", new
                     {
-                        password = CryptographyHelper.GetMD5Hash(rawPassword),
+                        password = passwordHash,
                         userId
                     });
 
                 return affectedRows > 0;
             });
         }
+        #endregion
+
+        #region [GetByExternAccount]
+        /// <summary>
+        /// Get the simplic user by an external account name
+        /// </summary>
+        /// <param name="externAccountName">External account name</param>
+        /// <returns>User id if found</returns>
+        public User GetByExternAccount(string externAccountName)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.Query<User>("SELECT UserId FROM User_Extern_Account " +
+                    " WHERE UserName = :externAccountName AND IsActive = 1", new { externAccountName })
+                    .FirstOrDefault();
+            });
+        }
+        #endregion
+
+        #region [GetApiUser]
+        /// <summary>
+        /// Get user by apikey and username
+        /// </summary>
+        /// <param name="apiKey">api key</param>
+        /// <param name="userName">User name</param>
+        /// <returns>A <see cref="User"/></returns>
+        public User GetApiUser(string apiKey, string userName)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.Query<User>($"SELECT * from {UserTableName} WHERE ApiKey = :apiKey " +
+                    $" AND UserName = :userName ", new { apiKey, userName }).FirstOrDefault();
+            });
+        }
+        #endregion
+        
+        #region [SetGroup]
+        /// <summary>
+        /// Assigns a user to a group (updates on existing values)
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        public bool SetGroup(int userId, int groupId)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                var affectedRows = connection.Execute($"INSERT INTO {UserAssignmentTableName}" +
+                    $" (UserId, GroupId) ON EXISTING UPDATE VALUES (:userId, :groupId)",
+                    new { userId, groupId });
+
+                return affectedRows > 0;
+            });            
+        }
+        #endregion
+
+        #region [RemoveGroup]
+        /// <summary>
+        /// Removes a group from a user
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        public bool RemoveGroup(int userId, int groupId)
+        {
+            return sqlService.OpenConnection((connection) => {
+                var affectedRows = connection.Execute($"DELETE FROM {UserAssignmentTableName} WHERE " +
+                    $" UserId = :userId and GroupId = :groupId", new { userId, groupId });
+                return affectedRows > 0;
+            });
+        } 
+        #endregion
+
         #endregion
     }
 }

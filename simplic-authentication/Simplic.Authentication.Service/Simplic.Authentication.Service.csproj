@@ -34,8 +34,8 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Simplic.Authorization, Version=6.0.18.620, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Authorization.6.0.18.620\lib\net451\Simplic.Authorization.dll</HintPath>
+    <Reference Include="Simplic.Authorization, Version=6.0.18.622, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Authorization.6.0.18.622\lib\net451\Simplic.Authorization.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.CoreLib, Version=6.1.118.621, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.CoreLib.6.1.118.621\lib\net451\Simplic.CoreLib.dll</HintPath>
@@ -46,8 +46,8 @@
     <Reference Include="Simplic.Session, Version=6.1.118.622, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Session.6.1.118.622\lib\net451\Simplic.Session.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.User, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.User.6.0.18.619\lib\net451\Simplic.User.dll</HintPath>
+    <Reference Include="Simplic.User, Version=6.1.318.628, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.User.6.1.318.628\lib\net451\Simplic.User.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

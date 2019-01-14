@@ -55,6 +55,9 @@ namespace Simplic.Data
 
         public override bool Equals(object obj)
         {
+            if (obj is PreciseDecimal)
+                return ((PreciseDecimal)obj)._value == _value;
+
             return _value.Equals(obj);
         }
 
@@ -65,6 +68,9 @@ namespace Simplic.Data
 
         public int CompareTo(object obj)
         {
+            if (obj is PreciseDecimal)
+                return _value.CompareTo(((PreciseDecimal)obj)._value);
+
             return _value.CompareTo(obj);
         }
 

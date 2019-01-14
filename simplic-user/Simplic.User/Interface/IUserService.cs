@@ -3,7 +3,7 @@
 namespace Simplic.User
 {
     /// <summary>
-    /// This service contains methods to manipulate user data 
+    /// Contains methods to manipulate user data 
     /// </summary>
     public interface IUserService
     {
@@ -28,6 +28,13 @@ namespace Simplic.User
         IEnumerable<User> GetAllSorted(bool activeOnly = true);
 
         /// <summary>
+        /// Get the simplic user by an external account name
+        /// </summary>
+        /// <param name="externAccountName">External account name</param>
+        /// <returns>User id if found</returns>
+        User GetByExternAccount(string externAccountName);
+
+        /// <summary>
         /// Gets a user given by its id
         /// </summary>
         /// <param name="id">Id of the user to search</param>
@@ -40,6 +47,14 @@ namespace Simplic.User
         /// <param name="userName">Name of the user to search</param>
         /// <returns>A <see cref="User"/></returns>
         User GetByName(string userName);
+
+        /// <summary>
+        /// Get user by apikey and username
+        /// </summary>
+        /// <param name="apiKey">api key</param>
+        /// <param name="userName">User name</param>
+        /// <returns>A <see cref="User"/></returns>
+        User GetApiUser(string apiKey, string userName);
 
         /// <summary>
         /// Inserts or updates a user into the database
@@ -61,6 +76,22 @@ namespace Simplic.User
         /// <param name="userId">Current user id</param>
         /// <param name="rawPassword">Raw password</param>
         /// <returns>True if setting the password was successfull</returns>
-        bool SetPassword(int userId, string rawPassword);  
+        bool SetPassword(int userId, string rawPassword);
+
+        /// <summary>
+        /// Assigns a user to a group (updates on existing values)
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        bool SetGroup(int userId, int groupId);
+
+        /// <summary>
+        /// Removes a group from a user
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="groupId">Group Id</param>
+        /// <returns>True if successfull</returns>
+        bool RemoveGroup(int userId, int groupId);
     }
 }
