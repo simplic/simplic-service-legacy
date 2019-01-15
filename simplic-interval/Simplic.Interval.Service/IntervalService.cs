@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Simplic.Data;
 using Simplic.Framework.DAL.DatabaseMetadata;
 using Simplic.Sql;
 using System;
@@ -12,6 +13,7 @@ namespace Simplic.Interval.Service
         #region Fields
 
         private readonly ISqlService sqlService;
+        private readonly IIntervalRepository intervalRepository;
 
         #endregion Fields
 
@@ -21,9 +23,10 @@ namespace Simplic.Interval.Service
         /// Constructor
         /// </summary>
         /// <param name="sqlService"></param>
-        public IntervalService(ISqlService sqlService)
+        public IntervalService(ISqlService sqlService, IIntervalRepository intervalRepository)
         {
             this.sqlService = sqlService;
+            this.intervalRepository = intervalRepository;
         }
 
         #endregion Constructor
@@ -38,7 +41,6 @@ namespace Simplic.Interval.Service
         {
             return sqlService.OpenConnection((connection) =>
             {
-                //todo order by
                 return connection.Query<Interval>("Select * from IT_Interval order by LastExecute");
             });
         }
@@ -50,10 +52,7 @@ namespace Simplic.Interval.Service
         /// <returns>Interval</returns>
         public Interval Get(Guid intervalId)
         {
-            return sqlService.OpenConnection((connection) =>
-            {
-                return connection.Query<Interval>("Select * from IT_Interval where Guid = :id", new { id = intervalId }).SingleOrDefault();
-            });
+            return intervalRepository.Get(intervalId);
         }
 
         /// <summary>
@@ -82,10 +81,36 @@ namespace Simplic.Interval.Service
         /// <param name="intervalId"></param>
         public bool Delete(Guid intervalId)
         {
-            return sqlService.OpenConnection((connection) =>
-            {
-                return connection.Execute("Delete from IT_Interval WHERE Guid = :id", new { id = intervalId }) > 0;
-            });
+            return intervalRepository.Delete(intervalId);
+        }
+
+        /// <summary>
+        /// Saves the interval
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        bool IRepositoryBase<Guid, Interval>.Save(Interval obj)
+        {
+            return intervalRepository.Save(obj);
+        }
+
+        /// <summary>
+        /// Removes the interval by object
+        /// </summary>
+        /// <param name="Interval"></param>
+        public bool Delete(Interval obj)
+        {
+            return intervalRepository.Delete(obj);
+        }
+
+        /// <summary>
+        /// Gets the unique id
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public Guid GetId(Interval obj)
+        {
+            return obj.Guid;
         }
 
         #endregion Public methods
