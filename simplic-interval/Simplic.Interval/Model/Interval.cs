@@ -58,7 +58,7 @@ namespace Simplic.Interval
         /// <summary>
         /// Gets or sets the selected month by number 
         /// </summary>
-        public int MonthNumberOfExecution { get { return monthNumberOfExecution; } set { monthNumberOfExecution = value; } }
+        public int MonthNumberofExecution { get { return monthNumberOfExecution; } set { monthNumberOfExecution = value; } }
         /// <summary>
         /// Gets or sets the number of the selected type
         /// </summary>

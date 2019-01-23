@@ -34,10 +34,13 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Simplic.CoreLib, Version=6.14.18.814, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Simplic.Interval\packages\Simplic.CoreLib.6.14.18.814\lib\net451\Simplic.CoreLib.dll</HintPath>
+    <Reference Include="Simplic.CoreLib, Version=6.16.18.1125, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.16.18.1125\lib\net451\Simplic.CoreLib.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.Data, Version=1.5.118.1029, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Data.1.5.118.1029\lib\net451\Simplic.Data.dll</HintPath>
@@ -54,8 +57,8 @@
     <Reference Include="Simplic.Framework.DBUI">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.DBUI.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Localization, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Simplic.Interval\packages\Simplic.Localization.6.0.18.619\lib\net451\Simplic.Localization.dll</HintPath>
+    <Reference Include="Simplic.Localization, Version=6.0.118.913, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Localization.6.0.118.913\lib\net451\Simplic.Localization.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.UI">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.UI.dll</HintPath>

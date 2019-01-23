@@ -68,7 +68,7 @@ namespace Simplic.Interval.UI
         /// <summary>
         /// Gets or sets the selected month by number
         /// </summary>
-        public int MonthNumberOfExecution { get { return model.MonthNumberOfExecution; } set { PropertySetter(value, (newValue) => { model.MonthNumberOfExecution = newValue; }); } }
+        public int MonthNumberOfExecution { get { return model.MonthNumberofExecution; } set { PropertySetter(value, (newValue) => { model.MonthNumberofExecution = newValue; }); } }
 
         /// <summary>
         /// Gets or sets the number of the selected type
@@ -84,6 +84,8 @@ namespace Simplic.Interval.UI
                 PropertySetter(value, (newValue) => { model.IntervalTypeId = newValue; });
                 RaisePropertyChanged(nameof(DayByNumber));
                 RaisePropertyChanged(nameof(DayByName));
+                RaisePropertyChanged(nameof(MonthNumber));
+                RaisePropertyChanged(nameof(MonthMaximum));
             }
         }
 
@@ -117,8 +119,22 @@ namespace Simplic.Interval.UI
         {
             get
             {
-                if ((IntervalDefinition)IntervalTypeId == IntervalDefinition.MonthlyDay || (IntervalDefinition)IntervalTypeId == IntervalDefinition.MonthlyDayNumber) return true;
+                if ((IntervalDefinition)IntervalTypeId == IntervalDefinition.Yearly
+                    || (IntervalDefinition)IntervalTypeId == IntervalDefinition.HalfYearly) return true;
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the maximum vor month select control
+        /// </summary>
+        public int MonthMaximum
+        {
+            get
+            {
+                if ((IntervalDefinition)IntervalTypeId == IntervalDefinition.HalfYearly) return 5;
+                if ((IntervalDefinition)IntervalTypeId == IntervalDefinition.Quarterly) return 2;
+                return 12;
             }
         }
 
