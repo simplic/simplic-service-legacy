@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Simplic.TenantSystem;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Simplic.Session
@@ -8,7 +9,7 @@ namespace Simplic.Session
     /// </summary>
     public class Session
     {
-        private IList<Tenant.Organization> organizations = new List<Tenant.Organization>();
+        private IList<Organization> organizations = new List<Organization>();
 
         /// <summary>
         /// Tenant changed event
@@ -53,7 +54,7 @@ namespace Simplic.Session
         /// <summary>
         /// Gets or sets all available tenant organizations
         /// </summary>
-        public IReadOnlyList<Tenant.Organization> Organizations
+        public IReadOnlyList<Organization> Organizations
         {
             get => organizations.ToList();
             set

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simplic.TenantSystem;
+using System;
 using System.Collections.Generic;
 
 namespace Simplic.Session
@@ -11,11 +12,11 @@ namespace Simplic.Session
         /// <summary>
         /// Gets all selected organizations
         /// </summary>
-        public IList<Tenant.Organization> NewOrganizations { get; internal set; }
+        public IList<Organization> NewOrganizations { get; internal set; }
 
         /// <summary>
         /// Gets all previously selected organizations
         /// </summary>
-        public IList<Tenant.Organization> OldOrganizations { get; internal set; }
+        public IList<Organization> OldOrganizations { get; internal set; }
     }
 }
