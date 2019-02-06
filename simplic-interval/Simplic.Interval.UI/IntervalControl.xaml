@@ -19,11 +19,11 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Interval"></ColumnDefinition>
             <ColumnDefinition Width="200*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" Content="Intervall"></Label>
-        <simplic:LookupTextBox x:Name="intervalTypeLookupTextBox" Uid="T32" Margin="3" Height="24" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" Width="200" IsTabStop="True"
+        <Label Grid.Column="0" Grid.Row="0" Content="Intervall" ></Label>
+        <simplic:LookupTextBox  x:Name="intervalTypeLookupTextBox" Uid="T32" Height="24" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" Width="200" IsTabStop="True"
                                    Identity="{Binding IntervalTypeId, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" 
                                    ShowIdentityTextBox="False" >
             <dbui:LookupTextBox.SelectionProvider>
@@ -32,8 +32,8 @@
                 </dbui:ItemBoxSelectionProvider>
             </dbui:LookupTextBox.SelectionProvider>
         </simplic:LookupTextBox>
-        <Label Grid.Column="0" Grid.Row="1" Content="Tag"></Label>
-        <simplic:LookupTextBox IsEnabled="{Binding DayByName,UpdateSourceTrigger=PropertyChanged}"  Uid="T32" Margin="3" Height="24"  HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Width="200" IsTabStop="True"
+        <Label Grid.Column="0"  Grid.Row="1" Content="Tag"></Label>
+        <simplic:LookupTextBox IsEnabled="{Binding DayByName,UpdateSourceTrigger=PropertyChanged}"  Uid="T32" Height="24"  HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Width="200" IsTabStop="True"
                                    Identity="{Binding DayNameOfExecution, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" 
                                    ShowIdentityTextBox="False" >
             <dbui:LookupTextBox.SelectionProvider>
@@ -43,12 +43,12 @@
             </dbui:LookupTextBox.SelectionProvider>
         </simplic:LookupTextBox>
         <Label Grid.Column="0" Grid.Row="2" Content="Monat"></Label>
-        <simplic:RadNumericUpDownKeyControl IsEnabled="{Binding MonthNumber,UpdateSourceTrigger=PropertyChanged}"  ShowButtons="False" ValueFormat="Numeric" IsInteger="True" Margin="3" Height="24" Maximum="{Binding MonthMaximum, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Grid.Column="1" Grid.Row="2" Value="{Binding MonthNumberOfExecution,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
+        <simplic:RadNumericUpDownKeyControl  IsEnabled="{Binding MonthNumber,UpdateSourceTrigger=PropertyChanged}"  ShowButtons="False" ValueFormat="Numeric" IsInteger="True"  Height="24" Maximum="{Binding MonthMaximum, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Grid.Column="1" Grid.Row="2" Value="{Binding MonthNumberOfExecution,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
         <Label Grid.Column="0" Grid.Row="3" Content="Ausführungstag"></Label>
-        <simplic:RadNumericUpDownKeyControl IsEnabled="{Binding DayByNumber,UpdateSourceTrigger=PropertyChanged}"  ShowButtons="False" ValueFormat="Numeric" IsInteger="True" Margin="3" Height="24" Maximum="31" Minimum="1" Grid.Column="1" Grid.Row="3" Value="{Binding DayNumberOfExecution,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
+        <simplic:RadNumericUpDownKeyControl  IsEnabled="{Binding DayByNumber,UpdateSourceTrigger=PropertyChanged}"  ShowButtons="False" ValueFormat="Numeric" IsInteger="True"  Height="24" Maximum="31" Minimum="1" Grid.Column="1" Grid.Row="3" Value="{Binding DayNumberOfExecution,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
         <Label Grid.Column="0" Grid.Row="4" Content="Letzte Ausführung"></Label>
-        <simplic:DateTimeControl Margin="3"  Grid.Row="4" Grid.Column="1" Height="24" Width="200" DateTimeValue="{Binding LastExecute}" IsEnabled="False"></simplic:DateTimeControl>
+        <simplic:DateTimeControl  Grid.Row="4" Grid.Column="1" Height="24" Width="200" DateTimeValue="{Binding LastExecute}" IsEnabled="False"></simplic:DateTimeControl>
         <Label Grid.Column="0" Grid.Row="5" Content="Anzahl"></Label>
-        <simplic:RadNumericUpDownKeyControl ShowButtons="False" IsReadOnly="True" IsEnabled="False" ValueFormat="Numeric" IsInteger="True" Margin="3" Height="24" Grid.Column="1" Grid.Row="5" Value="{Binding ExecuteCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
+        <simplic:RadNumericUpDownKeyControl ShowButtons="False" IsReadOnly="True" IsEnabled="False" ValueFormat="Numeric" IsInteger="True"  Height="24" Grid.Column="1" Grid.Row="5" Value="{Binding ExecuteCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"></simplic:RadNumericUpDownKeyControl>
     </Grid>
 </UserControl>
