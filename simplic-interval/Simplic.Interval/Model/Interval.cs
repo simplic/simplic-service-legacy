@@ -29,6 +29,8 @@ namespace Simplic.Interval
         /// </summary>
         public Interval()
         {
+            DayNumberOfExecution = 1;
+            MonthNumberofExecution = 1;
         }
 
         #endregion
