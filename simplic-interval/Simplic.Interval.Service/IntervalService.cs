@@ -113,15 +113,27 @@ namespace Simplic.Interval.Service
             return obj.Guid;
         }
 
+
+        /// <summary>
+        /// Calculates the next execute
+        /// </summary>
+        /// <param name="interval">interval object </param>
+        /// <returns>Next execute date</returns>
+        public DateTime CalculateNextIntervalExecute(Guid intervalId)
+        {
+            var interval = intervalRepository.Get(intervalId);
+            return CalculateNextIntervalExecute(interval);
+        }
+
         /// <summary>
         /// Calculates the next execute
         /// </summary>
         /// <param name="intervalItem">TransactionItemInterval</param>
         /// <returns>Next execute date</returns>
-        public DateTime CalculateNextIntervalExecute(Guid intervalId)
+        public DateTime CalculateNextIntervalExecute(Interval interval)
         {
             var nextExecute = DateTime.MinValue;
-            var interval = intervalRepository.Get(intervalId);
+
             var intervalType = (IntervalDefinition)interval.IntervalTypeId;
             int month = interval.MonthNumberofExecution;
             int day = interval.DayNumberOfExecution;

@@ -138,6 +138,11 @@ namespace Simplic.Interval.UI
             }
         }
 
+        /// <summary>
+        /// Gets the model
+        /// </summary>
+        public Interval Model { get => model; }
+
         #endregion Public member
     }
 }
