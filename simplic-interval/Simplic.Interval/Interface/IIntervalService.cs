@@ -14,5 +14,12 @@ namespace Simplic.Interval
         /// <param name="intervalId">unique interval id</param>
         /// <returns>Next execute date</returns>
         DateTime CalculateNextIntervalExecute(Guid intervalId);
+
+        /// <summary>
+        /// Calculates the next execute
+        /// </summary>
+        /// <param name="interval">interval object </param>
+        /// <returns>Next execute date</returns>
+        DateTime CalculateNextIntervalExecute(Interval interval);
     }
 }
