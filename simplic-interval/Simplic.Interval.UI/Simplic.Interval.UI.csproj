@@ -57,6 +57,12 @@
     <Reference Include="Simplic.Framework.DBUI">
       <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.Framework.DBUI.dll</HintPath>
     </Reference>
+    <Reference Include="Simplic.Icon, Version=6.0.18.620, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Icon.6.0.18.620\lib\net451\Simplic.Icon.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Icon.UI, Version=6.1.18.917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Icon.UI.6.1.18.917\lib\net451\Simplic.Icon.UI.dll</HintPath>
+    </Reference>
     <Reference Include="Simplic.Localization, Version=6.0.118.913, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Localization.6.0.118.913\lib\net451\Simplic.Localization.dll</HintPath>
     </Reference>
