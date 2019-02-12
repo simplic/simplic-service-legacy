@@ -113,16 +113,15 @@ namespace Simplic.Interval.Service
             return obj.Guid;
         }
 
-
         /// <summary>
         /// Calculates the next execute
         /// </summary>
         /// <param name="interval">interval object </param>
         /// <returns>Next execute date</returns>
-        public DateTime CalculateNextIntervalExecute(Guid intervalId)
+        public DateTime CalculateNextIntervalExecute(Guid intervalId, DateTime begin)
         {
             var interval = intervalRepository.Get(intervalId);
-            return CalculateNextIntervalExecute(interval);
+            return CalculateNextIntervalExecute(interval, begin);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace Simplic.Interval.Service
         /// </summary>
         /// <param name="intervalItem">TransactionItemInterval</param>
         /// <returns>Next execute date</returns>
-        public DateTime CalculateNextIntervalExecute(Interval interval)
+        public DateTime CalculateNextIntervalExecute(Interval interval, DateTime begin)
         {
             var nextExecute = DateTime.MinValue;
 
@@ -142,29 +141,27 @@ namespace Simplic.Interval.Service
             switch (intervalType)
             {
                 case IntervalDefinition.HalfYearly:
-                    nextExecute = GetNextExecuteByHalfYear(month, day);
+                    nextExecute = GetNextExecuteByHalfYear(month, day, begin);
                     break;
 
                 case IntervalDefinition.MonthlyDay:
-                    nextExecute = GetNextExecuteByMonthlyDayName(dayName);
+                    nextExecute = GetNextExecuteByMonthlyDayName(dayName, begin);
                     break;
 
                 case IntervalDefinition.MonthlyDayNumber:
-                    nextExecute = GetNextExecuteByMonthly(day);
+                    nextExecute = GetNextExecuteByMonthly(day, begin);
                     break;
 
                 case IntervalDefinition.Quarterly:
-                    nextExecute = GetNextExecuteByQuarter(day);
+                    nextExecute = GetNextExecuteByQuarter(day, begin);
                     break;
 
                 case IntervalDefinition.Yearly:
-                    nextExecute = GetNextExecuteByYearly(month, day);
+                    nextExecute = GetNextExecuteByYearly(month, day, begin);
                     break;
             }
             return nextExecute;
         }
-
-
 
         #endregion Public methods
 
@@ -175,27 +172,27 @@ namespace Simplic.Interval.Service
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
-        private DateTime GetNextExecuteByQuarter(int day)
+        private DateTime GetNextExecuteByQuarter(int day, DateTime begin)
         {
             int quarter = (DateTime.Now.Month + 2) / 3;
             int startMonth = ((quarter - 1) * 3) + 1;
             int year = DateTime.Now.Year;
             var current = new DateTime(year, startMonth, day);
-            if (current >= DateTime.Now)
-            {
-                return current;
-            }
-            else
+
+            while (current < DateTime.Now || current < begin)
             {
                 quarter = quarter + 1;
+
                 if (quarter > 4)
                 {
                     quarter = 1;
                     year = year + 1;
                 }
                 startMonth = ((quarter - 1) * 3) + 1;
-                return new DateTime(year, startMonth, day);
+                current = new DateTime(year, startMonth, day);
             }
+
+            return current;
         }
 
         /// <summary>
@@ -203,17 +200,14 @@ namespace Simplic.Interval.Service
         /// </summary>
         /// <param name="dayWeek"></param>
         /// <returns></returns>
-        private DateTime GetNextExecuteByMonthlyDayName(int dayWeek)
+        private DateTime GetNextExecuteByMonthlyDayName(int dayWeek, DateTime begin)
         {
             var month = DateTime.Now.Month;
             var year = DateTime.Now.Year;
 
             var current = new DateTime(DateTime.Now.Year, month, GetFirstDayOfWeek(year, month, dayWeek));
-            if (current >= DateTime.Now)
-            {
-                return current;
-            }
-            else
+
+            while (current < DateTime.Now || current < begin)
             {
                 month = month + 1;
                 if (month > 12)
@@ -221,8 +215,9 @@ namespace Simplic.Interval.Service
                     year = year + 1;
                     month = 1;
                 }
-                return new DateTime(year, month, GetFirstDayOfWeek(year, month, dayWeek));
+                current = new DateTime(year, month, GetFirstDayOfWeek(year, month, dayWeek));
             }
+            return current;
         }
 
         /// <summary>
@@ -250,25 +245,23 @@ namespace Simplic.Interval.Service
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
-        private DateTime GetNextExecuteByMonthly(int day)
+        private DateTime GetNextExecuteByMonthly(int day, DateTime begin)
         {
             var month = DateTime.Now.Month;
             var current = new DateTime(DateTime.Now.Year, month, day);
-            if (current >= DateTime.Now)
+
+            while (current < DateTime.Now || current < begin)
             {
-                return current;
-            }
-            else
-            {
-                var year = DateTime.Now.Year;
+                var year = current.Year;
                 month = month + 1;
                 if (month > 12)
                 {
                     year = year + 1;
                     month = 1;
                 }
-                return new DateTime(year, month, day);
+                current = new DateTime(year, month, day);
             }
+            return current;
         }
 
         /// <summary>
@@ -277,17 +270,15 @@ namespace Simplic.Interval.Service
         /// <param name="month"></param>
         /// <param name="day"></param>
         /// <returns></returns>
-        private DateTime GetNextExecuteByYearly(int month, int day)
+        private DateTime GetNextExecuteByYearly(int month, int day, DateTime begin)
         {
             var current = new DateTime(DateTime.Now.Year, month, day);
-            if (current >= DateTime.Now)
+
+            while (current < DateTime.Now || current < begin)
             {
-                return current;
+                current = new DateTime(current.Year + 1, month, day);
             }
-            else
-            {
-                return new DateTime(DateTime.Now.Year + 1, month, day);
-            }
+            return current;
         }
 
         /// <summary>
@@ -296,20 +287,17 @@ namespace Simplic.Interval.Service
         /// <param name="month"></param>
         /// <param name="day"></param>
         /// <returns></returns>
-        private DateTime GetNextExecuteByHalfYear(int month, int day)
+        private DateTime GetNextExecuteByHalfYear(int month, int day, DateTime begin)
         {
             int startMonth = 1;
             if ((DateTime.Now.Month / 6) > 1)
                 startMonth = 7;
             startMonth = startMonth + (month - 1);
             var current = new DateTime(DateTime.Now.Year, startMonth, day);
-            if (current >= DateTime.Now)
-            {
-                return current;
-            }
-            else
-            {
-                int year = DateTime.Now.Year;
+
+            while (current < DateTime.Now || current < begin)
+            { 
+                int year = current.Year;
                 startMonth = 7;
                 if ((DateTime.Now.Month / 6) > 1)
                 {
@@ -319,8 +307,9 @@ namespace Simplic.Interval.Service
                 startMonth = startMonth + (month - 1);
                 return new DateTime(year, startMonth, day);
             }
+            return current;
         }
 
-        #endregion
+        #endregion Private methods
     }
 }

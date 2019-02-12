@@ -13,13 +13,13 @@ namespace Simplic.Interval
         /// </summary>
         /// <param name="intervalId">unique interval id</param>
         /// <returns>Next execute date</returns>
-        DateTime CalculateNextIntervalExecute(Guid intervalId);
+        DateTime CalculateNextIntervalExecute(Guid intervalId,DateTime begin);
 
         /// <summary>
         /// Calculates the next execute
         /// </summary>
         /// <param name="interval">interval object </param>
         /// <returns>Next execute date</returns>
-        DateTime CalculateNextIntervalExecute(Interval interval);
+        DateTime CalculateNextIntervalExecute(Interval interval, DateTime begin);
     }
 }
