@@ -177,7 +177,7 @@ namespace Simplic.Interval.Service
             int quarter = (DateTime.Now.Month + 2) / 3;
             int startMonth = ((quarter - 1) * 3) + 1;
             int year = DateTime.Now.Year;
-            var current = new DateTime(year, startMonth, day);
+            var current = new DateTime(year, startMonth, (day > 0) ? day : DateTime.DaysInMonth(year, startMonth) + day + 1);
 
             while (current < DateTime.Now || current < begin)
             {
@@ -189,7 +189,7 @@ namespace Simplic.Interval.Service
                     year = year + 1;
                 }
                 startMonth = ((quarter - 1) * 3) + 1;
-                current = new DateTime(year, startMonth, day);
+                current = new DateTime(year, startMonth, DateTime.DaysInMonth(year, startMonth) + day + 1);
             }
 
             return current;
@@ -248,7 +248,8 @@ namespace Simplic.Interval.Service
         private DateTime GetNextExecuteByMonthly(int day, DateTime begin)
         {
             var month = DateTime.Now.Month;
-            var current = new DateTime(DateTime.Now.Year, month, day);
+
+            var current = new DateTime(DateTime.Now.Year, month, (day > 0) ? day : DateTime.DaysInMonth(DateTime.Now.Year, month) + day + 1);
 
             while (current < DateTime.Now || current < begin)
             {
@@ -259,7 +260,7 @@ namespace Simplic.Interval.Service
                     year = year + 1;
                     month = 1;
                 }
-                current = new DateTime(year, month, day);
+                current = new DateTime(year, month, (day > 0) ? day : DateTime.DaysInMonth(year, month) + day + 1);
             }
             return current;
         }
@@ -272,11 +273,11 @@ namespace Simplic.Interval.Service
         /// <returns></returns>
         private DateTime GetNextExecuteByYearly(int month, int day, DateTime begin)
         {
-            var current = new DateTime(DateTime.Now.Year, month, day);
+            var current = new DateTime(DateTime.Now.Year, month, (day > 0) ? day : DateTime.DaysInMonth(DateTime.Now.Year, month) + day + 1);
 
             while (current < DateTime.Now || current < begin)
             {
-                current = new DateTime(current.Year + 1, month, day);
+                current = new DateTime(current.Year + 1, month, (day > 0) ? day : DateTime.DaysInMonth(current.Year + 1, month) + day + 1);
             }
             return current;
         }
@@ -293,10 +294,10 @@ namespace Simplic.Interval.Service
             if ((DateTime.Now.Month / 6) > 1)
                 startMonth = 7;
             startMonth = startMonth + (month - 1);
-            var current = new DateTime(DateTime.Now.Year, startMonth, day);
+            var current = new DateTime(DateTime.Now.Year, startMonth, (day > 0) ? day : DateTime.DaysInMonth(DateTime.Now.Year, startMonth) + day + 1);
 
             while (current < DateTime.Now || current < begin)
-            { 
+            {
                 int year = current.Year;
                 startMonth = 7;
                 if ((DateTime.Now.Month / 6) > 1)
@@ -305,7 +306,7 @@ namespace Simplic.Interval.Service
                     year = year + 1;
                 }
                 startMonth = startMonth + (month - 1);
-                return new DateTime(year, startMonth, day);
+                return new DateTime(year, startMonth, (day > 0) ? day : DateTime.DaysInMonth(year, startMonth) + day + 1);
             }
             return current;
         }

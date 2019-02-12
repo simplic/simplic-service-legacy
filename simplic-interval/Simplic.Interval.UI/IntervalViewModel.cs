@@ -53,7 +53,23 @@ namespace Simplic.Interval.UI
         /// <summary>
         /// Gets or sets the number of a day in the selected month where to start
         /// </summary>
-        public int DayNumberOfExecution { get { return model.DayNumberOfExecution; } set { PropertySetter(value, (newValue) => { model.DayNumberOfExecution = newValue; }); } }
+        public int DayNumberOfExecution
+        {
+            get
+            {
+                return model.DayNumberOfExecution;
+            }
+            set
+            {
+                if (value == 0 && model.DayNumberOfExecution<0)
+                    value = 1;
+
+                if (value == 0 && model.DayNumberOfExecution > 0)
+                    value = -1;
+
+                PropertySetter(value, (newValue) => { model.DayNumberOfExecution = newValue; });
+            }
+        }
 
         /// <summary>
         /// Gets or sets the count of exections of this interval
