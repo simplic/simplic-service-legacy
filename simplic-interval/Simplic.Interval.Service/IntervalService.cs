@@ -59,8 +59,9 @@ namespace Simplic.Interval.Service
         /// Write interval
         /// </summary>
         /// <param name="interval"></param>
-        public void Save(Interval interval)
+        public bool Save(Interval interval)
         {
+            bool ok = false;
             if (interval == null)
                 throw new ArgumentNullException(nameof(interval));
 
@@ -73,6 +74,8 @@ namespace Simplic.Interval.Service
                     + $" ({string.Join(", ", dlColumns.Select(k => ":" + (string.IsNullOrWhiteSpace(k.Value) ? k.Key : k.Value)))});";
                 return connection.Execute(setDLStatement, interval);
             });
+            ok = true;
+            return ok;
         }
 
         /// <summary>
@@ -84,15 +87,7 @@ namespace Simplic.Interval.Service
             return intervalRepository.Delete(intervalId);
         }
 
-        /// <summary>
-        /// Saves the interval
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        bool IRepositoryBase<Guid, Interval>.Save(Interval obj)
-        {
-            return intervalRepository.Save(obj);
-        }
+
 
         /// <summary>
         /// Removes the interval by object
