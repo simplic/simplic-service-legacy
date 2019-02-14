@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simplic.Interval
 {
@@ -21,9 +17,10 @@ namespace Simplic.Interval
         private int monthNumberOfExecution;
         private int intervalTypeId;
 
-        #endregion
+        #endregion Fields
 
-        #region  Constrcutor
+        #region Constrcutor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -33,7 +30,7 @@ namespace Simplic.Interval
             MonthNumberofExecution = 1;
         }
 
-        #endregion
+        #endregion Constrcutor
 
         #region Public member
 
@@ -41,31 +38,37 @@ namespace Simplic.Interval
         /// Gets or sets the unique id
         /// </summary>
         public Guid Guid { get { return guid; } set { guid = value; } }
+
         /// <summary>
-        /// Gets or sets the name (enum) of the start day 
+        /// Gets or sets the name (enum) of the start day
         /// </summary>
         public int DayNameOfExecution { get { return dayNameOfExecution; } set { dayNameOfExecution = value; } }
+
         /// <summary>
         /// Gets or sets the number of a day in the selected month where to start
         /// </summary>
         public int DayNumberOfExecution { get { return dayNumberOfExecution; } set { dayNumberOfExecution = value; } }
+
         /// <summary>
         /// Gets or sets the count of exections of this interval
         /// </summary>
         public int ExecuteCount { get { return executeCount; } set { executeCount = value; } }
+
         /// <summary>
         /// Gets or sets the date of the last execution
         /// </summary>
         public DateTime LastExecute { get { return lastExecute; } set { lastExecute = value; } }
+
         /// <summary>
-        /// Gets or sets the selected month by number 
+        /// Gets or sets the selected month by number
         /// </summary>
         public int MonthNumberofExecution { get { return monthNumberOfExecution; } set { monthNumberOfExecution = value; } }
+
         /// <summary>
         /// Gets or sets the number of the selected type
         /// </summary>
         public int IntervalTypeId { get { return intervalTypeId; } set { intervalTypeId = value; } }
 
-        #endregion
+        #endregion Public member
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Simplic.Data;
 using Simplic.Framework.DAL.DatabaseMetadata;
 using Simplic.Sql;
 using System;
@@ -86,8 +85,6 @@ namespace Simplic.Interval.Service
         {
             return intervalRepository.Delete(intervalId);
         }
-
-
 
         /// <summary>
         /// Removes the interval by object
