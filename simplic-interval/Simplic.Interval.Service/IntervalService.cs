@@ -181,7 +181,7 @@ namespace Simplic.Interval.Service
                     year = year + 1;
                 }
                 startMonth = ((quarter - 1) * 3) + 1;
-                current = new DateTime(year, startMonth, DateTime.DaysInMonth(year, startMonth) + day + 1);
+                current = new DateTime(year, startMonth, (day > 0) ? day : DateTime.DaysInMonth(year, startMonth) + day + 1);
             }
 
             return current;
