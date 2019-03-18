@@ -7,8 +7,8 @@
     <ProjectGuid>{0F5FCC7B-F588-4E73-A6B3-1667B079D056}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simplic.DataPort.DB.Processing.Data.Sql</RootNamespace>
-    <AssemblyName>Simplic.DataPort.DB.Processing.Data.Sql</AssemblyName>
+    <RootNamespace>Simplic.DataPort.DB.Processing.Data</RootNamespace>
+    <AssemblyName>Simplic.DataPort.DB.Processing.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.CoreLib, Version=6.0.18.63, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.0.18.63\lib\net451\Simplic.CoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Sql, Version=6.2.18.926, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Sql.6.2.18.926\lib\net451\Simplic.Sql.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +58,11 @@
       <Project>{fc0bcdec-9cad-4e9f-99e9-8e78cc3fceaa}</Project>
       <Name>Simplic.DataPort.DB.Processing</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="package.bat" />
+    <None Include="packages.config" />
+    <None Include="Simplic.DataPort.DB.Processing.Data.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

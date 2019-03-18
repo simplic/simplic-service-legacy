@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.DataPort.DB.Processing", "Simplic.DataPort.DB.Processing\Simplic.DataPort.DB.Processing.csproj", "{FC0BCDEC-9CAD-4E9F-99E9-8E78CC3FCEAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.DataPort.DB.Processing.Data.Sql", "Simplic.DataPort.DB.Processing.Data\Simplic.DataPort.DB.Processing.Data.Sql.csproj", "{0F5FCC7B-F588-4E73-A6B3-1667B079D056}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.DataPort.DB.Processing.Data", "Simplic.DataPort.DB.Processing.Data\Simplic.DataPort.DB.Processing.Data.csproj", "{0F5FCC7B-F588-4E73-A6B3-1667B079D056}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.DataPort.DB.Processing.Service", "Simplic.DataPort.DB.Processing.Service\Simplic.DataPort.DB.Processing.Service.csproj", "{A21F9737-CC6F-4880-AB35-95A9AD97A435}"
 EndProject

@@ -1,21 +1,111 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Dapper;
+using Simplic.Sql;
+using System;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Simplic.DataPort.DB.Processing.Data.Sql
+namespace Simplic.DataPort.DB.Processing.Data
 {
     public class DBProcessingSqlRepository : IDBProcessingRepository
     {
-        public Task<bool> ColumnExistsAsync(string tableName, string columnName)
+        private readonly ISqlService sqlService;
+
+        public DBProcessingSqlRepository(ISqlService sqlService)
         {
-            throw new NotImplementedException();
+            this.sqlService = sqlService;
         }
 
-        public Task<bool> TableExistsAsync(string tableName)
+        private string GetNullableText(bool @null)
         {
-            throw new NotImplementedException();
+            return @null ? string.Empty : "NOT NULL";
+        }
+
+        private string GetPrimaryKeyText(bool primaryKey)
+        {
+            return primaryKey ? "PRIMARY KEY" : string.Empty;
+        }
+
+        public bool ColumnExists(string tableName, string columnName, string connectionName = "default")
+        {
+            const string sql = @"SELECT sc.column_id FROM SYS.SYSCOLUMN sc WHERE 
+                sc.table_id = (SELECT table_id FROM SYS.SYSTABLE WHERE table_name = :tableName) 
+                and sc.column_name = :columnName";
+
+            return sqlService.OpenConnection(
+                (connection) => connection.Query(sql, new { tableName, columnName }).Any(), connectionName);
+        }
+
+        public bool CreateTable(string tableName, string connectionName = "default")
+        {
+            const string sql = @"SELECT sc.column_id FROM SYS.SYSCOLUMN sc WHERE 
+                sc.table_id = (SELECT table_id FROM SYS.SYSTABLE WHERE table_name = :tableName) 
+                and sc.column_name = :columnName";
+
+            return sqlService.OpenConnection(
+                (connection) => connection.Execute(sql, new { tableName}) > 0, connectionName);
+        }
+
+        public bool CreateTable(TableSchemaModel tableSchema, string connectionName = "default")
+        {
+            var columnsBuilder = new string[tableSchema.Columns.Count];
+            for (int i = 0; i < tableSchema.Columns.Count; i++)
+            {
+                var column = tableSchema.Columns[i];
+                columnsBuilder[i] = $"[{column.Name}] {column.Type} {GetNullableText(column.Null)} {GetPrimaryKeyText(column.PrimaryKey)}";
+            }
+
+            var sql = $"CREATE TABLE IF NOT EXISTS [{tableSchema.TableName}] ({string.Join(",\n", columnsBuilder)});";
+
+            return sqlService.OpenConnection(
+                (connection) =>
+                {
+                    try
+                    {
+                        var result = connection.Execute(sql);
+                        return result > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                }, connectionName);
+        }
+
+        public bool InsertOrUpdate(string tableName, DataRow row, string connectionName = "default")
+        {
+            var columnsBuilder = new string[row.Table.Columns.Count];
+            var paramColumns = new string[row.Table.Columns.Count];
+
+            for (int i = 0; i < row.Table.Columns.Count; i++)
+            {
+                var column = row.Table.Columns[i];
+                columnsBuilder[i] = $"[{column.ColumnName}]";
+                paramColumns[i] = $":{column.ColumnName}";
+            }
+
+            var sql = $"INSERT INTO {tableName} ({string.Join(",", columnsBuilder)}) ON EXISTING UPDATE VALUES ({string.Join(",", paramColumns)})";
+            return sqlService.OpenConnection((connection) => {
+                try
+                {
+                    var result = connection.Execute(sql, row);
+                    return result > 0;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            });
+        }
+
+        public bool TableExists(string tableName, string connectionName = "default")
+        {
+            const string sql = "SELECT COUNT(*) FROM SYS.SYSTABLE WHERE SYS.SYSTABLE.table_name = :tableName";
+
+            return sqlService.OpenConnection((connection) => {
+                var result = connection.Query<int>(sql, new { tableName }).FirstOrDefault();
+                return result == 1;
+            }, connectionName);
         }
     }
 }
