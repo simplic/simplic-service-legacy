@@ -1,4 +1,6 @@
-﻿namespace Simplic.DataPort.DB.Processing.Service
+﻿using System.Data;
+
+namespace Simplic.DataPort.DB.Processing.Service
 {
     public class DBProcessingService : IDBProcessingService
     {
@@ -18,10 +20,10 @@
         {
             return repository.CreateTable(tableSchema, connectionName);
         }
-
-        public bool InsertOrUpdate(string connectionName = "default")
+        
+        public void InsertOrUpdate(string tableName, DataRow row, string connectionName = "default")
         {
-            return repository.InsertOrUpdate(connectionName);
+            repository.InsertOrUpdate(tableName, row, connectionName);
         }
 
         public bool TableExists(string tableName, string connectionName = "default")

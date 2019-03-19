@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.DataPort.DB.Processing">
-      <HintPath>..\Simplic.DataPort.DB.Processing\bin\Debug\Simplic.DataPort.DB.Processing.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +50,12 @@
     <None Include="Simplic.DataPort.DB.Processing.Service.nuspec">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simplic.DataPort.DB.Processing\Simplic.DataPort.DB.Processing.csproj">
+      <Project>{fc0bcdec-9cad-4e9f-99e9-8e78cc3fceaa}</Project>
+      <Name>Simplic.DataPort.DB.Processing</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

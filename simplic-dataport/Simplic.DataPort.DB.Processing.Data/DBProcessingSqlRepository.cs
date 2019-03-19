@@ -1,15 +1,16 @@
 ﻿using Dapper;
+using Newtonsoft.Json;
 using Simplic.Sql;
 using System;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace Simplic.DataPort.DB.Processing.Data
 {
     public class DBProcessingSqlRepository : IDBProcessingRepository
     {
         private readonly ISqlService sqlService;
+        private const string LogTableName = "DataPortDBLog";
 
         public DBProcessingSqlRepository(ISqlService sqlService)
         {
@@ -43,7 +44,7 @@ namespace Simplic.DataPort.DB.Processing.Data
                 and sc.column_name = :columnName";
 
             return sqlService.OpenConnection(
-                (connection) => connection.Execute(sql, new { tableName}) > 0, connectionName);
+                (connection) => connection.Execute(sql, new { tableName }) > 0, connectionName);
         }
 
         public bool CreateTable(TableSchemaModel tableSchema, string connectionName = "default")
@@ -72,7 +73,7 @@ namespace Simplic.DataPort.DB.Processing.Data
                 }, connectionName);
         }
 
-        public bool InsertOrUpdate(string tableName, DataRow row, string connectionName = "default")
+        public void InsertOrUpdate(string tableName, DataRow row, string connectionName = "default")
         {
             var columnsBuilder = new string[row.Table.Columns.Count];
             var paramColumns = new string[row.Table.Columns.Count];
@@ -85,15 +86,23 @@ namespace Simplic.DataPort.DB.Processing.Data
             }
 
             var sql = $"INSERT INTO {tableName} ({string.Join(",", columnsBuilder)}) ON EXISTING UPDATE VALUES ({string.Join(",", paramColumns)})";
-            return sqlService.OpenConnection((connection) => {
+            sqlService.OpenConnection((connection) =>
+            {
                 try
                 {
-                    var result = connection.Execute(sql, row);
-                    return result > 0;
+                    var parameters = new DynamicParameters();
+                    for (int i = 0; i < columnsBuilder.Length; i++)
+                    {
+                        var item = columnsBuilder[i];
+                        var val = row.ItemArray.GetValue(i);
+                        parameters.Add($":{item}", val);
+                    }
+
+                    connection.Execute(sql, parameters);
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    LogError(tableName, sql, row, ex, connectionName);                    
                 }
             });
         }
@@ -102,9 +111,24 @@ namespace Simplic.DataPort.DB.Processing.Data
         {
             const string sql = "SELECT COUNT(*) FROM SYS.SYSTABLE WHERE SYS.SYSTABLE.table_name = :tableName";
 
-            return sqlService.OpenConnection((connection) => {
+            return sqlService.OpenConnection((connection) =>
+            {
                 var result = connection.Query<int>(sql, new { tableName }).FirstOrDefault();
                 return result == 1;
+            }, connectionName);
+        }
+
+        private void LogError(string tableName, string sqlUsed, DataRow row, Exception ex, string connectionName)
+        {
+            var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
+
+            sqlService.OpenConnection((connection) =>
+            {
+                connection.Execute(sql, new {
+                    TableName = tableName,
+                    SqlQuery = sqlUsed,
+                    Data = JsonConvert.SerializeObject(row),
+                    ExceptionDetails = $"{ex?.Message}" });
             }, connectionName);
         }
     }

@@ -7,7 +7,7 @@ namespace Simplic.DataPort.DB.Processing
     {
         bool TableExists(string tableName, string connectionName = "default");
         bool ColumnExists(string tableName, string columnName, string connectionName = "default");
-        bool InsertOrUpdate(string tableName, DataRow row, string connectionName = "default");
+        void InsertOrUpdate(string tableName, DataRow row, string connectionName = "default");
         bool CreateTable(TableSchemaModel tableSchema, string connectionName = "default");
     }
 }
