@@ -102,7 +102,7 @@ namespace Simplic.DataPort.DB.Processing.Data
                 }
                 catch (Exception ex)
                 {
-                    LogError(tableName, sql, row, ex, connectionName);                    
+                    LogError(tableName, sql, row, ex.Message, connectionName);
                 }
             });
         }
@@ -118,7 +118,7 @@ namespace Simplic.DataPort.DB.Processing.Data
             }, connectionName);
         }
 
-        private void LogError(string tableName, string sqlUsed, DataRow row, Exception ex, string connectionName)
+        private void LogError(string tableName, string sqlUsed, DataRow row, string exceptionDetails, string connectionName)
         {
             var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
 
@@ -128,7 +128,7 @@ namespace Simplic.DataPort.DB.Processing.Data
                     TableName = tableName,
                     SqlQuery = sqlUsed,
                     Data = JsonConvert.SerializeObject(row),
-                    ExceptionDetails = $"{ex?.Message}" });
+                    ExceptionDetails = exceptionDetails });
             }, connectionName);
         }
     }
