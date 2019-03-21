@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Simplic.Sql;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -129,6 +130,28 @@ namespace Simplic.DataPort.DB.Processing.Data
                     SqlQuery = sqlUsed,
                     Data = JsonConvert.SerializeObject(row),
                     ExceptionDetails = exceptionDetails });
+            }, connectionName);
+        }
+
+        public IEnumerable<ErrorLogModel> GetAllErrorLog(string connectionName = "default")
+        {
+            var sql = $"SELECT * FROM {LogTableName} WHERE Handled = 0";
+            return sqlService.OpenConnection((connection) =>
+            {
+                return connection.Query<ErrorLogModel>(sql);
+            }, connectionName);
+        }
+
+        public bool Retry(ErrorLogModel errorLogModel, string connectionName = "default")
+        {
+            throw new NotImplementedException();
+        }
+
+        public ErrorLogModel GetErrorLog(long id, string connectionName = "default")
+        {
+            var sql = $"select * from {LogTableName} where Id = :id";
+            return sqlService.OpenConnection((connection) => {
+                return connection.Query<ErrorLogModel>(sql, new { id }).FirstOrDefault();
             }, connectionName);
         }
     }

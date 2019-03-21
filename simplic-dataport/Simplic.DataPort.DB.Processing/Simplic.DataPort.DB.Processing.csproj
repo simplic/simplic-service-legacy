@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Interface\IDBProcessingRepository.cs" />
     <Compile Include="Interface\IDBProcessingService.cs" />
+    <Compile Include="Model\ErrorLogModel.cs" />
     <Compile Include="Model\TableColumnModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\TableSchemaModel.cs" />
