@@ -28,6 +28,50 @@ namespace Simplic.DataPort.DB.Processing.Data
             return primaryKey ? "PRIMARY KEY" : string.Empty;
         }
 
+        private void LogError(string tableName, string sqlUsed, DataRow row, string exceptionDetails, string connectionName)
+        {
+            var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
+
+            sqlService.OpenConnection((connection) =>
+            {
+                connection.Execute(sql, new
+                {
+                    TableName = tableName,
+                    SqlQuery = sqlUsed,
+                    Data = JsonConvert.SerializeObject(row.Table, Formatting.Indented),
+                    ExceptionDetails = exceptionDetails
+                });
+            }, connectionName);
+        }
+
+        private SqlStatement GenerateSqlStatement(string tableName, DataRow row, string connectionName = "default")
+        {
+            var columnsBuilder = new string[row.Table.Columns.Count];
+            var paramColumns = new string[row.Table.Columns.Count];
+
+            for (int i = 0; i < row.Table.Columns.Count; i++)
+            {
+                var column = row.Table.Columns[i];
+                columnsBuilder[i] = $"[{column.ColumnName}]";
+                paramColumns[i] = $":{column.ColumnName}";
+            }
+
+            var sql = $"INSERT INTO {tableName} ({string.Join(",", columnsBuilder)}) ON EXISTING UPDATE VALUES ({string.Join(",", paramColumns)})";
+
+            var parameters = new DynamicParameters();
+            for (int i = 0; i < columnsBuilder.Length; i++)
+            {
+                var item = columnsBuilder[i];
+                var val = row.ItemArray.GetValue(i);
+                parameters.Add($":{item}", val);
+            }
+
+            return new SqlStatement {
+                Sql = sql,
+                Parameters = parameters
+            };
+        }
+
         public bool ColumnExists(string tableName, string columnName, string connectionName = "default")
         {
             const string sql = @"SELECT sc.column_id FROM SYS.SYSCOLUMN sc WHERE 
@@ -36,16 +80,6 @@ namespace Simplic.DataPort.DB.Processing.Data
 
             return sqlService.OpenConnection(
                 (connection) => connection.Query(sql, new { tableName, columnName }).Any(), connectionName);
-        }
-
-        public bool CreateTable(string tableName, string connectionName = "default")
-        {
-            const string sql = @"SELECT sc.column_id FROM SYS.SYSCOLUMN sc WHERE 
-                sc.table_id = (SELECT table_id FROM SYS.SYSTABLE WHERE table_name = :tableName) 
-                and sc.column_name = :columnName";
-
-            return sqlService.OpenConnection(
-                (connection) => connection.Execute(sql, new { tableName }) > 0, connectionName);
         }
 
         public bool CreateTable(TableSchemaModel tableSchema, string connectionName = "default")
@@ -69,41 +103,25 @@ namespace Simplic.DataPort.DB.Processing.Data
                     }
                     catch (Exception ex)
                     {
+                        LogError(tableSchema.TableName, sql, null, ex.Message, connectionName);
                         return false;
                     }
                 }, connectionName);
         }
 
-        public void InsertOrUpdate(string tableName, DataRow row, string connectionName = "default")
-        {
-            var columnsBuilder = new string[row.Table.Columns.Count];
-            var paramColumns = new string[row.Table.Columns.Count];
-
-            for (int i = 0; i < row.Table.Columns.Count; i++)
-            {
-                var column = row.Table.Columns[i];
-                columnsBuilder[i] = $"[{column.ColumnName}]";
-                paramColumns[i] = $":{column.ColumnName}";
-            }
-
-            var sql = $"INSERT INTO {tableName} ({string.Join(",", columnsBuilder)}) ON EXISTING UPDATE VALUES ({string.Join(",", paramColumns)})";
+        public void InsertOrUpdate(string transformerName, string tableName, DataRow row, string connectionName = "default")
+        {                        
             sqlService.OpenConnection((connection) =>
             {
-                try
-                {
-                    var parameters = new DynamicParameters();
-                    for (int i = 0; i < columnsBuilder.Length; i++)
-                    {
-                        var item = columnsBuilder[i];
-                        var val = row.ItemArray.GetValue(i);
-                        parameters.Add($":{item}", val);
-                    }
+                var sqlStatement = GenerateSqlStatement(tableName, row, connectionName);
 
-                    connection.Execute(sql, parameters);
+                try
+                {                    
+                    connection.Execute(sqlStatement.Sql, sqlStatement.Parameters);
                 }
                 catch (Exception ex)
                 {
-                    LogError(tableName, sql, row, ex.Message, connectionName);
+                    LogError(tableName, sqlStatement.Sql, row, ex.Message, connectionName);
                 }
             });
         }
@@ -118,21 +136,7 @@ namespace Simplic.DataPort.DB.Processing.Data
                 return result == 1;
             }, connectionName);
         }
-
-        private void LogError(string tableName, string sqlUsed, DataRow row, string exceptionDetails, string connectionName)
-        {
-            var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
-
-            sqlService.OpenConnection((connection) =>
-            {
-                connection.Execute(sql, new {
-                    TableName = tableName,
-                    SqlQuery = sqlUsed,
-                    Data = JsonConvert.SerializeObject(row),
-                    ExceptionDetails = exceptionDetails });
-            }, connectionName);
-        }
-
+        
         public IEnumerable<ErrorLogModel> GetAllErrorLog(string connectionName = "default")
         {
             var sql = $"SELECT * FROM {LogTableName} WHERE Handled = 0";

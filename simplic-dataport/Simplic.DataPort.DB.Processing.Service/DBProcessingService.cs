@@ -32,14 +32,14 @@ namespace Simplic.DataPort.DB.Processing.Service
             return repository.GetErrorLog(id, connectionName);
         }
 
-        public void InsertOrUpdate(string tableName, DataRow row, string connectionName = "default")
+        public void InsertOrUpdate(string transformerName, string tableName, DataRow row, string connectionName = "default")
         {
-            repository.InsertOrUpdate(tableName, row, connectionName);
+            repository.InsertOrUpdate(transformerName, tableName, row, connectionName);
         }
 
         public bool Retry(ErrorLogModel errorLogModel, string connectionName = "default")
         {
-            throw new System.NotImplementedException();
+            return repository.Retry(errorLogModel, connectionName);
         }
 
         public bool TableExists(string tableName, string connectionName = "default")
