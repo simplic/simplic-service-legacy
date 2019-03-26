@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Simplic.DataPort.DB.Processing.Service
@@ -12,19 +13,89 @@ namespace Simplic.DataPort.DB.Processing.Service
             this.repository = repository;
         }
 
-        public bool ColumnExists(string tableName, string columnName, string connectionName = "default")
+        public void Retry(ErrorLogModel errorLogModel, string connectionName = "default")
         {
-            return repository.ColumnExists(tableName, columnName, connectionName);
+            throw new System.NotImplementedException();
         }
 
-        public bool CreateTable(TableSchemaModel tableSchema, string connectionName = "default")
+        public void SaveData(string transformerName, FileTypeDBModel data, string connectionName = "default")
         {
-            return repository.CreateTable(tableSchema, connectionName);
+            foreach (var table in data.Tables)
+            {
+                if (!repository.TableExists(table.Table, connectionName))
+                {
+                    var tableSchema = CreateSchema(table);
+                    try
+                    {
+                       repository.CreateTable(tableSchema, connectionName);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        repository.LogTableError(tableSchema, ex, connectionName);                                                
+                    }
+                }
+
+                for (int i = 0; i < table.Data.Rows.Count; i++)
+                {
+                    var row = table.Data.Rows[i];
+
+                    try
+                    {
+                        repository.InsertOrUpdate(transformerName, table.Table, row, connectionName);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        repository.LogRowError(table.Table, transformerName, row, ex, connectionName);                        
+                    }
+                }
+            }
         }
 
-        public IEnumerable<ErrorLogModel> GetAllErrorLog(string connectionName = "default")
+        private TableSchemaModel CreateSchema(DBTableModel table)
         {
-            return repository.GetAllErrorLog(connectionName);
+            return new TableSchemaModel
+            {
+                TableName = table.Table,
+                Columns = CreateColumns(table.Columns)
+            };
+        }
+
+        private IList<TableColumnModel> CreateColumns(IList<DBRecordTableColumnModel> columns)
+        {
+            var columnList = new List<TableColumnModel>();
+
+            foreach (var column in columns)
+            {
+                columnList.Add(new TableColumnModel
+                {
+                    Name = column.Name,
+                    Null = column.Null,
+                    PrimaryKey = column.PrimaryKey,
+                    Type = GetType(column)
+                });
+            }
+
+            return columnList;
+        }
+
+        private string GetType(DBRecordTableColumnModel column)
+        {
+            if (column.Type == "string")
+                return "varchar(255)";
+            else if (column.Type == "number")
+                return "double";
+            else
+                return column.Type;
+        }
+
+        public void LogTableError(TableSchemaModel tableSchema, Exception exception, string connectionName = "default")
+        {
+            repository.LogTableError(tableSchema, exception, connectionName);
+        }
+
+        public void LogRowError(string tableName, string transformerName, DataRow row, Exception exception, string connectionName = "default")
+        {
+            repository.LogRowError(tableName, transformerName, row, exception, connectionName);
         }
 
         public ErrorLogModel GetErrorLog(long id, string connectionName = "default")
@@ -32,19 +103,9 @@ namespace Simplic.DataPort.DB.Processing.Service
             return repository.GetErrorLog(id, connectionName);
         }
 
-        public void InsertOrUpdate(string transformerName, string tableName, DataRow row, string connectionName = "default")
+        public IEnumerable<ErrorLogModel> GetAllErrorLog(string connectionName = "default")
         {
-            repository.InsertOrUpdate(transformerName, tableName, row, connectionName);
-        }
-
-        public bool Retry(ErrorLogModel errorLogModel, string connectionName = "default")
-        {
-            return repository.Retry(errorLogModel, connectionName);
-        }
-
-        public bool TableExists(string tableName, string connectionName = "default")
-        {
-            return repository.TableExists(tableName, connectionName);
+            return repository.GetAllErrorLog(connectionName);
         }
     }
 }

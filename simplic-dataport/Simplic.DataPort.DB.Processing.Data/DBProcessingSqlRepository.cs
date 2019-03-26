@@ -28,23 +28,7 @@ namespace Simplic.DataPort.DB.Processing.Data
             return primaryKey ? "PRIMARY KEY" : string.Empty;
         }
 
-        private void LogError(string tableName, string sqlUsed, DataRow row, string exceptionDetails, string connectionName)
-        {
-            var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
-
-            sqlService.OpenConnection((connection) =>
-            {
-                connection.Execute(sql, new
-                {
-                    TableName = tableName,
-                    SqlQuery = sqlUsed,
-                    Data = JsonConvert.SerializeObject(row.Table, Formatting.Indented),
-                    ExceptionDetails = exceptionDetails
-                });
-            }, connectionName);
-        }
-
-        private SqlStatement GenerateSqlStatement(string tableName, DataRow row, string connectionName = "default")
+        private SqlStatement GenerateSqlStatement(string tableName, DataRow row)
         {
             var columnsBuilder = new string[row.Table.Columns.Count];
             var paramColumns = new string[row.Table.Columns.Count];
@@ -66,10 +50,23 @@ namespace Simplic.DataPort.DB.Processing.Data
                 parameters.Add($":{item}", val);
             }
 
-            return new SqlStatement {
+            return new SqlStatement
+            {
                 Sql = sql,
                 Parameters = parameters
             };
+        }
+
+        private string GenerateCreateTableSql(TableSchemaModel tableSchema)
+        {
+            var columnsBuilder = new string[tableSchema.Columns.Count];
+            for (int i = 0; i < tableSchema.Columns.Count; i++)
+            {
+                var column = tableSchema.Columns[i];
+                columnsBuilder[i] = $"[{column.Name}] {column.Type} {GetNullableText(column.Null)} {GetPrimaryKeyText(column.PrimaryKey)}";
+            }
+
+            return $"CREATE TABLE IF NOT EXISTS [{tableSchema.TableName}] ({string.Join(",\n", columnsBuilder)});";
         }
 
         public bool ColumnExists(string tableName, string columnName, string connectionName = "default")
@@ -84,46 +81,23 @@ namespace Simplic.DataPort.DB.Processing.Data
 
         public bool CreateTable(TableSchemaModel tableSchema, string connectionName = "default")
         {
-            var columnsBuilder = new string[tableSchema.Columns.Count];
-            for (int i = 0; i < tableSchema.Columns.Count; i++)
-            {
-                var column = tableSchema.Columns[i];
-                columnsBuilder[i] = $"[{column.Name}] {column.Type} {GetNullableText(column.Null)} {GetPrimaryKeyText(column.PrimaryKey)}";
-            }
-
-            var sql = $"CREATE TABLE IF NOT EXISTS [{tableSchema.TableName}] ({string.Join(",\n", columnsBuilder)});";
+            var sql = GenerateCreateTableSql(tableSchema);
 
             return sqlService.OpenConnection(
                 (connection) =>
                 {
-                    try
-                    {
-                        var result = connection.Execute(sql);
-                        return result > 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        LogError(tableSchema.TableName, sql, null, ex.Message, connectionName);
-                        return false;
-                    }
+                    var result = connection.Execute(sql);
+                    return result > 0;
                 }, connectionName);
         }
 
         public void InsertOrUpdate(string transformerName, string tableName, DataRow row, string connectionName = "default")
-        {                        
+        {
             sqlService.OpenConnection((connection) =>
             {
-                var sqlStatement = GenerateSqlStatement(tableName, row, connectionName);
-
-                try
-                {                    
-                    connection.Execute(sqlStatement.Sql, sqlStatement.Parameters);
-                }
-                catch (Exception ex)
-                {
-                    LogError(tableName, sqlStatement.Sql, row, ex.Message, connectionName);
-                }
-            });
+                var sqlStatement = GenerateSqlStatement(tableName, row);
+                connection.Execute(sqlStatement.Sql, sqlStatement.Parameters);
+            }, connectionName);
         }
 
         public bool TableExists(string tableName, string connectionName = "default")
@@ -136,7 +110,7 @@ namespace Simplic.DataPort.DB.Processing.Data
                 return result == 1;
             }, connectionName);
         }
-        
+
         public IEnumerable<ErrorLogModel> GetAllErrorLog(string connectionName = "default")
         {
             var sql = $"SELECT * FROM {LogTableName} WHERE Handled = 0";
@@ -146,16 +120,44 @@ namespace Simplic.DataPort.DB.Processing.Data
             }, connectionName);
         }
 
-        public bool Retry(ErrorLogModel errorLogModel, string connectionName = "default")
-        {
-            throw new NotImplementedException();
-        }
-
         public ErrorLogModel GetErrorLog(long id, string connectionName = "default")
         {
             var sql = $"select * from {LogTableName} where Id = :id";
-            return sqlService.OpenConnection((connection) => {
+            return sqlService.OpenConnection((connection) =>
+            {
                 return connection.Query<ErrorLogModel>(sql, new { id }).FirstOrDefault();
+            }, connectionName);
+        }
+
+        public void LogTableError(TableSchemaModel tableSchema, Exception exception, string connectionName = "default")
+        {
+            var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
+
+            sqlService.OpenConnection((connection) =>
+            {
+                connection.Execute(sql, new
+                {
+                    TableName = tableSchema.TableName,
+                    SqlQuery = GenerateCreateTableSql(tableSchema),
+                    Data = JsonConvert.SerializeObject(tableSchema, Formatting.Indented),
+                    ExceptionDetails = exception
+                });
+            }, connectionName);
+        }
+
+        public void LogRowError(string tableName, string transformerName, DataRow row, Exception exception, string connectionName = "default")
+        {
+            var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
+
+            sqlService.OpenConnection((connection) =>
+            {
+                connection.Execute(sql, new
+                {
+                    TableName = tableName,
+                    SqlQuery = GenerateSqlStatement(tableName, row),
+                    Data = JsonConvert.SerializeObject(row, Formatting.Indented),
+                    ExceptionDetails = exception
+                });
             }, connectionName);
         }
     }

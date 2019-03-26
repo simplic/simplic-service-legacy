@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="DBProcessingSqlRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlStatement.cs" />
+    <Compile Include="Model\SqlStatement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simplic.DataPort.DB.Processing\Simplic.DataPort.DB.Processing.csproj">
@@ -68,5 +68,6 @@
     <None Include="packages.config" />
     <None Include="Simplic.DataPort.DB.Processing.Data.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
