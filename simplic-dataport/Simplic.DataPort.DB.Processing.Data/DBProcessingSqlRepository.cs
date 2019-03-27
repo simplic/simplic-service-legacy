@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using Simplic.Sql;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 
 namespace Simplic.DataPort.DB.Processing.Data
@@ -28,16 +27,16 @@ namespace Simplic.DataPort.DB.Processing.Data
             return primaryKey ? "PRIMARY KEY" : string.Empty;
         }
 
-        private SqlStatement GenerateSqlStatement(string tableName, DataRow row)
+        private SqlStatement GenerateSqlStatement(string tableName, IDictionary<string, string> row)
         {
-            var columnsBuilder = new string[row.Table.Columns.Count];
-            var paramColumns = new string[row.Table.Columns.Count];
+            var columnsBuilder = new string[row.Count];
+            var paramColumns = new string[row.Count];            
 
-            for (int i = 0; i < row.Table.Columns.Count; i++)
+            for (int i = 0; i < row.Keys.Count; i++)
             {
-                var column = row.Table.Columns[i];
-                columnsBuilder[i] = $"[{column.ColumnName}]";
-                paramColumns[i] = $":{column.ColumnName}";
+                var column = row.Keys.ElementAt(i);
+                columnsBuilder[i] = $"[{column}]";
+                paramColumns[i] = $":{column}";
             }
 
             var sql = $"INSERT INTO {tableName} ({string.Join(",", columnsBuilder)}) ON EXISTING UPDATE VALUES ({string.Join(",", paramColumns)})";
@@ -46,7 +45,7 @@ namespace Simplic.DataPort.DB.Processing.Data
             for (int i = 0; i < columnsBuilder.Length; i++)
             {
                 var item = columnsBuilder[i];
-                var val = row.ItemArray.GetValue(i);
+                var val = row.Values.ElementAt(i);
                 parameters.Add($":{item}", val);
             }
 
@@ -91,7 +90,7 @@ namespace Simplic.DataPort.DB.Processing.Data
                 }, connectionName);
         }
 
-        public void InsertOrUpdate(string transformerName, string tableName, DataRow row, string connectionName = "default")
+        public void InsertOrUpdate(string transformerName, string tableName, IDictionary<string, string> row, string connectionName = "default")
         {
             sqlService.OpenConnection((connection) =>
             {
@@ -125,7 +124,8 @@ namespace Simplic.DataPort.DB.Processing.Data
             var sql = $"select * from {LogTableName} where Id = :id";
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<ErrorLogModel>(sql, new { id }).FirstOrDefault();
+                var log = connection.Query<ErrorLogModel>(sql, new { id }).FirstOrDefault();                
+                return log;
             }, connectionName);
         }
 
@@ -145,20 +145,32 @@ namespace Simplic.DataPort.DB.Processing.Data
             }, connectionName);
         }
 
-        public void LogRowError(string tableName, string transformerName, DataRow row, Exception exception, string connectionName = "default")
+        public void LogRowError(string tableName, string transformerName, IDictionary<string, string> data, Exception exception, string connectionName = "default")
         {
+
             var sql = $"INSERT INTO {LogTableName} (TableName, SqlQuery, Data, ExceptionDetails) VALUES (:TableName, :SqlQuery, :Data, :ExceptionDetails)";
 
             sqlService.OpenConnection((connection) =>
             {
+                var sqlUsed = GenerateSqlStatement(tableName, data);
                 connection.Execute(sql, new
                 {
                     TableName = tableName,
-                    SqlQuery = GenerateSqlStatement(tableName, row),
-                    Data = JsonConvert.SerializeObject(row, Formatting.Indented),
-                    ExceptionDetails = exception
+                    SqlQuery = sqlUsed.Sql,
+                    Data = JsonConvert.SerializeObject(data, Formatting.Indented),
+                    ExceptionDetails = JsonConvert.SerializeObject(exception, Formatting.Indented)
                 });
             }, connectionName);
+        }
+
+        public void DeleteLog(long id)
+        {
+            var sql = $"DELETE {LogTableName} WHERE Id = :id";
+
+            sqlService.OpenConnection((connection) =>
+            {
+                connection.Execute(sql, new { id });
+            });
         }
     }
 }

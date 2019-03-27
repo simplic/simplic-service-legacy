@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -13,9 +14,21 @@ namespace Simplic.DataPort.DB.Processing.Service
             this.repository = repository;
         }
 
-        public void Retry(ErrorLogModel errorLogModel, string connectionName = "default")
+        public bool Retry(ErrorLogModel errorLogModel, string connectionName = "default")
         {
-            throw new System.NotImplementedException();
+            var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(errorLogModel.Data);
+
+            try
+            {                
+                repository.InsertOrUpdate(errorLogModel.TransformerName, errorLogModel.TableName, data, connectionName);
+                repository.DeleteLog(errorLogModel.Id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                repository.LogRowError(errorLogModel.TableName, errorLogModel.TransformerName, data, ex, connectionName);
+                return false;
+            }
         }
 
         public void SaveData(string transformerName, FileTypeDBModel data, string connectionName = "default")
@@ -35,19 +48,31 @@ namespace Simplic.DataPort.DB.Processing.Service
                     }
                 }
 
-                for (int i = 0; i < table.Data.Rows.Count; i++)
+                foreach (var item in table.Data)
                 {
-                    var row = table.Data.Rows[i];
-
                     try
                     {
-                        repository.InsertOrUpdate(transformerName, table.Table, row, connectionName);
+                        repository.InsertOrUpdate(transformerName, table.Table, item, connectionName);
                     }
-                    catch (System.Exception ex)
+                    catch (Exception ex)
                     {
-                        repository.LogRowError(table.Table, transformerName, row, ex, connectionName);                        
+                        repository.LogRowError(table.Table, transformerName, item, ex, connectionName);
                     }
                 }
+
+                //for (int i = 0; i < table.Data.Rows.Count; i++)
+                //{
+                //    var row = table.Data.Rows[i];
+
+                //    try
+                //    {
+                //        repository.InsertOrUpdate(transformerName, table.Table, row, connectionName);
+                //    }
+                //    catch (System.Exception ex)
+                //    {
+                //        repository.LogRowError(table.Table, transformerName, row, ex, connectionName);                        
+                //    }
+                //}
             }
         }
 
@@ -93,7 +118,12 @@ namespace Simplic.DataPort.DB.Processing.Service
             repository.LogTableError(tableSchema, exception, connectionName);
         }
 
-        public void LogRowError(string tableName, string transformerName, DataRow row, Exception exception, string connectionName = "default")
+        //public void LogRowError(string tableName, string transformerName, DataRow row, Exception exception, string connectionName = "default")
+        //{
+        //    repository.LogRowError(tableName, transformerName, row, exception, connectionName);
+        //}
+
+        public void LogRowError(string tableName, string transformerName, IDictionary<string, string> row, Exception exception, string connectionName = "default")
         {
             repository.LogRowError(tableName, transformerName, row, exception, connectionName);
         }

@@ -22,10 +22,12 @@ namespace Simplic.DataPort.DB.Processing
         /// </summary>
         /// <param name="errorLogModel">Corrected data & sql</param>
         /// <param name="connectionName">Connection Name</param>
-        void Retry(ErrorLogModel errorLogModel, string connectionName = "default");
+        bool Retry(ErrorLogModel errorLogModel, string connectionName = "default");
 
         void LogTableError(TableSchemaModel tableSchema, Exception exception, string connectionName = "default");
-        void LogRowError(string tableName, string transformerName, DataRow row, Exception exception, string connectionName = "default");
+        //void LogRowError(string tableName, string transformerName, DataRow row, Exception exception, string connectionName = "default");
+        void LogRowError(string tableName, string transformerName, IDictionary<string, string> row, Exception exception, string connectionName = "default");
+        
         ErrorLogModel GetErrorLog(long id, string connectionName = "default");
         IEnumerable<ErrorLogModel> GetAllErrorLog(string connectionName = "default");
     }
