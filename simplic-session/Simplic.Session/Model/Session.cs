@@ -5,7 +5,7 @@ using System.Linq;
 namespace Simplic.Session
 {
     /// <summary>
-    /// An object holding information about the current logged in user 
+    /// An object holding information about the current logged in user
     /// </summary>
     public class Session
     {
