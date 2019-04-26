@@ -4,7 +4,7 @@
     /// Session service holds a variable to the current session
     /// </summary>
     public class SessionService : ISessionService
-    {                
+    {
         /// <summary>
         /// Gets or sets the current session
         /// </summary>

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arguments\SelectedOrganizationsChangedArgs.cs" />
     <Compile Include="Interface\ISessionService.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,6 +48,11 @@
   <ItemGroup>
     <None Include="package.bat" />
     <None Include="Simplic.Session.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Simplic.TenantSystem">
+      <Version>1.2.19.127</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
