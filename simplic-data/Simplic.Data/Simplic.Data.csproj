@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IExternalDataBase.cs" />
     <Compile Include="IModelIdentity.cs" />
     <Compile Include="IRepositoryBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryGroupAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="package.bat" />
