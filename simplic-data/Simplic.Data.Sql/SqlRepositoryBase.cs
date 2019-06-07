@@ -170,7 +170,7 @@ namespace Simplic.Data.Sql
         /// Gets the connection name
         /// </summary>
         /// <returns>connection name</returns>
-        private string GetConnection()
+        public string GetConnection()
         {
             string connectionName = "default";
             var groupName = CheckGroupAttribute();
