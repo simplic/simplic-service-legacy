@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Simplic.Cache;
 using Simplic.Sql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +17,7 @@ namespace Simplic.Data.Sql
         private readonly ISqlService sqlService;
         private readonly ISqlColumnService sqlColumnService;
         private readonly ICacheService cacheService;
+        public static IDictionary<string,string> connections = new Dictionary<string,string>();
 
         /// <summary>
         /// Initialize sql service
@@ -157,6 +159,7 @@ namespace Simplic.Data.Sql
             if (attributes.Any())
             {
                 var groupAttribute = attributes.OfType<RepositoryGroupAttribute>().SingleOrDefault();
+
                 if (groupAttribute != null)
                 {
                     return groupAttribute.GroupName;
@@ -173,17 +176,27 @@ namespace Simplic.Data.Sql
         public string GetConnection()
         {
             string connectionName = "default";
-            var groupName = CheckGroupAttribute();
 
-            if (!string.IsNullOrWhiteSpace(groupName))
+            if (connections.ContainsKey(this.GetType().Name))
             {
-                connectionName = sqlService.OpenConnection((connection) =>
-                {
-                    var obj = connection.Query<string>($"SELECT c.mnd_name FROM ESS_DC_BASE_DBConnection_RepositoryGroup g join ESS_DC_BASE_DBConnection c on c.id = g.ConnectionId  WHERE g.Name = :name",
-                        new { name = groupName }).FirstOrDefault();
+                connectionName = connections[this.GetType().Name];
+            }
+            else
+            {
+                var groupName = CheckGroupAttribute();
 
-                    return obj;
-                });
+                if (!string.IsNullOrWhiteSpace(groupName))
+                {
+                    connectionName = sqlService.OpenConnection((connection) =>
+                    {
+                        var obj = connection.Query<string>($"SELECT c.mnd_name FROM ESS_DC_BASE_DBConnection_RepositoryGroup g join ESS_DC_BASE_DBConnection c on c.id = g.ConnectionId  WHERE g.Name = :name",
+                            new { name = groupName }).FirstOrDefault();
+
+                        return obj;
+                    });
+
+                    connections.Add(this.GetType().Name, connectionName);
+                }
             }
 
             return connectionName;
