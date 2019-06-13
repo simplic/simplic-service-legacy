@@ -10,9 +10,11 @@ namespace Simplic.Data.Sql
     /// <summary>
     /// Connection cache
     /// </summary>
-    public static class ConnectionInfo
+    internal static class ConnectionInfo
     {
-        public static IDictionary<string, string> Connections;
+        private static IDictionary<string, string> connections;
+
+        public static IDictionary<string, string> Connections { get => connections; set => connections = value; }
     }
     
     /// <summary>
