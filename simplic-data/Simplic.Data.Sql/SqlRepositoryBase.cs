@@ -8,6 +8,14 @@ using System.Linq;
 namespace Simplic.Data.Sql
 {
     /// <summary>
+    /// Connection cache
+    /// </summary>
+    public static class ConnectionInfo
+    {
+        public static IDictionary<string, string> Connections;
+    }
+    
+    /// <summary>
     /// Sql repository base implementation
     /// </summary>
     /// <typeparam name="TModel">Model</typeparam>
@@ -17,7 +25,7 @@ namespace Simplic.Data.Sql
         private readonly ISqlService sqlService;
         private readonly ISqlColumnService sqlColumnService;
         private readonly ICacheService cacheService;
-        public static IDictionary<string,string> connections = new Dictionary<string,string>();
+       
 
         /// <summary>
         /// Initialize sql service
@@ -177,9 +185,12 @@ namespace Simplic.Data.Sql
         {
             string connectionName = "default";
 
-            if (connections.ContainsKey(this.GetType().Name))
+            if(ConnectionInfo.Connections == null)
+                ConnectionInfo.Connections = new Dictionary<string, string>();
+
+            if (ConnectionInfo.Connections.ContainsKey(this.GetType().Name))
             {
-                connectionName = connections[this.GetType().Name];
+                connectionName = ConnectionInfo.Connections[this.GetType().Name];
             }
             else
             {
@@ -194,9 +205,10 @@ namespace Simplic.Data.Sql
 
                         return obj;
                     });
-
-                    connections.Add(this.GetType().Name, connectionName);
                 }
+
+                ConnectionInfo.Connections.Add(this.GetType().Name, connectionName);
+
             }
 
             return connectionName;
