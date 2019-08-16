@@ -28,6 +28,11 @@ namespace Simplic.Data
         }
 
         /// <summary>
+        /// Gets the current row
+        /// </summary>
+        public ObservableDataRow Row => this;
+
+        /// <summary>
         /// Notify if the ItemsArray has changed
         /// </summary>
         public void NotifyPropertyChanged()
