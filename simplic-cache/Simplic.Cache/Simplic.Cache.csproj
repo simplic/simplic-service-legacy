@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheScope.cs" />
     <Compile Include="Interface\ICacheObject.cs" />
     <Compile Include="Interface\IWeakReferenceCacheService.cs" />
     <Compile Include="Interface\ICacheService.cs" />
