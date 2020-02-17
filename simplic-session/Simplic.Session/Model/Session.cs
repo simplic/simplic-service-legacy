@@ -1,12 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Simplic.TenantSystem;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Simplic.Session
 {
     /// <summary>
-    /// An object holding information about the current logged in user 
+    /// An object holding information about the current logged in user
     /// </summary>
     public class Session
     {
+        private IList<Organization> organizations = new List<Organization>();
+
+        /// <summary>
+        /// Tenant changed event
+        /// </summary>
+        public event OrganizationSelectionChangedEventHandler OrganizationSelectionChanged;
+
         /// <summary>
         /// Gets the currently logged in user id
         /// </summary>
@@ -41,5 +50,28 @@ namespace Simplic.Session
         /// Gets or sets whether the current user is an active directory user
         /// </summary>
         public bool IsADUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets all available tenant organizations
+        /// </summary>
+        public IReadOnlyList<Organization> Organizations
+        {
+            get => organizations.ToList();
+            set
+            {
+                var organizationList = value.ToList();
+
+                var args = new SelectedOrganizationsChangedArgs
+                {
+                    NewOrganizations = organizationList,
+                    OldOrganizations = organizations
+                };
+
+                // Set new organization tenants
+                organizations = organizationList;
+
+                OrganizationSelectionChanged?.Invoke(this, args);
+            }
+        }
     }
 }

@@ -67,7 +67,15 @@
     <Compile Include="Cache\ICacheable.cs" />
     <Compile Include="Cache\TypedWeakReference.cs" />
     <Compile Include="Cache\WeakReferenceCachable.cs" />
-    <Compile Include="Collections\Generic\StatefulCollection.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\ClearCollectionEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\CollectionClearedEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\CollectionCommittedEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\CommitCollectionEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\ItemAddedEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\ItemRemovedEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\RemoveItemEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\AddItemEventArgs.cs" />
+    <Compile Include="Collections\Generic\StatefulCollection\StatefulCollection.cs" />
     <Compile Include="Collections\Generic\ConcurrentList.cs" />
     <Compile Include="Collections\Generic\Deqeue.cs" />
     <Compile Include="Collections\Generic\ThreadsafeDictionary.cs" />
