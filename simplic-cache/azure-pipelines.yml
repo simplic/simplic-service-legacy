@@ -37,6 +37,15 @@ steps:
     solution: '**/*.sln'
     configuration: '$(buildConfiguration)'
 
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      simplic-cache\**\Simplic.Cache.Test.dll
+      !simplic-cache\**\*TestAdapter.dll
+      !simplic-cache\**\obj\**
+    searchFolder: 'simplic-cache'
+
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
