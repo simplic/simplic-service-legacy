@@ -54,6 +54,7 @@ steps:
     versioningScheme: 'off'
 
 - task: NuGetCommand@2
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.Cache.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.Cache.*.symbols.nupkg'
