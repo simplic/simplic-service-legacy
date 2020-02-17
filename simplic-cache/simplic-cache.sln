@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Cache", "Simplic.Cache\Simplic.Cache.csproj", "{AD04ED5B-A085-43E8-BA0B-D1681E5D7616}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Cache.Service", "Simplic.Cache.Service\Simplic.Cache.Service.csproj", "{9527A161-03A0-4A07-A2D2-EE99F02FA7E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Cache.Test", "Simplic.Cache.Test\Simplic.Cache.Test.csproj", "{621B2D8B-9A20-4D4F-ABB0-6013ACD1E137}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{07283A4C-1033-443E-BA78-F7199C009853}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +35,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD9E9EEF-2DF3-4954-90D7-726EEBE49EA2}
 	EndGlobalSection
 EndGlobal
