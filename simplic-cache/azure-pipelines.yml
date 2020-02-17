@@ -28,13 +28,13 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-    restoreSolution: '**/*.sln'
+    restoreSolution: 'simplic-cache/**/*.sln'
     feedsToUse: 'select'
     vstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
 
 - task: MSBuild@1
   inputs:
-    solution: '**/*.sln'
+    solution: 'simplic-cache/**/*.sln'
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
@@ -49,7 +49,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
-    packagesToPack: 'Simplic.Cache**/*.csproj;!Simplic.Cache.Test/Simplic.Cache.Test.csproj'
+    packagesToPack: 'simplic-cache/Simplic.Cache**/*.csproj;!simplic-cache/Simplic.Cache.Test/Simplic.Cache.Test.csproj'
     configuration: '$(buildConfiguration)'
     versioningScheme: 'off'
 
