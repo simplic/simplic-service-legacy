@@ -41,9 +41,9 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      simplic-cache\**\Simplic.Cache.Test.dll
-      !simplic-cache\**\*TestAdapter.dll
-      !simplic-cache\**\obj\**
+      **\Simplic.Cache.Test.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
     searchFolder: 'simplic-cache'
 
 - task: NuGetCommand@2
