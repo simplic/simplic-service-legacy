@@ -28,19 +28,19 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-    restoreSolution: 'simplic-cache/**/*.sln'
+    restoreSolution: 'simplic-template-parser/**/*.sln'
     feedsToUse: 'select'
     vstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
 
 - task: MSBuild@1
   inputs:
-    solution: 'simplic-cache/**/*.sln'
+    solution: 'simplic-template-parser/**/*.sln'
     configuration: '$(buildConfiguration)'
 
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
-    packagesToPack: 'simplic-cache/Simplic.TemplateParser**/*.csproj;!simplic-cache/Simplic.TemplateParser.Test/Simplic.TemplateParser.Test.csproj'
+    packagesToPack: 'simplic-template-parser/Simplic.TemplateParser**/*.csproj;!simplic-template-parser/Simplic.TemplateParser.Test/Simplic.TemplateParser.Test.csproj'
     configuration: '$(buildConfiguration)'
     versioningScheme: 'off'
 
