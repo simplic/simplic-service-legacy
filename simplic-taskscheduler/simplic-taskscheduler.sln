@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.TaskScheduler", "Simplic.TaskScheduler\Simplic.TaskScheduler.csproj", "{E24B2BA8-3B06-49A3-9211-89229378D859}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.TaskScheduler.Service", "Simplic.TaskScheduler.Service\Simplic.TaskScheduler.Service.csproj", "{73192760-F6D4-43B5-98D1-9DD2C2D9EC10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.TaskScheduler.Data.DB", "Simplic.TaskScheduler.Data.DB\Simplic.TaskScheduler.Data.DB.csproj", "{F97EC76F-4721-4B8C-8890-1D07080600A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{5B74ADB6-650B-41F2-A9FC-70F9B916F6B4}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +35,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D85DE0E5-FB5E-4B37-B24A-F2FA5578528D}
 	EndGlobalSection
 EndGlobal
