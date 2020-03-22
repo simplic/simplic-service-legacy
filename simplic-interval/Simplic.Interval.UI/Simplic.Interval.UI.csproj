@@ -34,8 +34,14 @@
     <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net48\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlRenderer.Core.1.5.1-beta1\lib\net45\HtmlRenderer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer.WPF, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlRenderer.WPF.1.5.1-beta1\lib\net45\HtmlRenderer.WPF.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
@@ -90,23 +96,29 @@
     <Reference Include="SharpDX.DXGI, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.DXGI.2.5.0\lib\net40\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Authentication, Version=6.2.118.628, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Authentication.6.2.118.628\lib\net451\Simplic.Authentication.dll</HintPath>
+    <Reference Include="Simplic.Authentication, Version=6.3.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Authentication.6.3.20.322\lib\net48\Simplic.Authentication.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Authorization, Version=6.2.218.824, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Authorization.6.2.218.824\lib\net451\Simplic.Authorization.dll</HintPath>
+    <Reference Include="Simplic.Authorization, Version=6.3.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Authorization.6.3.20.322\lib\net48\Simplic.Authorization.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.ComponentLicense, Version=1.0.18.814, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.ComponentLicense.1.0.18.814\lib\net451\Simplic.ComponentLicense.dll</HintPath>
+    <Reference Include="Simplic.Cache, Version=6.1.20.217, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Cache.6.1.20.217\lib\net451\Simplic.Cache.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.CoreLib, Version=6.16.119.618, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.16.119.618\lib\net451\Simplic.CoreLib.dll</HintPath>
+    <Reference Include="Simplic.ComponentLicense, Version=1.3.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.ComponentLicense.1.3.20.322\lib\net48\Simplic.ComponentLicense.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Data, Version=1.6.19.614, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Data.1.6.19.614\lib\net451\Simplic.Data.dll</HintPath>
+    <Reference Include="Simplic.Configuration, Version=6.1.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Configuration.6.1.20.322\lib\net48\Simplic.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Dlr, Version=1.3.119.705, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Dlr.1.3.119.705\lib\net451\Simplic.Dlr.dll</HintPath>
+    <Reference Include="Simplic.CoreLib, Version=6.17.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.17.20.322\lib\net451\Simplic.CoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Data, Version=1.6.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.6.20.322\lib\net48\Simplic.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Dlr, Version=1.4.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Dlr.1.4.20.322\lib\net48\Simplic.Dlr.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.Framework.Base, Version=7.2.20.321, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Framework.Base.7.2.20.321\lib\net48\Simplic.Framework.Base.dll</HintPath>
@@ -123,8 +135,8 @@
     <Reference Include="Simplic.Localization.UI, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Localization.UI.1.0.0.2\lib\net451\Simplic.Localization.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Session, Version=6.3.19.127, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Session.6.3.19.127\lib\net451\Simplic.Session.dll</HintPath>
+    <Reference Include="Simplic.Session, Version=6.4.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.6.4.20.322\lib\net48\Simplic.Session.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.Sql, Version=6.2.18.926, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Sql.6.2.18.926\lib\net451\Simplic.Sql.dll</HintPath>
@@ -141,8 +153,8 @@
     <Reference Include="Simplic.Tracking, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Tracking.6.0.18.619\lib\net451\Simplic.Tracking.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.UI">
-      <HintPath>..\..\..\simplic-framework\src\Simplic.Main\bin\Debug\Simplic.UI.dll</HintPath>
+    <Reference Include="Simplic.UI, Version=7.2.20.321, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.UI.7.2.20.321\lib\net48\Simplic.UI.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.UIDataTemplate, Version=1.1.20.321, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.UIDataTemplate.1.1.20.321\lib\net451\Simplic.UIDataTemplate.dll</HintPath>
@@ -191,6 +203,12 @@
     </Reference>
     <Reference Include="Telerik.ReportViewer.Wpf, Version=14.0.20.219, Culture=neutral, PublicKeyToken=a9d7983dfcc261be, processorArchitecture=MSIL">
       <HintPath>..\packages\Telerik.ReportViewer.Wpf.14.0.20.219\lib\net40\Telerik.ReportViewer.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Cloud.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Cloud.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud.Controls, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Cloud.Controls.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Cloud.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <HintPath>..\packages\Telerik.Windows.Controls.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Controls.dll</HintPath>
@@ -263,6 +281,9 @@
     </Reference>
     <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf, Version=2020.1.212.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <HintPath>..\packages\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.2020.1.212\lib\net40\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.PersistenceFramework, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.PersistenceFramework.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.PersistenceFramework.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Zip, Version=2020.1.212.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <HintPath>..\packages\Telerik.Windows.Zip.2020.1.212\lib\net40\Telerik.Windows.Zip.dll</HintPath>
