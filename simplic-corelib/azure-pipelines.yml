@@ -5,9 +5,7 @@ trigger:
     - dev
   paths:
     include:
-    - src/*
-    - test/*
-    - azure-pipelines.yml
+    - simplic-corelib/*
 
 pr:
   branches:
@@ -42,6 +40,7 @@ steps:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
       **\Test\Simplic.CoreLib.*.dll
+      simplic-corelib\Test\Simplic.CoreLib.*.dll
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: 'simplic-corelib'
