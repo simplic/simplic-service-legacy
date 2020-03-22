@@ -58,7 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Simplic.CoreLib\Simplic.CoreLib.csproj">
+    <ProjectReference Include="..\..\Simplic.CoreLib\Simplic.CoreLib.csproj">
       <Project>{94401a6d-06d1-4822-9e0f-f71bc92e94c4}</Project>
       <Name>Simplic.CoreLib</Name>
     </ProjectReference>
