@@ -111,6 +111,12 @@
     <PackageReference Include="Simplic.Framework.DBUI">
       <Version>7.2.20.321</Version>
     </PackageReference>
+    <PackageReference Include="Simplic.Icon">
+      <Version>6.0.18.620</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Icon.UI">
+      <Version>6.1.18.917</Version>
+    </PackageReference>
     <PackageReference Include="Simplic.Session">
       <Version>6.4.20.322</Version>
     </PackageReference>
