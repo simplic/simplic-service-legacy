@@ -1,11 +1,22 @@
 ﻿using Dapper;
 using Simplic.Cache;
 using Simplic.Sql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Simplic.Data.Sql
 {
+    /// <summary>
+    /// Connection cache
+    /// </summary>
+    internal static class ConnectionInfo
+    {
+        private static IDictionary<string, string> connections;
+
+        public static IDictionary<string, string> Connections { get => connections; set => connections = value; }
+    }
+    
     /// <summary>
     /// Sql repository base implementation
     /// </summary>
@@ -16,6 +27,7 @@ namespace Simplic.Data.Sql
         private readonly ISqlService sqlService;
         private readonly ISqlColumnService sqlColumnService;
         private readonly ICacheService cacheService;
+       
 
         /// <summary>
         /// Initialize sql service
@@ -67,7 +79,7 @@ namespace Simplic.Data.Sql
                     cacheService.Set<TModel>(key, obj);
 
                 return obj;
-            });
+            }, GetConnection());
         }
 
         /// <summary>
@@ -79,7 +91,7 @@ namespace Simplic.Data.Sql
             return sqlService.OpenConnection((connection) =>
             {
                 return connection.Query<TModel>($"SELECT * FROM {TableName} ORDER BY {PrimaryKeyColumn}");
-            });
+            }, GetConnection());
         }
 
         /// <summary>
@@ -92,7 +104,7 @@ namespace Simplic.Data.Sql
             {
                 return connection.Query<TModel>($"SELECT * FROM {TableName} WHERE {columnName} = :id ORDER BY {columnName}",
                     new { id = id });
-            });
+            }, GetConnection());
         }
 
         /// <summary>
@@ -115,7 +127,7 @@ namespace Simplic.Data.Sql
                 string sqlStatement = $"INSERT INTO {TableName} ({string.Join(", ", columns.Select(item => item.Key))}) ON EXISTING UPDATE VALUES "
                     + $" ({string.Join(", ", columns.Select(k => "?" + (string.IsNullOrWhiteSpace(k.Value) ? k.Key : k.Value) + "?"))});";
                 return connection.Execute(sqlStatement, obj) > 0;
-            });
+            }, GetConnection());
         }
 
         /// <summary>
@@ -129,7 +141,7 @@ namespace Simplic.Data.Sql
             {
                 return connection.Execute($"DELETE FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
                     new { id = GetId(obj) }) > 0;
-            });
+            }, GetConnection());
         }
 
         /// <summary>
@@ -143,7 +155,65 @@ namespace Simplic.Data.Sql
             {
                 return connection.Execute($"DELETE FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
                     new { id = id }) > 0;
-            });
+            }, GetConnection());
+        }
+
+        /// <summary>
+        /// Gets the repository group if exists
+        /// </summary>
+        /// <returns>group name</returns>
+        private string CheckGroupAttribute()
+        {
+            var attributes = this.GetType().GetCustomAttributes(true);
+
+            if (attributes.Any())
+            {
+                var groupAttribute = attributes.OfType<RepositoryGroupAttribute>().SingleOrDefault();
+
+                if (groupAttribute != null)
+                {
+                    return groupAttribute.GroupName;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the connection name
+        /// </summary>
+        /// <returns>connection name</returns>
+        public string GetConnection()
+        {
+            string connectionName = "default";
+
+            if(ConnectionInfo.Connections == null)
+                ConnectionInfo.Connections = new Dictionary<string, string>();
+
+            if (ConnectionInfo.Connections.ContainsKey(this.GetType().Name))
+            {
+                connectionName = ConnectionInfo.Connections[this.GetType().Name];
+            }
+            else
+            {
+                var groupName = CheckGroupAttribute();
+
+                if (!string.IsNullOrWhiteSpace(groupName))
+                {
+                    connectionName = sqlService.OpenConnection((connection) =>
+                    {
+                        var obj = connection.Query<string>($"SELECT c.mnd_name FROM ESS_DC_BASE_DBConnection_RepositoryGroup g join ESS_DC_BASE_DBConnection c on c.id = g.ConnectionId  WHERE g.Name = :name",
+                            new { name = groupName }).FirstOrDefault();
+
+                        return obj;
+                    });
+                }
+
+                ConnectionInfo.Connections.Add(this.GetType().Name, connectionName);
+
+            }
+
+            return connectionName;
         }
 
         /// <summary>
