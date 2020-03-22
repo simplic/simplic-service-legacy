@@ -28,28 +28,28 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-    restoreSolution: 'simplic-group/**/*.sln'
+    restoreSolution: 'simplic-authorization/**/*.sln'
     feedsToUse: 'select'
     vstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
 
 - task: MSBuild@1
   inputs:
-    solution: 'simplic-group/**/*.sln'
+    solution: 'simplic-authorization/**/*.sln'
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\Simplic.Group.Test.dll
+      **\Simplic.Authorization.Test.dll
       !**\*TestAdapter.dll
       !**\obj\**
-    searchFolder: 'simplic-group'
+    searchFolder: 'simplic-authorization'
 
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
-    packagesToPack: 'simplic-group/Simplic.Group**/*.csproj;!simplic-group/Simplic.Group.Test/Simplic.Group.Test.csproj'
+    packagesToPack: 'simplic-authorization/Simplic.Authorization**/*.csproj;!simplic-authorization/Simplic.Authorization.Test/Simplic.Authorization.Test.csproj'
     configuration: '$(buildConfiguration)'
     versioningScheme: 'off'
 
@@ -57,7 +57,7 @@ steps:
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.Group.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.Group.*.symbols.nupkg'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.Authorization.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.Authorization.*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
     allowPackageConflicts: true
