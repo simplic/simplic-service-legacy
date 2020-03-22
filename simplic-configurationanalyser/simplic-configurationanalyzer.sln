@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.ConfigurationAnalyzer", "Simplic.ConfigurationAnalyzer\Simplic.ConfigurationAnalyzer.csproj", "{F6DBADD3-EEA8-4B55-B924-74D9C6137098}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.ConfigurationAnalyzer.Service", "Simplic.ConfigurationAnalyzer.Service\Simplic.ConfigurationAnalyzer.Service.csproj", "{539FA4CE-08A4-43F5-B43C-E050BF2425F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{C8E1C1A6-EFE0-460D-A05D-A672BCC7FA93}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D36EE325-249E-46BA-A18F-FDBC8A700F6C}
 	EndGlobalSection
 EndGlobal
