@@ -34,20 +34,20 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Authorization, Version=6.0.18.622, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Authorization.6.0.18.622\lib\net451\Simplic.Authorization.dll</HintPath>
+    <Reference Include="Simplic.Authorization, Version=6.3.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Authorization.6.3.20.322\lib\net48\Simplic.Authorization.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.CoreLib, Version=6.1.118.621, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.1.118.621\lib\net451\Simplic.CoreLib.dll</HintPath>
+    <Reference Include="Simplic.CoreLib, Version=6.17.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.17.20.322\lib\net451\Simplic.CoreLib.dll</HintPath>
     </Reference>
     <Reference Include="Simplic.Group, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Group.6.0.18.619\lib\net451\Simplic.Group.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.Session, Version=6.1.118.622, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Session.6.1.118.622\lib\net451\Simplic.Session.dll</HintPath>
+    <Reference Include="Simplic.Session, Version=6.3.19.127, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.6.3.19.127\lib\net451\Simplic.Session.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.User, Version=6.1.318.628, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.User.6.1.318.628\lib\net451\Simplic.User.dll</HintPath>
+    <Reference Include="Simplic.User, Version=6.1.618.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.User.6.1.618.1002\lib\net451\Simplic.User.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

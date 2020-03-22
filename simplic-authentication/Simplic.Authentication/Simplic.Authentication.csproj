@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.Session, Version=6.1.118.622, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Session.6.1.118.622\lib\net451\Simplic.Session.dll</HintPath>
+    <Reference Include="Simplic.Session, Version=6.3.19.127, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.6.3.19.127\lib\net451\Simplic.Session.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
