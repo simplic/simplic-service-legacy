@@ -52,10 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommonServiceLocator">
-      <Version>2.0.3</Version>
+      <Version>2.0.5</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Sql">
-      <Version>6.0.18.63</Version>
+      <Version>6.3.20.322</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

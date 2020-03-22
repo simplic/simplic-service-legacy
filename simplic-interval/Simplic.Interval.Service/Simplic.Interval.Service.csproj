@@ -72,13 +72,13 @@
       <Version>6.17.20.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Data">
-      <Version>1.6.20.322</Version>
+      <Version>1.6.120.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Framework.DAL">
       <Version>7.2.20.321</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Sql">
-      <Version>6.2.18.926</Version>
+      <Version>6.3.20.322</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
