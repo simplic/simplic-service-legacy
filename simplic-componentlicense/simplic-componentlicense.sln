@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.ComponentLicense", "Simplic.ComponentLicense\Simplic.ComponentLicense.csproj", "{34A7D59D-1D29-40AB-8168-B9816F073DD0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.ComponentLicense.Service", "Simplic.ComponentLicense.Service\Simplic.ComponentLicense.Service.csproj", "{F711F94B-5180-4CC9-AE1D-C017E335C3AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.ComponentLicense.Data.DB", "Simplic.ComponentLicense.Data.DB\Simplic.ComponentLicense.Data.DB.csproj", "{A96692C9-B867-4268-A9BD-4B35F8072B49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{71AF5598-2A3D-4BA1-B2DD-7141784B76BF}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +35,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {01D5842D-0E6E-4681-AC32-8056508752AC}
 	EndGlobalSection
 EndGlobal
