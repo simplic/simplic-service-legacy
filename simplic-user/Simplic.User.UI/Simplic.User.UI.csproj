@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7BA6ED3-EC02-4DA3-A85A-44434641FEEE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Simplic.User.UI</RootNamespace>
+    <AssemblyName>Simplic.User.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net48\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="iAnywhere.Data.SQLAnywhere.EF6, Version=16.0.0.26144, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
+      <HintPath>..\packages\iAnywhere.Data.SQLAnywhere.EF6.16.0.0.26144\lib\net45\iAnywhere.Data.SQLAnywhere.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython, Version=2.7.7.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPython.2.7.7\lib\Net45\IronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython.Modules, Version=2.7.7.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPython.2.7.7\lib\Net45\IronPython.Modules.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython.SQLite, Version=2.7.7.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPython.2.7.7\lib\Net45\IronPython.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython.Wpf, Version=2.7.7.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPython.2.7.7\lib\Net45\IronPython.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.AspNet, Version=1.1.1.21, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Scripting.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Scripting.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Base, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Base.7.2.120.329\lib\net48\Simplic.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.BaseDAL, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.BaseDAL.7.2.120.329\lib\net48\Simplic.BaseDAL.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Cache, Version=6.1.20.217, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Cache.6.1.20.217\lib\net451\Simplic.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Cache.Service, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Cache.Service.6.0.18.619\lib\net451\Simplic.Cache.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Configuration, Version=6.1.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Configuration.6.1.20.322\lib\net48\Simplic.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Configuration.Data.DB, Version=6.1.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Configuration.Data.DB.6.1.20.322\lib\net48\Simplic.Configuration.Data.DB.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Configuration.Service, Version=6.1.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Configuration.Service.6.1.20.322\lib\net48\Simplic.Configuration.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.CoreLib, Version=6.17.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.CoreLib.6.17.20.322\lib\net451\Simplic.CoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Data, Version=1.6.120.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.1.6.120.322\lib\net48\Simplic.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Data.Sql, Version=1.14.120.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Data.Sql.1.14.120.322\lib\net48\Simplic.Data.Sql.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Dlr, Version=1.4.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Dlr.1.4.20.322\lib\net48\Simplic.Dlr.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Framework.Base, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Framework.Base.7.2.120.329\lib\net48\Simplic.Framework.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Framework.DAL, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Framework.DAL.7.2.120.329\lib\net48\Simplic.Framework.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Framework.DBUI, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Framework.DBUI.7.2.120.329\lib\net48\Simplic.Framework.DBUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Framework.Model, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Framework.Model.7.2.120.329\lib\net48\Simplic.Framework.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Framework.Repository, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Framework.Repository.7.2.120.329\lib\net48\Simplic.Framework.Repository.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Group, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Group.6.0.18.619\lib\net451\Simplic.Group.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Group.Service, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Group.Service.6.0.18.619\lib\net451\Simplic.Group.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Localization, Version=6.0.118.913, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Localization.6.0.118.913\lib\net451\Simplic.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Localization.Service, Version=6.1.18.917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Localization.Service.6.1.18.917\lib\net48\Simplic.Localization.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Log, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Log.7.2.120.329\lib\net48\Simplic.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Session, Version=6.4.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.6.4.20.322\lib\net48\Simplic.Session.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Session.Service, Version=6.4.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.Service.6.4.20.322\lib\net48\Simplic.Session.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Sql, Version=6.3.20.322, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Sql.6.3.20.322\lib\net48\Simplic.Sql.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Sql.SqlAnywhere.Service, Version=5.95.418.101, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Sql.SqlAnywhere.Service.5.95.418.101\lib\net48\Simplic.Sql.SqlAnywhere.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.TenantSystem, Version=2.0.120.41, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.TenantSystem.2.0.120.41\lib\net48\Simplic.TenantSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.TenantSystem.Data.DB, Version=2.0.20.331, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.TenantSystem.Data.DB.2.0.20.331\lib\net48\Simplic.TenantSystem.Data.DB.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.TenantSystem.Service, Version=2.0.20.331, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.TenantSystem.Service.2.0.20.331\lib\net48\Simplic.TenantSystem.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.UI, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.UI.7.2.120.329\lib\net48\Simplic.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.User, Version=6.1.618.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.User.6.1.618.1002\lib\net451\Simplic.User.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.User.Service, Version=6.1.618.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.User.Service.6.1.618.1002\lib\net451\Simplic.User.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>Libs\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Controls.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Controls.GridView.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Controls.Input.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Controls.Navigation.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2020.1.218.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Windows.Data.for.Wpf.Xaml.2020.1.218\lib\net45\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="Unity.Abstractions, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.5.11.2\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.11.5\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.ServiceLocation.5.11.1\lib\net47\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UserControls\DragAdorner.cs" />
+    <Compile Include="UserControls\ListViewWithDragAndDrop.cs" />
+    <Compile Include="UserControls\MultiSelectComboBox.xaml.cs">
+      <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\StringComparisonFilterControl.xaml.cs">
+      <DependentUpon>StringComparisonFilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UserBox.xaml.cs" />
+    <Compile Include="Utils\IDraggableUser.cs" />
+    <Compile Include="Utils\IgnoreMouseWheelBehavior.cs" />
+    <Compile Include="Utils\INamedEntity.cs" />
+    <Compile Include="Utils\ListViewDragDropManager.cs" />
+    <Compile Include="Utils\ListViewItemDragState.cs" />
+    <Compile Include="Utils\MouseUtilities.cs" />
+    <Compile Include="ViewModels\ChangeUserPasswordViewModel.cs" />
+    <Compile Include="ViewModels\GroupDetailsViewModel.cs" />
+    <Compile Include="ViewModels\GroupViewModel.cs" />
+    <Compile Include="ViewModels\OrganizationDetailsViewModel.cs" />
+    <Compile Include="ViewModels\OrganizationViewModel.cs" />
+    <Compile Include="ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="ViewModels\UserManagmentEditorViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\ChangeUserPasswordView.xaml.cs">
+      <DependentUpon>ChangeUserPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GroupDetailsView.xaml.cs">
+      <DependentUpon>GroupDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrganizationDetailsView.xaml.cs">
+      <DependentUpon>OrganizationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserManagmentEditorView.xaml.cs">
+      <DependentUpon>UserManagmentEditorView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\GroupsToLabelConverter.cs" />
+    <Compile Include="Converters\InvertBooleanConverter.cs" />
+    <Compile Include="Converters\MultiComboboxConverter.cs" />
+    <Compile Include="Converters\OrganizationsToLabelConverter.cs" />
+    <Compile Include="Converters\SelectedUserIsNullConverter.cs" />
+    <Compile Include="Converters\UserToListViewItemConverter.cs" />
+    <Compile Include="Dialogs\DialogBehavior.cs" />
+    <Compile Include="Dialogs\IDialogViewModel.cs" />
+    <Compile Include="Dialogs\IUserDialogViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="simplic-repository\Localization\usermanagment.de-DE.json" />
+    <None Include="simplic-repository\Localization\usermanagment.en-US.json" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\add_user.png" />
+    <Resource Include="Resources\change.png" />
+    <Resource Include="Resources\collapse_all.png" />
+    <Resource Include="Resources\delete.png" />
+    <Resource Include="Resources\edit.png" />
+    <Resource Include="Resources\edit_user.png" />
+    <Resource Include="Resources\expand_all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\Telerik.Windows.Controls.GridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MultiSelectComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\StringComparisonFilterControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\UserBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ChangeUserPasswordView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GroupDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OrganizationDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserManagmentEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>

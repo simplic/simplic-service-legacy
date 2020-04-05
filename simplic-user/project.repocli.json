@@ -1,0 +1,14 @@
+{
+  "commands": [
+    {
+      "type": "copy",
+      "target": "\\Simplic.User.UI\\simplic-repository\\Localization\\usermanagment.de-DE.json",
+      "destination": "/public/Localization/usermanagment.de-DE.json"
+    },
+    {
+      "type": "copy",
+      "target": "\\Simplic.User.UI\\simplic-repository\\Localization\\usermanagment.en-US.json",
+      "destination": "/public/Localization/usermanagment.en-US.json"
+    }
+  ]
+}
