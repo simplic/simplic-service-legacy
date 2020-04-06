@@ -137,6 +137,12 @@
     <Reference Include="Simplic.Group.Service, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Group.Service.6.0.18.619\lib\net451\Simplic.Group.Service.dll</HintPath>
     </Reference>
+    <Reference Include="Simplic.Icon, Version=6.0.18.620, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Icon.6.0.18.620\lib\net451\Simplic.Icon.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.Icon.UI, Version=6.1.18.917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Icon.UI.6.1.18.917\lib\net451\Simplic.Icon.UI.dll</HintPath>
+    </Reference>
     <Reference Include="Simplic.Localization, Version=6.0.118.913, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Localization.6.0.118.913\lib\net451\Simplic.Localization.dll</HintPath>
     </Reference>
@@ -312,15 +318,6 @@
     <None Include="simplic-repository\Localization\usermanagment.en-US.json" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Resource Include="Resources\add_user.png" />
-    <Resource Include="Resources\change.png" />
-    <Resource Include="Resources\collapse_all.png" />
-    <Resource Include="Resources\delete.png" />
-    <Resource Include="Resources\edit.png" />
-    <Resource Include="Resources\edit_user.png" />
-    <Resource Include="Resources\expand_all.png" />
-  </ItemGroup>
   <ItemGroup>
     <Page Include="Resources\Telerik.Windows.Controls.GridView.xaml">
       <Generator>MSBuild:Compile</Generator>

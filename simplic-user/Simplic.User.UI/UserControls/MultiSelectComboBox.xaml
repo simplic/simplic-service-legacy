@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Simplic.User.UI.MultiSelectComboBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
              xmlns:local="clr-namespace:Simplic.User.UI"
              xmlns:converters="clr-namespace:Simplic.User.UI">
     <UserControl.Resources>
@@ -30,7 +31,7 @@
                     <Button Width="17" Height="17" HorizontalAlignment="Right" Tag="{Binding Path=.}"
                             Click="OnEditClick" Background="Transparent" BorderThickness="0">
                         <Button.Content>
-                            <Image Source="..\Resources\edit.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
+                            <Image Source="{simplic:Icon Name=usermanagement_edit_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
                         </Button.Content>
                     </Button>
                 </DockPanel>

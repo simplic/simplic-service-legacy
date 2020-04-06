@@ -48,19 +48,19 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <telerik:RadRibbonButton Command="{Binding Path=AddUserCommand}" Grid.Column="0" Margin="0,0,5,0"
-                                                         LargeImage="..\Resources\add_user.png" Text="Add user" Size="Large"/>
+                                                         LargeImage="{simplic:Icon Name=usermanagement_add_user_32x}" Text="Add user" Size="Large"/>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" IsEnabled="{Binding Path=SelectedUser, Converter={StaticResource SelectedUserIsNullConverter}}">
-                                    <telerik:RadRibbonButton Command="{Binding Path=OpenSelectedUserDetailsCommand}" LargeImage="..\Resources\edit_user.png" Text="Edit user" Size="Large" />
-                                    <telerik:RadRibbonButton Margin="5,0,0,0" Command="{Binding Path=DeleteSelectedUserCommand}" LargeImage="..\Resources\delete.png" Text="Remove user" Size="Large" />
+                                    <telerik:RadRibbonButton Command="{Binding Path=OpenSelectedUserDetailsCommand}" LargeImage="{simplic:Icon Name=usermanagement_edit_user_32x}" Text="Edit user" Size="Large" />
+                                    <telerik:RadRibbonButton Margin="5,0,0,0" Command="{Binding Path=DeleteSelectedUserCommand}" LargeImage="{simplic:Icon Name=usermanagement_remove_user_32x}" Text="Remove user" Size="Large" />
                                 </StackPanel>
 
-                                <telerik:RadRibbonToggleButton LargeImage="..\Resources\change.png" Text="Change view" Size="Large"
+                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}" Text="Change view" Size="Large"
                                                            Margin="5,0,0,0" Name="_changeBtn" Grid.Column="2"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
                                                            Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource TrueVisibilityConverter}}"/>
 
-                                <telerik:RadRibbonToggleButton LargeImage="..\Resources\change.png" Text="Change view" Size="Large"
+                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}" Text="Change view" Size="Large"
                                                            Margin="5,0,0,0" Name="_changeBtn2" Grid.Column="2"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
                                                            Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource FalseVisibilityConverter}}"/>
@@ -164,12 +164,12 @@
                             <Label Grid.Column="0" Content="Managment studio groups:" />
                             <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Expand all" Click="OnAllGroupsExpand">
                                 <Button.Content>
-                                    <Image Source="..\Resources\expand_all.png" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                    <Image Source="{simplic:Icon Name=usermanagement_expand_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
                             </Button>
                             <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Collapse all" Click="OnAllGroupsCollapse">
                                 <Button.Content>
-                                    <Image Source="..\Resources\collapse_all.png" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                    <Image Source="{simplic:Icon Name=usermanagement_collapse_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
                             </Button>
                         </Grid>
@@ -204,7 +204,7 @@
                                                     Command="{Binding Path=DataContext.EditCurrentGroupCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
                                                     CommandParameter="{Binding Path=.}">
                                                     <Button.Content>
-                                                        <Image Source="..\Resources\edit.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="20" />
+                                                        <Image Source="{simplic:Icon Name=usermanagement_edit_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="20" />
                                                     </Button.Content>
                                                 </Button>
                                             </Grid>
@@ -271,12 +271,12 @@
                                         <Button Height="20" Width="20" Grid.Column="1" BorderBrush="Transparent" Background="Transparent"
                                             Command="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
                                             CommandParameter="{Binding Path=.}">
-                                            <Image Source="..\Resources\edit_user.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="16" Width="16" />
+                                            <Image Source="{simplic:Icon Name=usermanagement_edit_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="16" Width="16" />
                                         </Button>
                                         <Button Height="20" Width="20" Grid.Column="2" BorderBrush="Transparent" Background="Transparent"
                                             Command="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
                                             CommandParameter="{Binding Path=.}">
-                                            <Image Source="..\Resources\delete.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
+                                            <Image Source="{simplic:Icon Name=usermanagement_remove_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
                                         </Button>
                                     </Grid>
                                 </DataTemplate>
@@ -377,12 +377,12 @@
                             <Label Content="Managment studio groups:" Grid.Column="0" />
                             <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Expand all" Click="OnAllOrganizationsExpand">
                                 <Button.Content>
-                                    <Image Source="..\Resources\expand_all.png" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                    <Image Source="{simplic:Icon Name=usermanagement_expand_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
                             </Button>
                             <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Collapse all" Click="OnAllOrganizationsCollapse">
                                 <Button.Content>
-                                    <Image Source="..\Resources\collapse_all.png" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                    <Image Source="{simplic:Icon Name=usermanagement_collapse_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
                             </Button>
                         </Grid>                        
@@ -416,7 +416,7 @@
                                                     Command="{Binding Path=DataContext.EditCurrentOrganizationCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
                                                     CommandParameter="{Binding Path=.}">
                                                     <Button.Content>
-                                                        <Image Source="..\Resources\edit.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="20" />
+                                                        <Image Source="{simplic:Icon Name=usermanagement_edit_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="20" />
                                                     </Button.Content>
                                                 </Button>
                                             </Grid>
@@ -483,12 +483,12 @@
                                         <Button Height="20" Width="20" Grid.Column="1" BorderBrush="Transparent" Background="Transparent"
                                             Command="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
                                             CommandParameter="{Binding Path=.}">
-                                            <Image Source="..\Resources\edit_user.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="16" Width="16" />
+                                            <Image Source="{simplic:Icon Name=usermanagement_edit_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="16" Width="16" />
                                         </Button>
                                         <Button Height="20" Width="20" Grid.Column="2" BorderBrush="Transparent" Background="Transparent"
                                             Command="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
                                             CommandParameter="{Binding Path=.}">
-                                            <Image Source="..\Resources\delete.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
+                                            <Image Source="{simplic:Icon Name=usermanagement_remove_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
                                         </Button>
                                     </Grid>
                                 </DataTemplate>
