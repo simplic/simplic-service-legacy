@@ -9,6 +9,7 @@
         xmlns:utls="clr-namespace:Simplic.User.UI"
         xmlns:dlgs="clr-namespace:Simplic.User.UI"
         xmlns:local="clr-namespace:Simplic.User.UI"
+        xmlns:dbui="clr-namespace:Simplic.Framework.DBUI;assembly=Simplic.Framework.DBUI"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         dlgs:DialogBehavior.DialogViewModels="{Binding Dialogs}"
         Title="Groups and users management" WindowState="Maximized" LayoutContext="Win_UserManagement">
@@ -39,8 +40,8 @@
         <simplic:KeyboardController Grid.Row="0" x:Name="keyboardController" IsActive="True" AutomaticActivationOnLoad="True" Margin="5">
             <simplic:RibbonContextController x:Name="mainRibbonContextController">
                 <simplic:RibbonContextController.RadRibbonContextTab>
-                    <telerik:RadRibbonTab x:Name="radRibbonTab" Header="General">
-                        <telerik:RadRibbonGroup Header="General">
+                    <telerik:RadRibbonTab x:Name="radRibbonTab" Header="{simplic:Localization Key=usermanagment_general_label}">
+                        <telerik:RadRibbonGroup Header="{simplic:Localization Key=usermanagment_general_label}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -48,19 +49,23 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <telerik:RadRibbonButton Command="{Binding Path=AddUserCommand}" Grid.Column="0" Margin="0,0,5,0"
-                                                         LargeImage="{simplic:Icon Name=usermanagement_add_user_32x}" Text="Add user" Size="Large"/>
+                                                         LargeImage="{simplic:Icon Name=usermanagement_add_user_32x}" Text="{simplic:Localization Key=usermanagment_add_user_label}" Size="Large"/>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" IsEnabled="{Binding Path=SelectedUser, Converter={StaticResource SelectedUserIsNullConverter}}">
-                                    <telerik:RadRibbonButton Command="{Binding Path=OpenSelectedUserDetailsCommand}" LargeImage="{simplic:Icon Name=usermanagement_edit_user_32x}" Text="Edit user" Size="Large" />
-                                    <telerik:RadRibbonButton Margin="5,0,0,0" Command="{Binding Path=DeleteSelectedUserCommand}" LargeImage="{simplic:Icon Name=usermanagement_remove_user_32x}" Text="Remove user" Size="Large" />
+                                    <telerik:RadRibbonButton Command="{Binding Path=OpenSelectedUserDetailsCommand}" LargeImage="{simplic:Icon Name=usermanagement_edit_user_32x}"
+                                                             Text="{simplic:Localization Key=usermanagment_edit_user_label}" Size="Large" />
+                                    <telerik:RadRibbonButton Margin="5,0,0,0" Command="{Binding Path=DeleteSelectedUserCommand}" LargeImage="{simplic:Icon Name=usermanagement_remove_user_32x}"
+                                                             Text="{simplic:Localization Key=usermanagment_remove_user_label}" Size="Large" />
                                 </StackPanel>
 
-                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}" Text="Change view" Size="Large"
+                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}"
+                                                           Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
                                                            Margin="5,0,0,0" Name="_changeBtn" Grid.Column="2"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
                                                            Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource TrueVisibilityConverter}}"/>
 
-                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}" Text="Change view" Size="Large"
+                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}"
+                                                           Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
                                                            Margin="5,0,0,0" Name="_changeBtn2" Grid.Column="2"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
                                                            Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource FalseVisibilityConverter}}"/>
@@ -72,7 +77,8 @@
         </simplic:KeyboardController>
 
         <TabControl Grid.Row="1">
-            <TabItem Header="User and groups" Name="usersItem" IsSelected="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Mode=OneWayToSource}">
+            <TabItem Header="{simplic:Localization Key=usermanagment_user_and_groups_label}" 
+                     IsSelected="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Mode=OneWayToSource}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -85,39 +91,39 @@
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
                         <simplic:CursorGridViewControl.Columns>
                             <telerik:GridViewSelectColumn/>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=UserName}" Header="User Name" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=UserName}" Header="{simplic:Localization Key=usermanagment_user_name_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="User name: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_user_name_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=FirstName}" Header="First Name" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=FirstName}" Header="{simplic:Localization Key=usermanagment_first_name_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="First name: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_first_name_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=LastName}" Header="Last Name" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=LastName}" Header="{simplic:Localization Key=usermanagment_last_name_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="Last name: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_last_name_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Email}" Header="Email" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Email}" Header="{simplic:Localization Key=usermanagment_email_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="Email: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_email_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=IsActive}" Header="Is Active" IsReadOnly="True" IsFilterable="False">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=IsActive}" Header="{simplic:Localization Key=usermanagment_is_active_label}" IsReadOnly="True" IsFilterable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
                                         <telerik:Label Content="{Binding Path=IsActive}"/>
                                     </DataTemplate>
                                 </telerik:GridViewDataColumn.CellTemplate>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Phone}" Header="Phone" MinWidth="180" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Phone}" Header="{simplic:Localization Key=usermanagment_phone_label}" MinWidth="180" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="Phone: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_phone_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Groups}" Header="Groups" MinWidth="250" IsFilterable="False">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Groups}" Header="{simplic:Localization Key=usermanagment_groups_label}" MinWidth="250" IsFilterable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock TextWrapping="Wrap" Text="{Binding Path=Groups, Converter={StaticResource GroupsToLabelConverter}}"
@@ -150,7 +156,7 @@
                         </Grid.RowDefinitions>
 
                         <DockPanel  Grid.Column="1" Grid.Row="0" LastChildFill="True" Margin="0,0,0,5">
-                            <Label Content="Filter:" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                            <Label Content="{simplic:Localization Key=usermanagment_filter_label}" VerticalAlignment="Center" DockPanel.Dock="Left" />
                             <TextBox Height="27" Width="Auto" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Stretch"
                                     Text="{Binding Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
@@ -161,13 +167,15 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="Managment studio groups:" />
-                            <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Expand all" Click="OnAllGroupsExpand">
+                            <Label Grid.Column="0" Content="{simplic:Localization Key=usermanagment_management_studio_groups_label}" />
+                            <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_expand_all_label}" Click="OnAllGroupsExpand">
                                 <Button.Content>
                                     <Image Source="{simplic:Icon Name=usermanagement_expand_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
                             </Button>
-                            <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Collapse all" Click="OnAllGroupsCollapse">
+                            <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_collapse_all_label}" Click="OnAllGroupsCollapse">
                                 <Button.Content>
                                     <Image Source="{simplic:Icon Name=usermanagement_collapse_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
@@ -285,7 +293,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Tenants" Name="tenantItem">
+            <TabItem Header="{simplic:Localization Key=usermanagment_tenants_label}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -298,39 +306,39 @@
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
                         <simplic:CursorGridViewControl.Columns>
                             <telerik:GridViewSelectColumn/>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=UserName}" Header="User Name" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=UserName}" Header="{simplic:Localization Key=usermanagment_user_name_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="User name: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_user_name_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=FirstName}" Header="First Name" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=FirstName}" Header="{simplic:Localization Key=usermanagment_first_name_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="First name: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_first_name_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=LastName}" Header="Last Name" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=LastName}" Header="{simplic:Localization Key=usermanagment_last_name_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="Last name: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_last_name_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Email}" Header="Email" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Email}" Header="{simplic:Localization Key=usermanagment_email_label}" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="Email: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_email_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=IsActive}" Header="Is Active" IsReadOnly="True" IsFilterable="False">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=IsActive}" Header="{simplic:Localization Key=usermanagment_is_active_label}" IsReadOnly="True" IsFilterable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
                                         <telerik:Label Content="{Binding Path=IsActive}"/>
                                     </DataTemplate>
                                 </telerik:GridViewDataColumn.CellTemplate>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Phone}" Header="Phone" MinWidth="180" IsReadOnly="True">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Phone}" Header="{simplic:Localization Key=usermanagment_phone_label}" MinWidth="180" IsReadOnly="True">
                                 <telerik:GridViewDataColumn.FilteringControl>
-                                    <uc:StringComparisonFilterControl LabelText="Phone: "/>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_phone_label}"/>
                                 </telerik:GridViewDataColumn.FilteringControl>
                             </telerik:GridViewDataColumn>
-                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Organizations}" Header="Tenants" MinWidth="250" IsFilterable="False">
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Organizations}" Header="{simplic:Localization Key=usermanagment_tenants_label}" MinWidth="250" IsFilterable="False">
                                 <telerik:GridViewDataColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock TextWrapping="Wrap" Text="{Binding Path=Organizations, Converter={StaticResource OrganizationsToLabelConverter}}"
@@ -363,7 +371,7 @@
                         </Grid.RowDefinitions>
 
                         <DockPanel  Grid.Column="1" Grid.Row="0" LastChildFill="True" Margin="0,0,0,5">
-                            <Label Content="Filter:" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                            <Label Content="{simplic:Localization Key=usermanagment_filter_label}" VerticalAlignment="Center" DockPanel.Dock="Left" />
                             <TextBox Height="27" Width="Auto" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Stretch"
                                     Text="{Binding Path=FilterString2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
@@ -374,13 +382,15 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Content="Managment studio groups:" Grid.Column="0" />
-                            <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Expand all" Click="OnAllOrganizationsExpand">
+                            <Label Content="{simplic:Localization Key=usermanagment_management_studio_groups_label}" Grid.Column="0" />
+                            <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_expand_all_label}" Click="OnAllOrganizationsExpand">
                                 <Button.Content>
                                     <Image Source="{simplic:Icon Name=usermanagement_expand_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
                             </Button>
-                            <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0" ToolTip="Collapse all" Click="OnAllOrganizationsCollapse">
+                            <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_collapse_all_label}" Click="OnAllOrganizationsCollapse">
                                 <Button.Content>
                                     <Image Source="{simplic:Icon Name=usermanagement_collapse_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
                                 </Button.Content>
@@ -496,6 +506,9 @@
                         </uc:ListViewWithDragAndDrop>
                     </Grid>
                 </Grid>
+            </TabItem>
+            <TabItem Header="{simplic:Localization Key=usermanagment_roles_label}">
+                <dbui:IntegratedGridView x:Name="roleGridView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" />
             </TabItem>
         </TabControl>
     </Grid>

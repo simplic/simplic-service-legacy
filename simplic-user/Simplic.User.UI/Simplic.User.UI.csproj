@@ -149,6 +149,9 @@
     <Reference Include="Simplic.Localization.Service, Version=6.1.18.917, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Localization.Service.6.1.18.917\lib\net48\Simplic.Localization.Service.dll</HintPath>
     </Reference>
+    <Reference Include="Simplic.Localization.UI, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Localization.UI.1.0.0.2\lib\net451\Simplic.Localization.UI.dll</HintPath>
+    </Reference>
     <Reference Include="Simplic.Log, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Log.7.2.120.329\lib\net48\Simplic.Log.dll</HintPath>
     </Reference>
@@ -241,6 +244,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\PwdButtonContentConverter.cs" />
+    <Compile Include="Converters\PwdButtonVisibilityConverter.cs" />
+    <Compile Include="Converters\UserToTitleConverter.cs" />
     <Compile Include="UserControls\DragAdorner.cs" />
     <Compile Include="UserControls\ListViewWithDragAndDrop.cs" />
     <Compile Include="UserControls\MultiSelectComboBox.xaml.cs">

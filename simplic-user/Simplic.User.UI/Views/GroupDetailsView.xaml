@@ -10,14 +10,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DockPanel Margin="7,10,7,7" LastChildFill="True">
-            <Label DockPanel.Dock="Left" Content="Group Name:" />
+            <Label DockPanel.Dock="Left" Content="{simplic:Localization Key=usermanagment_group_name_label}" />
             <TextBox Margin="5,0,0,0" Text="{Binding Path=NewGroupName, Mode=TwoWay}" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" />
         </DockPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="7">
-            <Button Content="Ok" Height="27" Width="80"
+            <Button Content="{simplic:Localization Key=usermanagment_ok_label}" Height="27" Width="80"
                     Command="{Binding Path=OkCommand}" />
-            <Button Content="Cancel" Height="27" Width="80" Margin="7,0,0,0" IsDefault="True"
+            <Button Content="{simplic:Localization Key=usermanagment_cancel_label}" Height="27" Width="80" Margin="7,0,0,0" IsDefault="True"
                     Command="{Binding Path=CancelCommand}" />
         </StackPanel>
     </Grid>

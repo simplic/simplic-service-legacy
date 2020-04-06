@@ -19,6 +19,7 @@ namespace Simplic.User.UI
         public UserManagmentEditorView()
         {
             InitializeComponent();
+            roleGridView.LoadConfiguration("GRID_Role");
         }
 
         private void ExpandOrCollapse(DependencyObject control, bool isExpanded)
