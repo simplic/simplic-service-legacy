@@ -21,8 +21,8 @@
         <converters:OrganizationsToLabelConverter x:Key="OrganizationsToLabelConverter" />
         <converters:SelectedUserIsNullConverter x:Key="SelectedUserIsNullConverter" />
         <converters:UserToListViewItemConverter x:Key="UserToListViewItemConverter" />
-        <converters:BoolToVisibilityConverter x:Key="TrueVisibilityConverter" VisibilityForTrue="Visible" VisibilityForFalse="Collapsed" />
-        <converters:BoolToVisibilityConverter x:Key="FalseVisibilityConverter" VisibilityForTrue="Collapsed" VisibilityForFalse="Visible" />
+        <simplic:BoolToVisibilityConverter x:Key="TrueVisibilityConverter" VisibilityForTrue="Visible" VisibilityForFalse="Collapsed" />
+        <simplic:BoolToVisibilityConverter x:Key="FalseVisibilityConverter" VisibilityForTrue="Collapsed" VisibilityForFalse="Visible" />
     </simplic:DefaultRibbonWindow.Resources>
     <Grid>
         <Grid.Resources>

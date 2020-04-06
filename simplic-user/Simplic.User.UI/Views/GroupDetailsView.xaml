@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
         <DockPanel Margin="7,10,7,7" LastChildFill="True">
             <Label DockPanel.Dock="Left" Content="{simplic:Localization Key=usermanagment_group_name_label}" />
-            <TextBox Margin="5,0,0,0" Text="{Binding Path=NewGroupName, Mode=TwoWay}" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+            <simplic:TextBox Margin="5,0,0,0" Text="{Binding Path=NewGroupName, Mode=TwoWay}" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" />
         </DockPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="7">

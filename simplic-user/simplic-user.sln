@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{8A42E1FC-E42F-4618-B84D-04183DB6FB2E}"
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
-		project.repocli.json = project.repocli.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.User.Test", "Simplic.User.Test\Simplic.User.Test.csproj", "{26D6F8D2-E739-4913-9670-70BF98015155}"

@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Margin="2" VerticalAlignment="Center"
                        Text="{Binding Path=LabelText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:StringComparisonFilterControl}}}" />
-            <TextBox Name="_txt" Height="25" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="0" Margin="2,2,4,2"
+            <simplic:TextBox Name="_txt" Height="25" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="0" Margin="2,2,4,2"
                      Text="{Binding Path=FilteredText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:StringComparisonFilterControl}}}"/>
             <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <telerik:RadButton Name="filterButton" Content="{simplic:Localization Key=usermanagment_filter_label}" Click="OnFilter" Margin="2" Width="80"/>
