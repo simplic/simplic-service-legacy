@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7BA6ED3-EC02-4DA3-A85A-44434641FEEE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Simplic.User.UI</RootNamespace>
+    <AssemblyName>Simplic.User.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Simplic.User, Version=6.1.1018.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Simplic.User\bin\Debug\Simplic.User.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplic.User.Service, Version=6.1.918.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Simplic.User.Service\obj\Debug\Simplic.User.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\PwdButtonContentConverter.cs" />
+    <Compile Include="Converters\PwdButtonVisibilityConverter.cs" />
+    <Compile Include="Converters\UserToTitleConverter.cs" />
+    <Compile Include="UserControls\DragAdorner.cs" />
+    <Compile Include="UserControls\ListViewWithDragAndDrop.cs" />
+    <Compile Include="UserControls\MultiSelectComboBox.xaml.cs">
+      <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\StringComparisonFilterControl.xaml.cs">
+      <DependentUpon>StringComparisonFilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UserBox.xaml.cs" />
+    <Compile Include="Utils\IDeletableViewModel.cs" />
+    <Compile Include="Utils\IDraggableUser.cs" />
+    <Compile Include="Utils\IgnoreMouseWheelBehavior.cs" />
+    <Compile Include="Utils\INamedEntity.cs" />
+    <Compile Include="Utils\ISaveableViewModel.cs" />
+    <Compile Include="Utils\ListViewDragDropManager.cs" />
+    <Compile Include="Utils\ListViewItemDragState.cs" />
+    <Compile Include="Utils\MouseUtilities.cs" />
+    <Compile Include="ViewModels\ChangeUserPasswordViewModel.cs" />
+    <Compile Include="ViewModels\GroupDetailsViewModel.cs" />
+    <Compile Include="ViewModels\GroupViewModel.cs" />
+    <Compile Include="ViewModels\OrganizationDetailsViewModel.cs" />
+    <Compile Include="ViewModels\OrganizationViewModel.cs" />
+    <Compile Include="ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="ViewModels\UserManagmentEditorViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\ChangeUserPasswordView.xaml.cs">
+      <DependentUpon>ChangeUserPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GroupDetailsView.xaml.cs">
+      <DependentUpon>GroupDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrganizationDetailsView.xaml.cs">
+      <DependentUpon>OrganizationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserManagmentEditorView.xaml.cs">
+      <DependentUpon>UserManagmentEditorView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\GroupsToLabelConverter.cs" />
+    <Compile Include="Converters\InvertBooleanConverter.cs" />
+    <Compile Include="Converters\MultiComboboxConverter.cs" />
+    <Compile Include="Converters\OrganizationsToLabelConverter.cs" />
+    <Compile Include="Converters\SelectedUserIsNullConverter.cs" />
+    <Compile Include="Converters\UserToListViewItemConverter.cs" />
+    <Compile Include="Dialogs\DialogBehavior.cs" />
+    <Compile Include="Dialogs\IDialogViewModel.cs" />
+    <Compile Include="Dialogs\IUserDialogViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="EntityFramework">
+      <Version>6.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="iAnywhere.Data.SQLAnywhere.EF6">
+      <Version>16.0.0.26144</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.19</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Base">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.BaseDAL">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Cache.Service">
+      <Version>6.0.18.619</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Configuration">
+      <Version>6.1.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Configuration.Data.DB">
+      <Version>6.1.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Configuration.Service">
+      <Version>6.1.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Data">
+      <Version>1.6.120.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Data.Sql">
+      <Version>1.14.120.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Dlr">
+      <Version>1.4.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.Base">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.DAL">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.DBUI">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.Model">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Framework.Repository">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Group">
+      <Version>6.0.18.619</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Group.Service">
+      <Version>6.0.18.619</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Icon.UI">
+      <Version>6.1.18.917</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Localization.Service">
+      <Version>6.1.18.917</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Localization.UI">
+      <Version>1.0.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Log">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Session">
+      <Version>6.4.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Session.Service">
+      <Version>6.4.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Sql">
+      <Version>6.3.20.322</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Sql.SqlAnywhere.Service">
+      <Version>5.95.218.101</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.TenantSystem">
+      <Version>2.0.120.41</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.TenantSystem.Data.DB">
+      <Version>2.0.20.331</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.TenantSystem.Service">
+      <Version>2.0.20.331</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.UI">
+      <Version>7.2.120.329</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.GridView.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Controls.RibbonView.for.Wpf.Xaml">
+      <Version>2020.1.218</Version>
+    </PackageReference>
+    <PackageReference Include="Unity.Container">
+      <Version>5.11.5</Version>
+    </PackageReference>
+    <PackageReference Include="Unity.ServiceLocation">
+      <Version>5.11.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\Telerik.Windows.Controls.GridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MultiSelectComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\StringComparisonFilterControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\UserBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ChangeUserPasswordView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GroupDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OrganizationDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserManagmentEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
