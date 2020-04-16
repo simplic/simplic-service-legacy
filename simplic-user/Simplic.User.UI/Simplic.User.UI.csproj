@@ -40,12 +40,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.User, Version=6.1.1018.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Simplic.User\bin\Debug\Simplic.User.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.User.Service, Version=6.1.918.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Simplic.User.Service\obj\Debug\Simplic.User.Service.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -284,6 +278,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simplic.User.Service\Simplic.User.Service.csproj">
+      <Project>{317d9ae7-0039-4d4c-991a-c8e709c7671e}</Project>
+      <Name>Simplic.User.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Simplic.User\Simplic.User.csproj">
+      <Project>{8c891f3e-a6c5-434f-b034-d2fb6d924825}</Project>
+      <Name>Simplic.User</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

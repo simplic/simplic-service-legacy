@@ -52,10 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Simplic.CoreLib">
-      <Version>6.14.318.906</Version>
+      <Version>6.17.20.322</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Sql">
-      <Version>6.2.18.926</Version>
+      <Version>6.3.20.322</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
