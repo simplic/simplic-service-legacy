@@ -182,11 +182,11 @@
     <Reference Include="Simplic.UI, Version=7.2.120.329, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.UI.7.2.120.329\lib\net48\Simplic.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.User, Version=6.1.618.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.User.6.1.618.1002\lib\net451\Simplic.User.dll</HintPath>
+    <Reference Include="Simplic.User, Version=6.1.1018.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.User.6.1.1018.1002\lib\net451\Simplic.User.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.User.Service, Version=6.1.618.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.User.Service.6.1.618.1002\lib\net451\Simplic.User.Service.dll</HintPath>
+    <Reference Include="Simplic.User.Service, Version=6.1.918.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.User.Service.6.1.918.1002\lib\net451\Simplic.User.Service.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -256,9 +256,11 @@
       <DependentUpon>StringComparisonFilterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserBox.xaml.cs" />
+    <Compile Include="Utils\IDeletableViewModel.cs" />
     <Compile Include="Utils\IDraggableUser.cs" />
     <Compile Include="Utils\IgnoreMouseWheelBehavior.cs" />
     <Compile Include="Utils\INamedEntity.cs" />
+    <Compile Include="Utils\ISaveableViewModel.cs" />
     <Compile Include="Utils\ListViewDragDropManager.cs" />
     <Compile Include="Utils\ListViewItemDragState.cs" />
     <Compile Include="Utils\MouseUtilities.cs" />

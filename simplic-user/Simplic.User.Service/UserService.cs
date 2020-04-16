@@ -15,6 +15,7 @@ namespace Simplic.User.Service
         #region Private Members
         private const string UserTableName = "ESS_MS_Intern_User";
         private const string UserAssignmentTableName = "ESS_MS_Intern_UserAssignment";
+        private const string UserToTenantAssignmentTableName = "Tenant_Organization_User";
         private readonly ISqlService sqlService;        
         #endregion
 
@@ -266,7 +267,44 @@ namespace Simplic.User.Service
                     $" UserId = :userId and GroupId = :groupId", new { userId, groupId });
                 return affectedRows > 0;
             });
-        } 
+        }
+        #endregion
+
+        #region [SetOrganization]
+        /// <summary>
+        /// Assigns a user to a tenant (updates on existing values)
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="tenantId">Tenant Id</param>
+        /// <returns></returns>
+        public bool SetTenant(int userId, Guid tenantId)
+        {
+            return sqlService.OpenConnection((connection) =>
+            {
+                var affectedRows = connection.Execute($"INSERT INTO {UserToTenantAssignmentTableName}" +
+                    $" (TenantId, UserId) ON EXISTING UPDATE VALUES (:tenantId, :userId)",
+                    new { tenantId, userId });
+
+                return affectedRows > 0;
+            });
+        }
+        #endregion
+
+        #region [RemoveTenant]
+        /// <summary>
+        /// Removes a tenant from a user
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="tenantId">Tenant Id</param>
+        /// <returns></returns>
+        public bool RemoveTenant(int userId, Guid tenantId)
+        {
+            return sqlService.OpenConnection((connection) => {
+                var affectedRows = connection.Execute($"DELETE FROM {UserToTenantAssignmentTableName} WHERE " +
+                    $" UserId = :userId and TenantId = :tenantId", new { userId, tenantId });
+                return affectedRows > 0;
+            });
+        }
         #endregion
 
         #endregion

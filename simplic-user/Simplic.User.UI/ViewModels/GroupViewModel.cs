@@ -9,6 +9,7 @@ namespace Simplic.User.UI
         private int _groupId;
         private string _groupName;
         private bool _isDefault;
+        private int _ident;
         private ObservableCollection<UserViewModel> _users;
         #endregion
 
@@ -18,14 +19,15 @@ namespace Simplic.User.UI
             Users = new ObservableCollection<UserViewModel>();
         }
 
-        public GroupViewModel(int groupId, string groupName, bool isDefault) : this()
+        public GroupViewModel(int groupId, int ident, string groupName, bool isDefault) : this()
         {
             GroupId = groupId;
+            Ident = ident;
             Name = groupName;
             IsDefault = IsDefault;
         }
 
-        public GroupViewModel(Group.Group group) : this(group.GroupId, group.Name, group.IsDefaultGroup)
+        public GroupViewModel(Group.Group group) : this(group.GroupId, group.Ident, group.Name, group.IsDefaultGroup)
         {
         }
         #endregion
@@ -53,6 +55,12 @@ namespace Simplic.User.UI
         {
             get { return _users; }
             set { PropertySetter(value, newValue => _users = newValue); }
+        }
+
+        public int Ident
+        {
+            get { return _ident; }
+            set { PropertySetter(value, newValue => _ident = newValue); }
         }
         #endregion
     }

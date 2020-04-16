@@ -10,7 +10,7 @@
         Height="337" Width="900"
         WindowStartupLocation="CenterOwner"
         dlgs:DialogBehavior.DialogViewModels="{Binding Dialogs}"
-        LayoutContext="Win_UserDetails">
+        LayoutContext="Win_UserDetails" WindowMode="Edit">
     <simplic:DefaultRibbonWindow.Resources>
         <converters:PwdButtonContentConverter x:Key="PwdButtonContentConverter" TrueString="{simplic:Localization Key=usermanagment_set_pwd_label}" FalseString="{simplic:Localization Key=usermanagment_change_pwd_label}" />
         <converters:UserToTitleConverter x:Key="UserToTitleConverter" NullString="{simplic:Localization Key=usermanagment_add_user_label}" />
@@ -44,14 +44,14 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Column="0" Grid.Row="0" Content="{simplic:Localization Key=usermanagment_first_name_label}" Margin="5,5,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=FirstName}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="0" />
+            <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="0" />
 
             <Label Grid.Column="0" Grid.Row="1" Content="{simplic:Localization Key=usermanagment_user_name_label}" Margin="5,0,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=UserName}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="2"
+            <simplic:TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="2"
                      IsEnabled="{Binding Path=IsCreate}"/>
 
             <Label Grid.Column="0" Grid.Row="2" Content="{simplic:Localization Key=usermanagment_phone_label}" Margin="5,0,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=Phone}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="4" />
+            <simplic:TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="4" />
         </Grid>
 
         <Grid Grid.Column="1" Grid.Row="0" Margin="0,20,0,0">
@@ -67,10 +67,10 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Column="0" Grid.Row="0" Content="{simplic:Localization Key=usermanagment_last_name_label}" Margin="5,5,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=LastName}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="1" />
+            <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="1" />
 
             <Label Grid.Column="0" Grid.Row="1" Content="{simplic:Localization Key=usermanagment_email_label}" Margin="5,0,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Email}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="3" />
+            <simplic:TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Email, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="3" />
 
             <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
                 <Button Height="27" Width="170" Margin="10,0,5,0" Content="{Binding Path=IsCreate, Converter={StaticResource PwdButtonContentConverter}}"
@@ -88,9 +88,5 @@
             <simplic:CheckBox Grid.Column="0" Grid.Row="3" Content="{simplic:Localization Key=usermanagment_is_ad_user_label}" Width="80" IsChecked="{Binding Path=IsADUser}" Margin="10,0,0,0" VerticalAlignment="Center"
                       Visibility="{Binding Path=IsCreate, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" />
         </Grid>
-        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Height="27" Width="80" Content="{simplic:Localization Key=usermanagment_ok_label}" Command="{Binding Path=OkCommand}" TabIndex="6" />
-            <Button Height="27" Width="80" Content="{simplic:Localization Key=usermanagment_cancel_label}" Margin="10,0,0,0" Command="{Binding Path=CancelCommand}" IsDefault="True" TabIndex="7" />
-        </StackPanel>
     </Grid>
 </simplic:DefaultRibbonWindow>

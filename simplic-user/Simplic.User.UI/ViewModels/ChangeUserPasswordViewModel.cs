@@ -5,11 +5,12 @@ using Telerik.Windows.Controls;
 
 namespace Simplic.User.UI
 {
-    class ChangeUserPasswordViewModel : Simplic.UI.MVC.ViewModelBase, IUserDialogViewModel
+    class ChangeUserPasswordViewModel : Simplic.UI.MVC.ViewModelBase, IUserDialogViewModel, ISaveableViewModel
     {
         #region fields
         private readonly UserViewModel _user;
         private ICommand _changePasswordCommand;
+        private string _password;
         #endregion
 
         #region events
@@ -20,7 +21,7 @@ namespace Simplic.User.UI
         public ChangeUserPasswordViewModel(UserViewModel user)
         {
             _user = user;
-            ChangePasswordCommand = new RelayCommand(OnChangePassword);
+            SaveCommand = new RelayCommand(OnChangePassword);
         }
         #endregion
 
@@ -35,26 +36,31 @@ namespace Simplic.User.UI
             Close();
         }
 
+        public string GetPassword()
+        {
+            return _password;
+        }
+
         private void OnChangePassword(object arg)
         {
             var passwordBox = arg as RadPasswordBox;
             if (passwordBox != null)
-                _user.Password = passwordBox.Password;
-            Close();
-        }
-
-        private void OnCancel(object arg)
-        {
-            Close();
+            {
+                if(_user != null)
+                {
+                    _user.Password = passwordBox.Password;
+                    _user.SavePassword();
+                }
+                else
+                    _password = passwordBox.Password;
+            }
         }
         #endregion
 
         #region properties
         public bool IsModal => true;
 
-        public ICommand CancelCommand { get { return new RelayCommand(OnCancel); } }
-
-        public ICommand ChangePasswordCommand
+        public ICommand SaveCommand
         {
             get { return _changePasswordCommand; }
             set { PropertySetter(value, newValue => _changePasswordCommand = newValue); }

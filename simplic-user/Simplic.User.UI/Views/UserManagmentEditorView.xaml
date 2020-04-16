@@ -12,7 +12,7 @@
         xmlns:dbui="clr-namespace:Simplic.Framework.DBUI;assembly=Simplic.Framework.DBUI"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         dlgs:DialogBehavior.DialogViewModels="{Binding Dialogs}"
-        Title="Groups and users management" WindowState="Maximized" LayoutContext="Win_UserManagement">
+        Title="Groups and users management" WindowState="Maximized" LayoutContext="Win_UserManagement" WindowMode="New">
     <simplic:DefaultRibbonWindow.Resources>
         <local:UserDetailsView x:Key="{x:Type vm:UserDetailsViewModel}" x:Shared="False" />
         <local:GroupDetailsView x:Key="{x:Type vm:GroupDetailsViewModel}" x:Shared="False" />
@@ -87,7 +87,7 @@
 
                     <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
                              Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
-                             ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
+                             ShowGroupPanel="False" RowIndicatorVisibility="Collapsed" NavigationBehaviour="GridDefault"
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
                         <simplic:CursorGridViewControl.Columns>
                             <telerik:GridViewSelectColumn/>
@@ -302,7 +302,7 @@
 
                     <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
                              Visibility="{Binding Path=IsChecked, ElementName=_changeBtn2, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
-                             ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
+                             ShowGroupPanel="False" RowIndicatorVisibility="Collapsed" NavigationBehaviour="GridDefault"
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
                         <simplic:CursorGridViewControl.Columns>
                             <telerik:GridViewSelectColumn/>

@@ -39,8 +39,8 @@
     <Reference Include="Simplic.Sql, Version=6.2.18.926, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Simplic.Sql.6.2.18.926\lib\net451\Simplic.Sql.dll</HintPath>
     </Reference>
-    <Reference Include="Simplic.User, Version=6.1.518.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.User.6.1.518.1002\lib\net451\Simplic.User.dll</HintPath>
+    <Reference Include="Simplic.User, Version=6.1.1018.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.User.6.1.1018.1002\lib\net451\Simplic.User.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

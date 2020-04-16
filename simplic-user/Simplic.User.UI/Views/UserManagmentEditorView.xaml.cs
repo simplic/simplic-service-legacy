@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simplic.Framework.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -7,7 +8,7 @@ using System.Windows.Media;
 
 namespace Simplic.User.UI
 {
-    public partial class UserManagmentEditorView
+    public partial class UserManagmentEditorView : DefaultRibbonWindow
     {
         public static readonly DependencyProperty IsGroupsSelectedProperty = DependencyProperty.Register("IsGroupsSelected", typeof(bool), typeof(UserManagmentEditorView));
         public bool IsGroupsSelected
@@ -20,6 +21,12 @@ namespace Simplic.User.UI
         {
             InitializeComponent();
             roleGridView.LoadConfiguration("GRID_Role");
+            Loaded += (o, e) =>
+            {
+                AllowSave = true;
+                AllowDelete = false;
+                AllowPaging = false;
+            };
         }
 
         private void ExpandOrCollapse(DependencyObject control, bool isExpanded)
@@ -67,6 +74,17 @@ namespace Simplic.User.UI
         private void OnAllGroupsExpand(object sender, RoutedEventArgs e)
         {
             ExpandOrCollapse(_lstGroups, true);
+        }
+
+        /// <summary>
+        /// Save
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnSave(WindowSaveEventArg e)
+        {
+            if (DataContext is ISaveableViewModel vm)
+                vm.SaveCommand.Execute(EventArgs.Empty);
+            base.OnSave(e);
         }
     }
 }

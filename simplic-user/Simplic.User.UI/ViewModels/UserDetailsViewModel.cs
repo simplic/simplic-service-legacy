@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommonServiceLocator;
 using Simplic.UI.MVC;
 
 namespace Simplic.User.UI
 {
-    class UserDetailsViewModel : ViewModelBase, IUserDialogViewModel
+    class UserDetailsViewModel : ViewModelBase, IUserDialogViewModel, ISaveableViewModel, IDeletableViewModel
     {
         #region fields
         private string _userName;
@@ -19,6 +20,7 @@ namespace Simplic.User.UI
         private ObservableCollection<IDialogViewModel> _dialogs;
         private ICommand _changePasswordCommand;
         private bool _isCreate;
+        private string _password;
         #endregion
 
         #region ctr
@@ -46,7 +48,17 @@ namespace Simplic.User.UI
         #region methods
         private void OnChangePassword(object arg)
         {
-            Dialogs.Add(new ChangeUserPasswordViewModel(User));
+            var changePwdDialog = new ChangeUserPasswordViewModel(User);
+            changePwdDialog.DialogClosing += OnChangePasswordDialogDialogClosing;
+            Dialogs.Add(changePwdDialog);
+        }
+
+        private void OnChangePasswordDialogDialogClosing(object sender, EventArgs e)
+        {
+            var changePwdVm = sender as ChangeUserPasswordViewModel;
+            changePwdVm.DialogClosing -= OnChangePasswordDialogDialogClosing;
+            if (IsCreate)
+                _password = changePwdVm.GetPassword();
         }
 
         private void Close()
@@ -59,25 +71,26 @@ namespace Simplic.User.UI
             Close();
         }
 
-        private void OnOk(object arg)
+        private void OnDelete(object arg)
+        {
+            IsActive = false;
+        }
+
+        private void OnSave(object arg)
         {
             if (IsCreate)
                 User = new UserViewModel
                 {
                     UserName = UserName,
-                    IsADUser = this.IsADUser
+                    IsADUser = this.IsADUser,
+                    Password = _password
                 };
             User.FirstName = FirstName;
             User.LastName = LastName;
             User.Email = Email;
             User.Phone = Phone;
             User.IsActive = IsActive;
-            Close();
-        }
-
-        private void OnCancel(object arg)
-        {
-            Close();
+            User.SaveUser(IsCreate);
         }
         #endregion
 
@@ -86,9 +99,7 @@ namespace Simplic.User.UI
         #endregion
 
         #region properties
-        public ICommand OkCommand { get { return new RelayCommand(OnOk); } }
-
-        public ICommand CancelCommand { get { return new RelayCommand(OnCancel); } }
+        public ICommand SaveCommand { get { return new RelayCommand(OnSave); } }
 
         public UserViewModel User
         {
@@ -157,6 +168,8 @@ namespace Simplic.User.UI
             get { return _isADUser; }
             set { PropertySetter(value, newValue => _isADUser = newValue); }
         }
+
+        public ICommand DeleteCommand { get { return new RelayCommand(OnDelete); } }
         #endregion
     }
 }

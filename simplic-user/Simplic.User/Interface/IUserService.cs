@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Simplic.User
 {
@@ -93,5 +94,21 @@ namespace Simplic.User
         /// <param name="groupId">Group Id</param>
         /// <returns>True if successfull</returns>
         bool RemoveGroup(int userId, int groupId);
+
+        /// <summary>
+        /// Assigns a user to a tenant (updates on existing values)
+        /// </summary>
+        /// <param name="userId">User If</param>
+        /// <param name="tenantId">Tenant Id</param>
+        /// <returns></returns>
+        bool SetTenant(int userId, Guid tenantId);
+
+        /// <summary>
+        /// Removes a group from a user
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="tenantId">Tenant Id</param>
+        /// <returns>True if successfull</returns>
+        bool RemoveTenant(int userId, Guid tenantId);
     }
 }
