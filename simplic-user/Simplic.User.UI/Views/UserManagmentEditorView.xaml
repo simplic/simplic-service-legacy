@@ -10,7 +10,7 @@
         xmlns:dlgs="clr-namespace:Simplic.User.UI"
         xmlns:local="clr-namespace:Simplic.User.UI"
         xmlns:dbui="clr-namespace:Simplic.Framework.DBUI;assembly=Simplic.Framework.DBUI"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         dlgs:DialogBehavior.DialogViewModels="{Binding Dialogs}"
         Title="Groups and users management" WindowState="Maximized" LayoutContext="Win_UserManagement">
     <simplic:DefaultRibbonWindow.Resources>
@@ -21,8 +21,8 @@
         <converters:OrganizationsToLabelConverter x:Key="OrganizationsToLabelConverter" />
         <converters:SelectedUserIsNullConverter x:Key="SelectedUserIsNullConverter" />
         <converters:UserToListViewItemConverter x:Key="UserToListViewItemConverter" />
-        <simplic:BoolToVisibilityConverter x:Key="TrueVisibilityConverter" VisibilityForTrue="Visible" VisibilityForFalse="Collapsed" />
-        <simplic:BoolToVisibilityConverter x:Key="FalseVisibilityConverter" VisibilityForTrue="Collapsed" VisibilityForFalse="Visible" />
+        <telerik:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <telerik:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
     </simplic:DefaultRibbonWindow.Resources>
     <Grid>
         <Grid.Resources>
@@ -62,13 +62,13 @@
                                                            Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
                                                            Margin="5,0,0,0" Name="_changeBtn" Grid.Column="2"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
-                                                           Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource TrueVisibilityConverter}}"/>
+                                                           Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                                 <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}"
                                                            Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
                                                            Margin="5,0,0,0" Name="_changeBtn2" Grid.Column="2"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
-                                                           Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource FalseVisibilityConverter}}"/>
+                                                           Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"/>
                             </Grid>
                         </telerik:RadRibbonGroup>
                     </telerik:RadRibbonTab>
@@ -86,7 +86,7 @@
                     </Grid.RowDefinitions>
 
                     <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
-                             Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource FalseVisibilityConverter}}"
+                             Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
                              ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
                         <simplic:CursorGridViewControl.Columns>
@@ -145,7 +145,7 @@
                     </simplic:CursorGridViewControl>
 
                     <Grid Grid.Row="1" Margin="0,10,5,5" 
-                            Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource TrueVisibilityConverter}}">
+                            Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width=".43*"/>
@@ -301,7 +301,7 @@
                     </Grid.RowDefinitions>
 
                     <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
-                             Visibility="{Binding Path=IsChecked, ElementName=_changeBtn2, Converter={StaticResource FalseVisibilityConverter}}"
+                             Visibility="{Binding Path=IsChecked, ElementName=_changeBtn2, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
                              ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
                         <simplic:CursorGridViewControl.Columns>
@@ -360,7 +360,7 @@
                     </simplic:CursorGridViewControl>
 
                     <Grid Grid.Row="1" Margin="0,10,5,5" 
-                            Visibility="{Binding Path=IsChecked, ElementName=_changeBtn2, Converter={StaticResource TrueVisibilityConverter}}">
+                            Visibility="{Binding Path=IsChecked, ElementName=_changeBtn2, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width=".43*"/>

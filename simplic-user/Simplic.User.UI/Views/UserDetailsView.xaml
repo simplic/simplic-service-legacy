@@ -5,6 +5,7 @@
         xmlns:dlgs="clr-namespace:Simplic.User.UI"
         xmlns:local="clr-namespace:Simplic.User.UI"
         xmlns:vm="clr-namespace:Simplic.User.UI"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:converters="clr-namespace:Simplic.User.UI"
         Height="337" Width="900"
         WindowStartupLocation="CenterOwner"
@@ -14,8 +15,7 @@
         <converters:PwdButtonContentConverter x:Key="PwdButtonContentConverter" TrueString="{simplic:Localization Key=usermanagment_set_pwd_label}" FalseString="{simplic:Localization Key=usermanagment_change_pwd_label}" />
         <converters:UserToTitleConverter x:Key="UserToTitleConverter" NullString="{simplic:Localization Key=usermanagment_add_user_label}" />
         <converters:PwdButtonVisibilityConverter x:Key="PwdButtonVisibilityConverter" />
-        <simplic:BoolToVisibilityConverter x:Key="TrueVisibilityConverter" VisibilityForTrue="Visible" VisibilityForFalse="Collapsed" />
-        <simplic:BoolToVisibilityConverter x:Key="FalseVisibilityConverter" VisibilityForTrue="Collapsed" VisibilityForFalse="Visible" />
+        <telerik:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:InvertBooleanConverter x:Key="InvertBooleanConverter" />
         <local:ChangeUserPasswordView x:Key="{x:Type vm:ChangeUserPasswordViewModel}" x:Shared="False" />
     </simplic:DefaultRibbonWindow.Resources>
@@ -86,7 +86,7 @@
             <simplic:CheckBox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Width="120" IsChecked="{Binding Path=IsActive}"
                       Margin="10,0,5,5" VerticalAlignment="Center" TabIndex="5" Content="{simplic:Localization Key=usermanagment_is_active_label}" Height="27" VerticalContentAlignment="Center" />
             <simplic:CheckBox Grid.Column="0" Grid.Row="3" Content="{simplic:Localization Key=usermanagment_is_ad_user_label}" Width="80" IsChecked="{Binding Path=IsADUser}" Margin="10,0,0,0" VerticalAlignment="Center"
-                      Visibility="{Binding Path=IsCreate, Converter={StaticResource TrueVisibilityConverter}}" HorizontalAlignment="Left" />
+                      Visibility="{Binding Path=IsCreate, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" />
         </Grid>
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
             <Button Height="27" Width="80" Content="{simplic:Localization Key=usermanagment_ok_label}" Command="{Binding Path=OkCommand}" TabIndex="6" />
