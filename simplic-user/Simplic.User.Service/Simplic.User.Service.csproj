@@ -30,18 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.CoreLib, Version=6.14.318.906, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.CoreLib.6.14.318.906\lib\net451\Simplic.CoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Sql, Version=6.2.18.926, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Sql.6.2.18.926\lib\net451\Simplic.Sql.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.User, Version=6.1.1018.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.User.6.1.1018.1002\lib\net451\Simplic.User.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,7 +44,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Simplic.User\Simplic.User.csproj">
+      <Project>{8c891f3e-a6c5-434f-b034-d2fb6d924825}</Project>
+      <Name>Simplic.User</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Simplic.CoreLib">
+      <Version>6.14.318.906</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Sql">
+      <Version>6.2.18.926</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
