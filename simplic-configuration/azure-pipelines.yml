@@ -1,0 +1,61 @@
+trigger:
+  branches:
+    include:
+    - master
+    - dev
+  paths:
+    include:
+    - simplic-configuration/*
+
+pr:
+  branches:
+    include:
+    - '*'
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '5.x'
+    
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'simplic-configuration/**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
+
+- task: MSBuild@1
+  inputs:
+    solution: 'simplic-configuration/**/*.sln'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\Simplic.Configuration.Test.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: 'simplic-configuration'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'simplic-configuration/Simplic.Configuration**/*.csproj;!simplic-configuration/Simplic.Configuration.Test/Simplic.Configuration.Test.csproj'
+    configuration: '$(buildConfiguration)'
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.Configuration.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.Configuration.*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
+    allowPackageConflicts: true

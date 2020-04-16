@@ -28,23 +28,33 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-    restoreSolution: '**/*.sln'
+    restoreSolution: 'simplic-cache/**/*.sln'
     feedsToUse: 'select'
     vstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
 
 - task: MSBuild@1
   inputs:
-    solution: '**/*.sln'
+    solution: 'simplic-cache/**/*.sln'
     configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\Simplic.Cache.Test.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: 'simplic-cache'
 
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
-    packagesToPack: 'Simplic.Cache**/*.csproj;!Simplic.Cache.Test/Simplic.Cache.Test.csproj'
+    packagesToPack: 'simplic-cache/Simplic.Cache**/*.csproj;!simplic-cache/Simplic.Cache.Test/Simplic.Cache.Test.csproj'
     configuration: '$(buildConfiguration)'
     versioningScheme: 'off'
 
 - task: NuGetCommand@2
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.Cache.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.Cache.*.symbols.nupkg'

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2000
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Interval", "Simplic.Interval\Simplic.Interval.csproj", "{8CF0B453-693D-4A3F-92CC-6F339F661897}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Interval.UI", "Simplic.Interval.UI\Simplic.Interval.UI.csproj", "{A4701188-DF6A-46C8-BDC4-97D3CAD199C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Interval.Data.DB", "Simplic.Interval.Data.DB\Simplic.Interval.Data.DB.csproj", "{2570033D-3DB4-4D6D-A52C-582348BB9D8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{673337A8-7DF0-460B-80F9-427AFD1FD6FD}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

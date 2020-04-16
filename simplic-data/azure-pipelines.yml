@@ -1,0 +1,61 @@
+trigger:
+  branches:
+    include:
+    - master
+    - dev
+  paths:
+    include:
+    - simplic-data/*
+
+pr:
+  branches:
+    include:
+    - '*'
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '5.x'
+    
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'simplic-data/**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
+
+- task: MSBuild@1
+  inputs:
+    solution: 'simplic-data/**/*.sln'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\Simplic.Data.Test.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: 'simplic-data'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'simplic-data/Simplic.Data**/*.csproj;!simplic-data/Simplic.Data.Test/Simplic.Data.Test.csproj'
+    configuration: '$(buildConfiguration)'
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.Data.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.Data.*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
+    allowPackageConflicts: true

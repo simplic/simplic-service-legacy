@@ -23,11 +23,18 @@ namespace Simplic.DataStack
         string GetTableName(Guid stackGuid);
 
         /// <summary>
-        /// Get the current stack name by id
+        /// Get the current stack id by name
         /// </summary>
         /// <param name="stackName">Stack name</param>
         /// <returns>Stack guid</returns>
         Guid GetStackId(string stackName);
+
+        /// <summary>
+        /// Get the current stack name by id
+        /// </summary>
+        /// <param name="stackId">Stack id</param>
+        /// <returns>Stack guid</returns>
+        string GetStackName(Guid stackId);
 
         /// <summary>
         /// Get the display name of the stack

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Authentication", "Simplic.Authentication\Simplic.Authentication.csproj", "{EA6BBAEA-01C6-4387-85E5-B17F741F9D53}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.CredentialProvider.ActiveDirectory", "Simplic.CredentialProvider.ActiveDirectory\Simplic.CredentialProvider.ActiveDirectory.csproj", "{1933DB0C-1712-4CF1-8E0E-61875FAE9852}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.CredentialProvider.Default", "Simplic.CredentialProvider.Default\Simplic.CredentialProvider.Default.csproj", "{2BEC93E3-E57F-4F7D-B34F-B0AB5508A67B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{5749EB03-71B9-4B59-A6CF-C4A933AE7FFD}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

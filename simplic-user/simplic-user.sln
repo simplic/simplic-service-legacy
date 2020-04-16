@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.User", "Simplic.User\Simplic.User.csproj", "{8C891F3E-A6C5-434F-B034-D2FB6D924825}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.User.Service", "Simplic.User.Service\Simplic.User.Service.csproj", "{317D9AE7-0039-4D4C-991A-C8E709C7671E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{8A42E1FC-E42F-4618-B84D-04183DB6FB2E}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.User.Test", "Simplic.User.Test\Simplic.User.Test.csproj", "{26D6F8D2-E739-4913-9670-70BF98015155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +28,10 @@ Global
 		{317D9AE7-0039-4D4C-991A-C8E709C7671E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{317D9AE7-0039-4D4C-991A-C8E709C7671E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{317D9AE7-0039-4D4C-991A-C8E709C7671E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D6F8D2-E739-4913-9670-70BF98015155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D6F8D2-E739-4913-9670-70BF98015155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D6F8D2-E739-4913-9670-70BF98015155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D6F8D2-E739-4913-9670-70BF98015155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

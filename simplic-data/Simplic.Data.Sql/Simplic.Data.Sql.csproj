@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Simplic.Data.Sql</RootNamespace>
     <AssemblyName>Simplic.Data.Sql</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,21 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.Cache, Version=6.0.18.619, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Cache.6.0.18.619\lib\net451\Simplic.Cache.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Simplic.CoreLib, Version=6.14.418.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\simplic-erp\src\packages\Simplic.CoreLib.6.14.418.1002\lib\net451\Simplic.CoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Simplic.Sql, Version=6.2.18.926, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Sql.6.2.18.926\lib\net451\Simplic.Sql.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,15 +45,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="package.bat" />
-    <None Include="packages.config" />
-    <None Include="Simplic.Data.Sql.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Simplic.Data\Simplic.Data.csproj">
       <Project>{dda22fe5-3893-4c26-a1ad-eb19a9379bc7}</Project>
       <Name>Simplic.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper">
+      <Version>2.0.30</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Cache">
+      <Version>6.0.18.619</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.CoreLib">
+      <Version>6.14.418.1002</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Sql">
+      <Version>6.2.18.926</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

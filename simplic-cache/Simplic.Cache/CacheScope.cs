@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Simplic.Cache
 {
     /// <summary>
-    /// Object scope
+    /// Contains the simplic cache scope for parent and child caching
     /// </summary>
     public class CacheScope
     {

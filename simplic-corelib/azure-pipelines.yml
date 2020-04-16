@@ -1,0 +1,62 @@
+trigger:
+  branches:
+    include:
+    - master
+    - dev
+  paths:
+    include:
+    - simplic-corelib/*
+
+pr:
+  branches:
+    include:
+    - '*'
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '5.x'
+    
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'simplic-corelib/**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
+
+- task: MSBuild@1
+  inputs:
+    solution: 'simplic-corelib/**/*.sln'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\Test\Simplic.CoreLib.*.dll
+      simplic-corelib\Test\Simplic.CoreLib.*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: 'simplic-corelib'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'simplic-corelib/Simplic.CoreLib/Simplic.CoreLib.csproj'
+    configuration: '$(buildConfiguration)'
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/Simplic.CoreLib.*.nupkg;!$(Build.ArtifactStagingDirectory)/Simplic.CoreLib.*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'f7087ef5-bf6f-48b2-8b8b-5e513f4a7a9e'
+    allowPackageConflicts: true

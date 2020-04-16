@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Simplic.Authentication</RootNamespace>
     <AssemblyName>Simplic.Authentication</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Simplic.Session, Version=6.1.118.622, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Simplic.Session.6.1.118.622\lib\net451\Simplic.Session.dll</HintPath>
+    <Reference Include="Simplic.Session, Version=6.3.19.127, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Simplic.Session.6.3.19.127\lib\net451\Simplic.Session.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,9 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="package.bat" />
     <None Include="packages.config" />
-    <None Include="Simplic.Authentication.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Configuration", "Simplic.Configuration\Simplic.Configuration.csproj", "{2C4D9024-D109-410C-9A9C-A4B1121202F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Configuration.Service", "Simplic.Configuration.Service\Simplic.Configuration.Service.csproj", "{A8387EF3-B312-425B-B8F3-5477B420A1E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplic.Configuration.Data.DB", "Simplic.Configuration.Data.DB\Simplic.Configuration.Data.DB.csproj", "{0D69651A-38AA-478F-80F7-D58591E46800}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ENV", "ENV", "{29D697E5-5C3A-4084-9F44-2D74B1D34DC3}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
