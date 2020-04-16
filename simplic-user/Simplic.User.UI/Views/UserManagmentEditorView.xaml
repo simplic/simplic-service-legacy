@@ -1,0 +1,515 @@
+﻿<simplic:DefaultRibbonWindow x:Class="Simplic.User.UI.UserManagmentEditorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:converters="clr-namespace:Simplic.User.UI"
+        xmlns:uc="clr-namespace:Simplic.User.UI"
+        xmlns:vm="clr-namespace:Simplic.User.UI"
+        xmlns:utls="clr-namespace:Simplic.User.UI"
+        xmlns:dlgs="clr-namespace:Simplic.User.UI"
+        xmlns:local="clr-namespace:Simplic.User.UI"
+        xmlns:dbui="clr-namespace:Simplic.Framework.DBUI;assembly=Simplic.Framework.DBUI"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        dlgs:DialogBehavior.DialogViewModels="{Binding Dialogs}"
+        Title="Groups and users management" WindowState="Maximized" LayoutContext="Win_UserManagement">
+    <simplic:DefaultRibbonWindow.Resources>
+        <local:UserDetailsView x:Key="{x:Type vm:UserDetailsViewModel}" x:Shared="False" />
+        <local:GroupDetailsView x:Key="{x:Type vm:GroupDetailsViewModel}" x:Shared="False" />
+        <local:OrganizationDetailsView x:Key="{x:Type vm:OrganizationDetailsViewModel}" x:Shared="False" />
+        <converters:GroupsToLabelConverter x:Key="GroupsToLabelConverter" />
+        <converters:OrganizationsToLabelConverter x:Key="OrganizationsToLabelConverter" />
+        <converters:SelectedUserIsNullConverter x:Key="SelectedUserIsNullConverter" />
+        <converters:UserToListViewItemConverter x:Key="UserToListViewItemConverter" />
+        <telerik:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <telerik:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
+    </simplic:DefaultRibbonWindow.Resources>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="..\Resources\Telerik.Windows.Controls.GridView.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <simplic:KeyboardController Grid.Row="0" x:Name="keyboardController" IsActive="True" AutomaticActivationOnLoad="True" Margin="5">
+            <simplic:RibbonContextController x:Name="mainRibbonContextController">
+                <simplic:RibbonContextController.RadRibbonContextTab>
+                    <telerik:RadRibbonTab x:Name="radRibbonTab" Header="{simplic:Localization Key=usermanagment_general_label}">
+                        <telerik:RadRibbonGroup Header="{simplic:Localization Key=usermanagment_general_label}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <telerik:RadRibbonButton Command="{Binding Path=AddUserCommand}" Grid.Column="0" Margin="0,0,5,0"
+                                                         LargeImage="{simplic:Icon Name=usermanagement_add_user_32x}" Text="{simplic:Localization Key=usermanagment_add_user_label}" Size="Large"/>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" IsEnabled="{Binding Path=SelectedUser, Converter={StaticResource SelectedUserIsNullConverter}}">
+                                    <telerik:RadRibbonButton Command="{Binding Path=OpenSelectedUserDetailsCommand}" LargeImage="{simplic:Icon Name=usermanagement_edit_user_32x}"
+                                                             Text="{simplic:Localization Key=usermanagment_edit_user_label}" Size="Large" />
+                                    <telerik:RadRibbonButton Margin="5,0,0,0" Command="{Binding Path=DeleteSelectedUserCommand}" LargeImage="{simplic:Icon Name=usermanagement_remove_user_32x}"
+                                                             Text="{simplic:Localization Key=usermanagment_remove_user_label}" Size="Large" />
+                                </StackPanel>
+
+                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}"
+                                                           Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
+                                                           Margin="5,0,0,0" Name="_changeBtn" Grid.Column="2"
+                                                           Command="{Binding Path=SkipSelectedUserCommand}"
+                                                           Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}"
+                                                           Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
+                                                           Margin="5,0,0,0" Name="_changeBtn2" Grid.Column="2"
+                                                           Command="{Binding Path=SkipSelectedUserCommand}"
+                                                           Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"/>
+                            </Grid>
+                        </telerik:RadRibbonGroup>
+                    </telerik:RadRibbonTab>
+                </simplic:RibbonContextController.RadRibbonContextTab>
+            </simplic:RibbonContextController>
+        </simplic:KeyboardController>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="{simplic:Localization Key=usermanagment_user_and_groups_label}" 
+                     IsSelected="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Mode=OneWayToSource}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
+                             Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
+                             ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
+                             SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
+                        <simplic:CursorGridViewControl.Columns>
+                            <telerik:GridViewSelectColumn/>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=UserName}" Header="{simplic:Localization Key=usermanagment_user_name_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_user_name_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=FirstName}" Header="{simplic:Localization Key=usermanagment_first_name_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_first_name_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=LastName}" Header="{simplic:Localization Key=usermanagment_last_name_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_last_name_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Email}" Header="{simplic:Localization Key=usermanagment_email_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_email_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=IsActive}" Header="{simplic:Localization Key=usermanagment_is_active_label}" IsReadOnly="True" IsFilterable="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <telerik:Label Content="{Binding Path=IsActive}"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Phone}" Header="{simplic:Localization Key=usermanagment_phone_label}" MinWidth="180" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_phone_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Groups}" Header="{simplic:Localization Key=usermanagment_groups_label}" MinWidth="250" IsFilterable="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Path=Groups, Converter={StaticResource GroupsToLabelConverter}}"
+                                       ToolTip="{Binding Path=Groups, Converter={StaticResource GroupsToLabelConverter}}"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                                <telerik:GridViewDataColumn.CellEditTemplate>
+                                    <DataTemplate>
+                                        <uc:MultiSelectComboBox ItemsSource="{Binding Path=DataContext.Groups, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}"
+                                            NoneCheckedText="None"
+                                            EditCommand="{Binding Path=DataContext.EditCurrentGroupCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}"
+                                            SelectionChangedCommand="{Binding Path=DataContext.GroupBindigsChangedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}"
+                                            CurrentUser="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:GridViewCell}}}"
+                                            CurrentUserSubItems="{Binding Path=DataContext.Groups, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:GridViewCell}}}" />
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellEditTemplate>
+                            </telerik:GridViewDataColumn>
+                        </simplic:CursorGridViewControl.Columns>
+                    </simplic:CursorGridViewControl>
+
+                    <Grid Grid.Row="1" Margin="0,10,5,5" 
+                            Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".43*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <DockPanel  Grid.Column="1" Grid.Row="0" LastChildFill="True" Margin="0,0,0,5">
+                            <Label Content="{simplic:Localization Key=usermanagment_filter_label}" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                            <TextBox Height="27" Width="Auto" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Stretch"
+                                    Text="{Binding Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DockPanel>
+
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{simplic:Localization Key=usermanagment_management_studio_groups_label}" />
+                            <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_expand_all_label}" Click="OnAllGroupsExpand">
+                                <Button.Content>
+                                    <Image Source="{simplic:Icon Name=usermanagement_expand_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                </Button.Content>
+                            </Button>
+                            <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_collapse_all_label}" Click="OnAllGroupsCollapse">
+                                <Button.Content>
+                                    <Image Source="{simplic:Icon Name=usermanagement_collapse_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                        
+                        <ListView Name="_lstGroups" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Path=Groups}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"
+                                  ScrollViewer.CanContentScroll="False">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:GroupViewModel}">
+                                    <Expander>
+                                        <Expander.Header>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Content="{Binding Path=Name}" Margin="3"
+                                                     HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}"  />
+                                                <Button Grid.Column="1" Height="20" Width="20" Margin="3" Background="Transparent" BorderThickness="0"
+                                                    Command="{Binding Path=DataContext.EditCurrentGroupCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                                    CommandParameter="{Binding Path=.}">
+                                                    <Button.Content>
+                                                        <Image Source="{simplic:Icon Name=usermanagement_edit_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="20" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </Grid>
+                                        </Expander.Header>
+                                        <uc:ListViewWithDragAndDrop ItemsSource="{Binding Path=Users}" Margin="5" MinHeight="50">
+                                            <i:Interaction.Behaviors>
+                                                <utls:IgnoreMouseWheelBehavior />
+                                            </i:Interaction.Behaviors>
+                                            <uc:ListViewWithDragAndDrop.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" MaxWidth="900" />
+                                                </ItemsPanelTemplate>
+                                            </uc:ListViewWithDragAndDrop.ItemsPanel>
+                                            <uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                                <ContentPresenter />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                                            <uc:ListViewWithDragAndDrop.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type vm:UserViewModel}">
+                                                    <uc:UserBox User="{Binding Path=.}" Margin="4"
+                                                                EditCommand="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                                                RemoveCommand="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                                </DataTemplate>
+                                            </uc:ListViewWithDragAndDrop.ItemTemplate>
+                                        </uc:ListViewWithDragAndDrop>
+                                    </Expander>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <uc:ListViewWithDragAndDrop Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Path=FilteredUsers}">
+                            <uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                            <uc:ListViewWithDragAndDrop.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:UserViewModel}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0">
+                                            <Label.Content>
+                                                <MultiBinding Converter="{StaticResource UserToListViewItemConverter}" Mode="OneWay">
+                                                    <Binding Path="FirstName" />
+                                                    <Binding Path="LastName" />
+                                                    <Binding Path="UserName" />
+                                                    <Binding Path="Email" />
+                                                </MultiBinding>
+                                            </Label.Content>
+                                        </Label>
+                                        <Button Height="20" Width="20" Grid.Column="1" BorderBrush="Transparent" Background="Transparent"
+                                            Command="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                            CommandParameter="{Binding Path=.}">
+                                            <Image Source="{simplic:Icon Name=usermanagement_edit_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="16" Width="16" />
+                                        </Button>
+                                        <Button Height="20" Width="20" Grid.Column="2" BorderBrush="Transparent" Background="Transparent"
+                                            Command="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                            CommandParameter="{Binding Path=.}">
+                                            <Image Source="{simplic:Icon Name=usermanagement_remove_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </uc:ListViewWithDragAndDrop.ItemTemplate>
+                        </uc:ListViewWithDragAndDrop>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{simplic:Localization Key=usermanagment_tenants_label}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
+                             Visibility="{Binding Path=IsChecked, ElementName=_changeBtn2, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
+                             ShowGroupPanel="False" RowIndicatorVisibility="Collapsed"
+                             SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">
+                        <simplic:CursorGridViewControl.Columns>
+                            <telerik:GridViewSelectColumn/>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=UserName}" Header="{simplic:Localization Key=usermanagment_user_name_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_user_name_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=FirstName}" Header="{simplic:Localization Key=usermanagment_first_name_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_first_name_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=LastName}" Header="{simplic:Localization Key=usermanagment_last_name_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_last_name_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Email}" Header="{simplic:Localization Key=usermanagment_email_label}" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_email_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=IsActive}" Header="{simplic:Localization Key=usermanagment_is_active_label}" IsReadOnly="True" IsFilterable="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <telerik:Label Content="{Binding Path=IsActive}"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Phone}" Header="{simplic:Localization Key=usermanagment_phone_label}" MinWidth="180" IsReadOnly="True">
+                                <telerik:GridViewDataColumn.FilteringControl>
+                                    <uc:StringComparisonFilterControl LabelText="{simplic:Localization Key=usermanagment_phone_label}"/>
+                                </telerik:GridViewDataColumn.FilteringControl>
+                            </telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Path=Organizations}" Header="{simplic:Localization Key=usermanagment_tenants_label}" MinWidth="250" IsFilterable="False">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Path=Organizations, Converter={StaticResource OrganizationsToLabelConverter}}"
+                                            ToolTip="{Binding Path=Organizations, Converter={StaticResource OrganizationsToLabelConverter}}"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellTemplate>
+                                <telerik:GridViewDataColumn.CellEditTemplate>
+                                    <DataTemplate>
+                                        <uc:MultiSelectComboBox ItemsSource="{Binding Path=DataContext.Organizations, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}"
+                                            NoneCheckedText="None"
+                                            EditCommand="{Binding Path=DataContext.EditCurrentOrganizationCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}"
+                                            SelectionChangedCommand="{Binding Path=DataContext.OrganizationBindigsChangedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:RadGridView}}}"
+                                            CurrentUser="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:GridViewCell}}}"
+                                            CurrentUserSubItems="{Binding Path=DataContext.Organizations, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type telerik:GridViewCell}}}"/>
+                                    </DataTemplate>
+                                </telerik:GridViewDataColumn.CellEditTemplate>
+                            </telerik:GridViewDataColumn>
+                        </simplic:CursorGridViewControl.Columns>
+                    </simplic:CursorGridViewControl>
+
+                    <Grid Grid.Row="1" Margin="0,10,5,5" 
+                            Visibility="{Binding Path=IsChecked, ElementName=_changeBtn2, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".43*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <DockPanel  Grid.Column="1" Grid.Row="0" LastChildFill="True" Margin="0,0,0,5">
+                            <Label Content="{simplic:Localization Key=usermanagment_filter_label}" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                            <TextBox Height="27" Width="Auto" VerticalContentAlignment="Center" Margin="5,0,0,0" HorizontalAlignment="Stretch"
+                                    Text="{Binding Path=FilterString2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DockPanel>
+
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{simplic:Localization Key=usermanagment_management_studio_groups_label}" Grid.Column="0" />
+                            <Button Grid.Column="1" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_expand_all_label}" Click="OnAllOrganizationsExpand">
+                                <Button.Content>
+                                    <Image Source="{simplic:Icon Name=usermanagement_expand_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                </Button.Content>
+                            </Button>
+                            <Button Grid.Column="2" Margin="5,0,10,0" Height="20" Width="20" Background="Transparent" BorderThickness="0"
+                                    ToolTip="{simplic:Localization Key=usermanagment_collapse_all_label}" Click="OnAllOrganizationsCollapse">
+                                <Button.Content>
+                                    <Image Source="{simplic:Icon Name=usermanagement_collapse_all_32x}" VerticalAlignment="Center" Width="20" Height="20" HorizontalAlignment="Center" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>                        
+                        <ListView Name="_lstOrganizations" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Path=Organizations}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"
+                                  ScrollViewer.CanContentScroll="False">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:OrganizationViewModel}">
+                                    <Expander>
+                                        <Expander.Header>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Content="{Binding Path=Name}" Margin="3"
+                                                     HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}"  />
+                                                <Button Grid.Column="1" Height="20" Width="20" Margin="3" Background="Transparent" BorderThickness="0"
+                                                    Command="{Binding Path=DataContext.EditCurrentOrganizationCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                                    CommandParameter="{Binding Path=.}">
+                                                    <Button.Content>
+                                                        <Image Source="{simplic:Icon Name=usermanagement_edit_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="20" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </Grid>
+                                        </Expander.Header>
+                                        <uc:ListViewWithDragAndDrop ItemsSource="{Binding Path=Users}" Margin="5" MinHeight="50">
+                                            <i:Interaction.Behaviors>
+                                                <utls:IgnoreMouseWheelBehavior />
+                                            </i:Interaction.Behaviors>
+                                            <uc:ListViewWithDragAndDrop.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" MaxWidth="900" />
+                                                </ItemsPanelTemplate>
+                                            </uc:ListViewWithDragAndDrop.ItemsPanel>
+                                            <uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                                <ContentPresenter />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                                            <uc:ListViewWithDragAndDrop.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type vm:UserViewModel}">
+                                                    <uc:UserBox User="{Binding Path=.}" Margin="4"
+                                                                EditCommand="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                                                RemoveCommand="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                                </DataTemplate>
+                                            </uc:ListViewWithDragAndDrop.ItemTemplate>
+                                        </uc:ListViewWithDragAndDrop>
+                                    </Expander>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <uc:ListViewWithDragAndDrop Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Path=FilteredUsers2}">
+                            <uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </uc:ListViewWithDragAndDrop.ItemContainerStyle>
+                            <uc:ListViewWithDragAndDrop.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:UserViewModel}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0">
+                                            <Label.Content>
+                                                <MultiBinding Converter="{StaticResource UserToListViewItemConverter}" Mode="OneWay">
+                                                    <Binding Path="FirstName" />
+                                                    <Binding Path="LastName" />
+                                                    <Binding Path="UserName" />
+                                                    <Binding Path="Email" />
+                                                </MultiBinding>
+                                            </Label.Content>
+                                        </Label>
+                                        <Button Height="20" Width="20" Grid.Column="1" BorderBrush="Transparent" Background="Transparent"
+                                            Command="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                            CommandParameter="{Binding Path=.}">
+                                            <Image Source="{simplic:Icon Name=usermanagement_edit_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="16" Width="16" />
+                                        </Button>
+                                        <Button Height="20" Width="20" Grid.Column="2" BorderBrush="Transparent" Background="Transparent"
+                                            Command="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"
+                                            CommandParameter="{Binding Path=.}">
+                                            <Image Source="{simplic:Icon Name=usermanagement_remove_user_32x}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="17" Width="17" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </uc:ListViewWithDragAndDrop.ItemTemplate>
+                        </uc:ListViewWithDragAndDrop>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{simplic:Localization Key=usermanagment_roles_label}">
+                <dbui:IntegratedGridView x:Name="roleGridView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</simplic:DefaultRibbonWindow>

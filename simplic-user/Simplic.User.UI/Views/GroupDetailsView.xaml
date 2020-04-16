@@ -1,0 +1,24 @@
+﻿<simplic:DefaultRibbonWindow x:Class="Simplic.User.UI.GroupDetailsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:simplic="http://schemas.simplic-systems.com/2016/xaml/presentation"
+        Title="{Binding Path=Group.Name}" Height="120" Width="400"
+        WindowStartupLocation="CenterOwner" LayoutContext="Win_GroupDetails">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DockPanel Margin="7,10,7,7" LastChildFill="True">
+            <Label DockPanel.Dock="Left" Content="{simplic:Localization Key=usermanagment_group_name_label}" />
+            <simplic:TextBox Margin="5,0,0,0" Text="{Binding Path=NewGroupName, Mode=TwoWay}" Height="27" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+        </DockPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="7">
+            <Button Content="{simplic:Localization Key=usermanagment_ok_label}" Height="27" Width="80"
+                    Command="{Binding Path=OkCommand}" />
+            <Button Content="{simplic:Localization Key=usermanagment_cancel_label}" Height="27" Width="80" Margin="7,0,0,0" IsDefault="True"
+                    Command="{Binding Path=CancelCommand}" />
+        </StackPanel>
+    </Grid>
+</simplic:DefaultRibbonWindow>
