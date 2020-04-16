@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Simplic.User.UI
 {
-    public class UserManagmentEditorViewModel : ViewModelBase
+    public class UserManagmentEditorViewModel : ViewModelBase, ISaveableViewModel
     {
         #region fields
         private readonly IUserService _userService;
@@ -170,24 +170,6 @@ namespace Simplic.User.UI
             if (groups == null || !groups.Any())
                 return;
             groups.ForEach(g => Groups.Add(new GroupViewModel(g)));
-            //groups.ToList().ForEach(g =>
-            //{
-            //    var groupVm = new GroupViewModel(g);
-            //    Groups.Add(groupVm);
-            //    var groupUsers = BaseFunctions.GetAllUsersInGroup(g.GroupId)?.ToList();
-            //    if (groupUsers != null || groupUsers.Any())
-            //    {
-            //        groupUsers.ForEach(gu =>
-            //        {
-            //            var groupUser = Users.FirstOrDefault(u => u.UserId == gu.Ident);
-            //            if (groupUser != null)
-            //            {
-            //                groupUser.Groups.Add(groupVm);
-            //                groupVm.Users.Add(groupUser);
-            //            }
-            //        });
-            //    }
-            //});
             foreach (var u in Users)
             {
                 var gs = _groupService.GetAllByUserId(u.UserId)?.ToList();
@@ -208,6 +190,20 @@ namespace Simplic.User.UI
             if (organizations == null || !organizations.Any())
                 return;
             organizations.ForEach(o => Organizations.Add(new OrganizationViewModel(o)));
+            foreach(var u in Users)
+            {
+                var orgs = _organizationService.GetByUserId(u.UserId)?.ToList();
+                if (orgs == null || !orgs.Any())
+                    continue;
+                orgs.ForEach(o =>
+                {
+                    var orgViewModel = Organizations.FirstOrDefault(oVm => oVm.OrganizationId == o.Id);
+                    if (orgViewModel == null)
+                        return;
+                    u.Organizations.Add(orgViewModel);
+                    orgViewModel.Users.Add(u);
+                });
+            }
         }
 
         private void FilterUsersForGroups()
@@ -228,6 +224,12 @@ namespace Simplic.User.UI
                 return;
             }
             FilteredUsers2 = new ObservableCollection<UserViewModel>(Users.Where(u => u.UserName.ToLower().Contains(FilterString2.ToLower())));
+        }
+
+        private void OnSave(object arg)
+        {
+            foreach (var user in Users)
+                user.SaveAll();
         }
         #endregion
 
@@ -353,6 +355,8 @@ namespace Simplic.User.UI
             get { return _addUserCommand; }
             set { PropertySetter(value, newValue => _addUserCommand = newValue); }
         }
+
+        public ICommand SaveCommand { get { return new RelayCommand(OnSave); } }
         #endregion
     }
 }

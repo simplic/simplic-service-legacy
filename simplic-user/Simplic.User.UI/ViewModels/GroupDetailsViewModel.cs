@@ -1,11 +1,13 @@
-﻿using Simplic.UI.MVC;
+﻿using CommonServiceLocator;
+using Simplic.Group;
+using Simplic.UI.MVC;
 using System;
 using System.Linq;
 using System.Windows.Input;
 
 namespace Simplic.User.UI
 {
-    class GroupDetailsViewModel : ViewModelBase, IUserDialogViewModel
+    class GroupDetailsViewModel : ViewModelBase, IUserDialogViewModel, ISaveableViewModel
     {
         #region fields
         private GroupViewModel _group;
@@ -31,23 +33,24 @@ namespace Simplic.User.UI
             Close();
         }
 
-        private void OnOk(object arg)
+        private void OnSave(object arg)
         {
             Group.Name = NewGroupName;
             Group.Users.ToList().ForEach(u => u.RaisePropertyChanged("Groups"));
-            Close();
-        }
 
-        private void OnCancel(object arg)
-        {
-            Close();
+            var groupService = ServiceLocator.Current.GetInstance<IGroupService>();
+            groupService.Save(new Group.Group()
+            {
+                GroupId = Group.GroupId,
+                Ident = Group.Ident,
+                IsDefaultGroup = Group.IsDefault,
+                Name = Group.Name
+            });
         }
         #endregion
 
         #region properties
-        public ICommand OkCommand { get { return new RelayCommand(OnOk); } }
-
-        public ICommand CancelCommand { get { return new RelayCommand(OnCancel); } }
+        public ICommand SaveCommand { get { return new RelayCommand(OnSave); } }
 
         public bool IsModal => true;
 

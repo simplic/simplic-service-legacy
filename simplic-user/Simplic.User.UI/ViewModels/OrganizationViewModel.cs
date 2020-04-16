@@ -1,6 +1,7 @@
 ﻿using Simplic.TenantSystem;
 using Simplic.UI.MVC;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Simplic.User.UI
@@ -12,28 +13,34 @@ namespace Simplic.User.UI
         private string _organizationName;
         private string _matchCode;
         private bool _isActive;
-        private ObservableCollection<OrganizationViewModel> _subOrganizations;
         private bool _isGroup;
         private ObservableCollection<UserViewModel> _users;
+        public int _subOrganizationCount;
+        public IList<Guid> _subOrganizations;
+        public Guid? _cloudOrganizationId;
         #endregion
 
         #region ctr
         public OrganizationViewModel()
         {
-            SubOrganizations = new ObservableCollection<OrganizationViewModel>();
             Users = new ObservableCollection<UserViewModel>();
         }
 
-        public OrganizationViewModel(Guid id, string name, string matchCode, bool isActive, bool isGroup) : this()
+        public OrganizationViewModel(Guid id, string name, string matchCode, int subOrganizationCount, 
+            IList<Guid> subOrganizations, Guid? cloudOrganizationId, bool isActive, bool isGroup) : this()
         {
             OrganizationId = id;
             Name = name;
             MatchCode = matchCode;
             IsActive = isActive;
             IsGroup = isGroup;
+            SubOrganizationCount = subOrganizationCount;
+            SubOrganizations = subOrganizations;
+            CloudOrganizationId = cloudOrganizationId;
         }
 
-        public OrganizationViewModel(Organization org) : this(org.Id, org.Name, org.MatchCode, org.IsActive, org.IsGroup)
+        public OrganizationViewModel(Organization org) : this(org.Id, org.Name, org.MatchCode, org.SubOrganizationCount,
+            org.SubOrganizations, org.CloudOrganizationId, org.IsActive, org.IsGroup)
         {
         }
         #endregion
@@ -63,7 +70,7 @@ namespace Simplic.User.UI
             set { PropertySetter(value, newValue => _isActive = newValue); }
         }
 
-        public ObservableCollection<OrganizationViewModel> SubOrganizations
+        public IList<Guid> SubOrganizations
         {
             get { return _subOrganizations; }
             set { PropertySetter(value, newValue => _subOrganizations = newValue); }
@@ -79,6 +86,18 @@ namespace Simplic.User.UI
         {
             get { return _users; }
             set { PropertySetter(value, newValue => _users = newValue); }
+        }
+
+        public int SubOrganizationCount
+        {
+            get { return _subOrganizationCount; }
+            set { PropertySetter(value, newValue => _subOrganizationCount = newValue); }
+        }
+
+        public Guid? CloudOrganizationId
+        {
+            get { return _cloudOrganizationId; }
+            set { PropertySetter(value, newValue => _cloudOrganizationId = newValue); }
         }
         #endregion
     }

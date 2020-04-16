@@ -1,11 +1,13 @@
-﻿using Simplic.UI.MVC;
+﻿using CommonServiceLocator;
+using Simplic.TenantSystem;
+using Simplic.UI.MVC;
 using System;
 using System.Linq;
 using System.Windows.Input;
 
 namespace Simplic.User.UI
 {
-    class OrganizationDetailsViewModel : ViewModelBase, IUserDialogViewModel
+    class OrganizationDetailsViewModel : ViewModelBase, IUserDialogViewModel, ISaveableViewModel
     {
         #region fields
         private OrganizationViewModel _organization;
@@ -31,23 +33,26 @@ namespace Simplic.User.UI
             Close();
         }
 
-        private void OnOk(object arg)
+        private void OnSave(object arg)
         {
             Organization.Name = NewOrganizationName;
             Organization.Users.ToList().ForEach(u => u.RaisePropertyChanged("Organizations"));
-            Close();
-        }
 
-        private void OnCancel(object arg)
-        {
-            Close();
+            var organizationService = ServiceLocator.Current.GetInstance<IOrganizationService>();
+            organizationService.Save(new Organization
+            {
+                Id = Organization.OrganizationId,
+                CloudOrganizationId = Organization.CloudOrganizationId,
+                IsActive = Organization.IsActive,
+                MatchCode = Organization.MatchCode,
+                Name = Organization.Name,
+                SubOrganizations = Organization.SubOrganizations
+            });
         }
         #endregion
 
         #region properties
-        public ICommand OkCommand { get { return new RelayCommand(OnOk); } }
-
-        public ICommand CancelCommand { get { return new RelayCommand(OnCancel); } }
+        public ICommand SaveCommand { get { return new RelayCommand(OnSave); } }
 
         public bool IsModal => true;
 
