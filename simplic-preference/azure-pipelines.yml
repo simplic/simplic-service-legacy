@@ -5,9 +5,9 @@ trigger:
     - dev
   paths:
     include:
-    - src/*
-    - test/*
-    - azure-pipelines.yml
+    - simplic-preference/src/*
+    - simplic-preference/test/*
+    - simplic-preference/azure-pipelines.yml
 
 pr:
   branches:
