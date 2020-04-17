@@ -243,7 +243,8 @@
                                                 <DataTemplate DataType="{x:Type vm:UserViewModel}">
                                                     <uc:UserBox User="{Binding Path=.}" Margin="4"
                                                                 EditCommand="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"
-                                                                RemoveCommand="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                                                RemoveCommand="{Binding Path=RemoveGroupCommand}"
+                                                                RemoveCommandParametr="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
                                                 </DataTemplate>
                                             </uc:ListViewWithDragAndDrop.ItemTemplate>
                                         </uc:ListViewWithDragAndDrop>
@@ -457,7 +458,8 @@
                                                 <DataTemplate DataType="{x:Type vm:UserViewModel}">
                                                     <uc:UserBox User="{Binding Path=.}" Margin="4"
                                                                 EditCommand="{Binding Path=DataContext.EditCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"
-                                                                RemoveCommand="{Binding Path=DataContext.DeleteCurrentUserCommand, RelativeSource={RelativeSource AncestorLevel=2, Mode=FindAncestor, AncestorType={x:Type ListView}}}"/>
+                                                                RemoveCommand="{Binding Path=RemoveOrganizationCommand}"
+                                                                RemoveCommandParametr="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}}" />
                                                 </DataTemplate>
                                             </uc:ListViewWithDragAndDrop.ItemTemplate>
                                         </uc:ListViewWithDragAndDrop>
