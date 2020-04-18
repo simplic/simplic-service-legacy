@@ -13,6 +13,11 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-authentication/src/*
+    - simplic-authentication/test/*
+    - simplic-authentication/azure-pipelines.yml
 
 pool:
   vmImage: 'windows-latest'

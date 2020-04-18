@@ -11,6 +11,9 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-componentlicense/*
 
 pool:
   vmImage: 'windows-latest'

@@ -11,6 +11,9 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-sms/*
 
 pool:
   vmImage: 'windows-latest'

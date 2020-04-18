@@ -13,6 +13,11 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-session/src/*
+    - simplic-session/test/*
+    - simplic-session/azure-pipelines.yml
 
 pool:
   vmImage: 'windows-latest'
