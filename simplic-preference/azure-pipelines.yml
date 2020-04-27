@@ -13,6 +13,11 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-preference/src/*
+    - simplic-preference/test/*
+    - simplic-preference/azure-pipelines.yml
 
 pool:
   vmImage: 'windows-latest'

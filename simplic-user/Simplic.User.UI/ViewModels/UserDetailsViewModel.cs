@@ -90,7 +90,8 @@ namespace Simplic.User.UI
             User.Email = Email;
             User.Phone = Phone;
             User.IsActive = IsActive;
-            User.SaveUser(IsCreate);
+            User.SaveUser();
+            IsCreate = false;
         }
         #endregion
 

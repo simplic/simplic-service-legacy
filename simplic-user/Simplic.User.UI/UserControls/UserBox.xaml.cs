@@ -25,6 +25,13 @@ namespace Simplic.User.UI
             set { SetValue(RemoveCommandProperty, value); }
         }
 
+        public static readonly DependencyProperty RemoveCommandParametrProperty = DependencyProperty.Register("RemoveCommandParametr", typeof(object), typeof(UserBox));
+        public object RemoveCommandParametr
+        {
+            get { return (object)GetValue(RemoveCommandParametrProperty); }
+            set { SetValue(RemoveCommandParametrProperty, value); }
+        }
+
         public static readonly DependencyProperty UserProperty = DependencyProperty.Register("User", typeof(UserViewModel), typeof(UserBox));
         public UserViewModel User
         {
@@ -41,8 +48,8 @@ namespace Simplic.User.UI
 
         private void OnRemove(object sender, RoutedEventArgs e)
         {
-            if (RemoveCommand != null)
-                RemoveCommand.Execute(User);
+            if (RemoveCommand != null && RemoveCommandParametr != null)
+                RemoveCommand.Execute(RemoveCommandParametr);
         }
     }
 }

@@ -4,6 +4,7 @@ using Simplic.TenantSystem;
 using Simplic.UI.MVC;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace Simplic.User.UI
 {
@@ -26,16 +27,18 @@ namespace Simplic.User.UI
         private string _apiKey;
         private int _languageID;
         private readonly IUserService _userService;
+        private ICommand _removeGroupCommand;
+        private ICommand _removeOrganizationCommand;
         #endregion
 
         #region ctr
-            
-
         public UserViewModel()
         {
             _userService = ServiceLocator.Current.GetInstance<IUserService>();
             Groups = new ObservableCollection<GroupViewModel>();
             Organizations = new ObservableCollection<OrganizationViewModel>();
+            RemoveGroupCommand = new RelayCommand(OnRemoveGroup);
+            RemoveOrganizationCommand = new RelayCommand(OnRemoveOrganization);
         }
 
         public UserViewModel(User user) : this()
@@ -57,6 +60,24 @@ namespace Simplic.User.UI
         #endregion
 
         #region methods
+        private void OnRemoveOrganization(object arg)
+        {
+            if(arg is OrganizationViewModel org)
+            {
+                Organizations.Remove(org);
+                org.Users.Remove(this);
+            }
+        }
+
+        private void OnRemoveGroup(object arg)
+        {
+            if(arg is GroupViewModel group)
+            {
+                Groups.Remove(group);
+                group.Users.Remove(this);
+            }
+        }
+
         public void Join(ViewModelBase vm)
         {
             if (vm is GroupViewModel groupVm)
@@ -77,24 +98,11 @@ namespace Simplic.User.UI
             }
         }
 
-        public void SaveUser(bool isCreate)
+        public void SaveUser()
         {
-            if (!isCreate)
-                _userService.Save(new User
-                {
-                    Ident = UserId,
-                    ApiKey = ApiKey,
-                    EMail = Email,
-                    FirstName = FirstName,
-                    LastName = LastName,
-                    IsActive = IsActive,
-                    IsADUser = IsADUser,
-                    KeepLoggedIn = KeepLoggedIn,
-                    LanguageID = LanguageID,
-                    UserName = UserName
-                });
-            else
-                _userService.Register(new User
+            if (User == null)
+            {
+                var user = new User
                 {
                     Ident = UserId,
                     ApiKey = ApiKey,
@@ -107,7 +115,12 @@ namespace Simplic.User.UI
                     LanguageID = LanguageID,
                     Password = Password,
                     UserName = UserName
-                });
+                };
+                if (_userService.Register(user))
+                    User = user;
+            }
+            else
+                _userService.Save(User);
         }
 
         public void SavePassword()
@@ -170,6 +183,18 @@ namespace Simplic.User.UI
         #endregion
 
         #region properties
+        public ICommand RemoveOrganizationCommand
+        {
+            get { return _removeOrganizationCommand; }
+            set { PropertySetter(value, newValue => _removeOrganizationCommand = newValue); }
+        }
+
+        public ICommand RemoveGroupCommand
+        {
+            get { return _removeGroupCommand; }
+            set { PropertySetter(value, newValue => _removeGroupCommand = newValue); }
+        }
+
         public int UserId
         {
             get { return _useId; }
