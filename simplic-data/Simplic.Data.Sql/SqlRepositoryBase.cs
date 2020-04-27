@@ -125,7 +125,7 @@ namespace Simplic.Data.Sql
                 }
 
                 string sqlStatement = $"INSERT INTO {TableName} ({string.Join(", ", columns.Select(item => item.Key))}) ON EXISTING UPDATE VALUES "
-                    + $" ({string.Join(", ", columns.Select(k => "?" + (string.IsNullOrWhiteSpace(k.Value) ? k.Key : k.Value) + "?"))});";
+                    + $" ({string.Join(", ", columns.Select(k => ":" + (string.IsNullOrWhiteSpace(k.Value) ? k.Key : k.Value)))});";
                 return connection.Execute(sqlStatement, obj) > 0;
             }, GetConnection());
         }
