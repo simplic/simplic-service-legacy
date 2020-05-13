@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Simplic.Cache;
+using Simplic.Change.Tracking;
 using Simplic.Sql;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Simplic.Data.Sql
 
         public static IDictionary<string, string> Connections { get => connections; set => connections = value; }
     }
-    
+
     /// <summary>
     /// Sql repository base implementation
     /// </summary>
@@ -27,7 +28,8 @@ namespace Simplic.Data.Sql
         private readonly ISqlService sqlService;
         private readonly ISqlColumnService sqlColumnService;
         private readonly ICacheService cacheService;
-       
+        private readonly IRequestChangeService requestChangeService;
+
 
         /// <summary>
         /// Initialize sql service
@@ -39,7 +41,22 @@ namespace Simplic.Data.Sql
             this.sqlService = sqlService;
             this.sqlColumnService = sqlColumnService;
             this.cacheService = cacheService;
+            requestChangeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IRequestChangeService>();
         }
+
+        /// <summary>
+        /// Initialize sql service
+        /// </summary>
+        /// <param name="sqlService">Sql service</param>
+        /// <param name="sqlColumnService">Sql column service</param>
+        public SqlRepositoryBase(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService, IRequestChangeService requestChangeService)
+        {
+            this.sqlService = sqlService;
+            this.sqlColumnService = sqlColumnService;
+            this.cacheService = cacheService;
+            this.requestChangeService = requestChangeService;
+        }
+
 
         /// <summary>
         /// Get data by id
@@ -48,6 +65,11 @@ namespace Simplic.Data.Sql
         /// <returns>Instance of <see cref="TModel"/> if exists</returns>
         public virtual TModel Get(TId id)
         {
+            TModel obj = (TModel)new Object();
+            if (obj is ITrackable trackable)
+            {
+                trackable.Snapshot = obj;
+            }
             return GetByColumn<TId>(PrimaryKeyColumn, id);
         }
 
@@ -115,6 +137,15 @@ namespace Simplic.Data.Sql
         public virtual bool Save(TModel obj)
         {
             var columns = sqlColumnService.GetModelDBColumnNames(TableName, obj.GetType(), DifferentColumnNames);
+            if (requestChangeService.IsTrackable<TModel>(obj))
+            {
+                requestChangeService.TrackChange<TModel>(obj, CrudType.InsertOrUpdate, TableName, null);
+            }
+            else
+            {
+                requestChangeService.TrackChange<TModel>(obj, CrudType.InsertOrUpdate, TableName, Get(GetId(obj)));
+            }
+
 
             return sqlService.OpenConnection((connection) =>
             {
@@ -137,6 +168,15 @@ namespace Simplic.Data.Sql
         /// <returns>True if successful</returns>
         public virtual bool Delete(TModel obj)
         {
+            if (requestChangeService.IsTrackable<TModel>(obj))
+            {
+                requestChangeService.TrackChange<TModel>(obj, CrudType.Delete, TableName, null);
+            }
+            else
+            {
+                requestChangeService.TrackChange<TModel>(obj, CrudType.Delete, TableName, Get(GetId(obj)));
+            }
+            
             return sqlService.OpenConnection((connection) =>
             {
                 return connection.Execute($"DELETE FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
@@ -187,7 +227,7 @@ namespace Simplic.Data.Sql
         {
             string connectionName = "default";
 
-            if(ConnectionInfo.Connections == null)
+            if (ConnectionInfo.Connections == null)
                 ConnectionInfo.Connections = new Dictionary<string, string>();
 
             if (ConnectionInfo.Connections.ContainsKey(this.GetType().Name))
@@ -242,5 +282,11 @@ namespace Simplic.Data.Sql
         /// Gets or sets whether to use the cache
         /// </summary>
         public virtual bool UseCache { get; set; } = false;
+
+        
+
+
     }
+    
+    
 }

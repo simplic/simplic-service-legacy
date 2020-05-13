@@ -51,11 +51,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.5</Version>
+    </PackageReference>
     <PackageReference Include="Dapper">
       <Version>2.0.30</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Cache">
       <Version>6.0.18.619</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Change.Tracking">
+      <Version>1.0.300</Version>
+    </PackageReference>
+    <PackageReference Include="Simplic.Change.Tracking.Service">
+      <Version>1.0.300</Version>
     </PackageReference>
     <PackageReference Include="Simplic.CoreLib">
       <Version>6.14.418.1002</Version>
