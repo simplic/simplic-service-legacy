@@ -260,6 +260,7 @@
     <Compile Include="Utils\IDraggableUser.cs" />
     <Compile Include="Utils\IgnoreMouseWheelBehavior.cs" />
     <Compile Include="Utils\INamedEntity.cs" />
+    <Compile Include="Utils\IOpenSelectedUserDetails.cs" />
     <Compile Include="Utils\ISaveableViewModel.cs" />
     <Compile Include="Utils\ListViewDragDropManager.cs" />
     <Compile Include="Utils\ListViewItemDragState.cs" />
@@ -313,7 +314,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Resources\Telerik.Windows.Controls.GridView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -352,6 +352,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

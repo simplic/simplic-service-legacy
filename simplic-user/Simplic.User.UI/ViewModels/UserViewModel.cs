@@ -120,7 +120,20 @@ namespace Simplic.User.UI
                     User = user;
             }
             else
+            {
+                User.Ident = UserId;
+                User.ApiKey = ApiKey;
+                User.EMail = Email;
+                User.FirstName = FirstName;
+                User.LastName = LastName;
+                User.IsActive = IsActive;
+                User.IsADUser = IsADUser;
+                User.KeepLoggedIn = KeepLoggedIn;
+                User.LanguageID = LanguageID;
+                User.Password = Password;
+                User.UserName = UserName;
                 _userService.Save(User);
+            }
         }
 
         public void SavePassword()

@@ -1,10 +1,13 @@
 ﻿using Simplic.Framework.UI;
+using Simplic.User.UI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Telerik.Windows.Controls;
+using Telerik.Windows.Controls.GridView;
 
 namespace Simplic.User.UI
 {
@@ -85,6 +88,20 @@ namespace Simplic.User.UI
             if (DataContext is ISaveableViewModel vm)
                 vm.SaveCommand.Execute(EventArgs.Empty);
             base.OnSave(e);
+        }
+
+        private void CursorGridViewControl_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (DataContext is IOpenSelectedUserDetails vm)
+            {
+                var originalSender = e.OriginalSource as FrameworkElement;
+                if (originalSender != null)
+                {
+                    var row = originalSender.ParentOfType<GridViewRow>();
+                    if (row != null)
+                        vm.OpenSelectedUserDetailsCommand.Execute(EventArgs.Empty);
+                }
+            }
         }
     }
 }
