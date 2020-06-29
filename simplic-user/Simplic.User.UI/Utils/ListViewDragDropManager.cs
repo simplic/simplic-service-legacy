@@ -10,7 +10,7 @@ using Simplic.UI.MVC;
 
 namespace Simplic.User.UI
 {
-    public class ListViewDragDropManager<ItemType> where ItemType : class, IDraggableUser
+    class ListViewDragDropManager<ItemType> where ItemType : class, IDraggableUser
     {
         #region fields
         private bool _canInitiateDrag;
