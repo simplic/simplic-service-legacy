@@ -5,14 +5,19 @@ trigger:
     - dev
   paths:
     include:
-    - src/*
-    - test/*
-    - azure-pipelines.yml
+    - simplic-authorization/src/*
+    - simplic-authorization/test/*
+    - simplic-authorization/azure-pipelines.yml
 
 pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-authorization/src/*
+    - simplic-authorization/test/*
+    - simplic-authorization/azure-pipelines.yml
 
 pool:
   vmImage: 'windows-latest'

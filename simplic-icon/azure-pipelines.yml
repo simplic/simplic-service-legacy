@@ -11,6 +11,9 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-icon/*
 
 pool:
   vmImage: 'windows-latest'
