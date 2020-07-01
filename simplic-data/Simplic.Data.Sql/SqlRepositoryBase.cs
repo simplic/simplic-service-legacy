@@ -28,7 +28,7 @@ namespace Simplic.Data.Sql
         private readonly ISqlService sqlService;
         private readonly ISqlColumnService sqlColumnService;
         private readonly ICacheService cacheService;
-        private readonly IRequestChangeService requestChangeService;
+        private readonly IChangeTrackingService changeTrackingService;
 
 
         /// <summary>
@@ -36,12 +36,13 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="sqlService">Sql service</param>
         /// <param name="sqlColumnService">Sql column service</param>
+        [Obsolete]
         public SqlRepositoryBase(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService)
         {
             this.sqlService = sqlService;
             this.sqlColumnService = sqlColumnService;
             this.cacheService = cacheService;
-            requestChangeService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IRequestChangeService>();
+            changeTrackingService = CommonServiceLocator.ServiceLocator.Current.GetInstance<IChangeTrackingService>();
         }
 
         /// <summary>
@@ -49,12 +50,12 @@ namespace Simplic.Data.Sql
         /// </summary>
         /// <param name="sqlService">Sql service</param>
         /// <param name="sqlColumnService">Sql column service</param>
-        public SqlRepositoryBase(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService, IRequestChangeService requestChangeService)
+        public SqlRepositoryBase(ISqlService sqlService, ISqlColumnService sqlColumnService, ICacheService cacheService, IChangeTrackingService requestChangeService)
         {
             this.sqlService = sqlService;
             this.sqlColumnService = sqlColumnService;
             this.cacheService = cacheService;
-            this.requestChangeService = requestChangeService;
+            this.changeTrackingService = requestChangeService;
         }
 
 
@@ -65,11 +66,7 @@ namespace Simplic.Data.Sql
         /// <returns>Instance of <see cref="TModel"/> if exists</returns>
         public virtual TModel Get(TId id)
         {
-            TModel obj = (TModel)new Object();
-            if (obj is ITrackable trackable)
-            {
-                trackable.Snapshot = obj;
-            }
+
             return GetByColumn<TId>(PrimaryKeyColumn, id);
         }
 
@@ -89,7 +86,20 @@ namespace Simplic.Data.Sql
             {
                 obj = cacheService.Get<TModel>(key);
                 if (obj != null)
-                    return obj;
+                {
+                    if (obj is ITrackable trackable)
+                    {
+                        trackable.Snapshot = changeTrackingService.CreateDeepCopy<TModel>(obj);
+                        return obj;
+                    }
+                    else
+                    {
+                        return obj;
+                    }
+
+
+                }
+
             }
 
             return sqlService.OpenConnection((connection) =>
@@ -100,7 +110,8 @@ namespace Simplic.Data.Sql
                 if (UseCache)
                     cacheService.Set<TModel>(key, obj);
 
-                return obj;
+                return CreateSnaphot(obj);
+
             }, GetConnection());
         }
 
@@ -112,8 +123,17 @@ namespace Simplic.Data.Sql
         {
             return sqlService.OpenConnection((connection) =>
             {
-                return connection.Query<TModel>($"SELECT * FROM {TableName} ORDER BY {PrimaryKeyColumn}");
+                return connection.Query<TModel>($"SELECT * FROM {TableName} ORDER BY {PrimaryKeyColumn}")
+                                                .Select(CreateSnaphot);
             }, GetConnection());
+        }
+
+        private TModel CreateSnaphot(TModel item)
+        {
+            if (item is ITrackable trackable)
+                trackable.Snapshot = changeTrackingService.CreateDeepCopy<TModel>(item);
+
+            return item;
         }
 
         /// <summary>
@@ -137,13 +157,24 @@ namespace Simplic.Data.Sql
         public virtual bool Save(TModel obj)
         {
             var columns = sqlColumnService.GetModelDBColumnNames(TableName, obj.GetType(), DifferentColumnNames);
-            if (requestChangeService.IsTrackable<TModel>(obj))
+            if (changeTrackingService.IsTrackable<TModel>(obj))
             {
-                requestChangeService.TrackChange<TModel>(obj, CrudType.InsertOrUpdate, TableName, null);
+
+                changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Update, TableName, null, GetId(obj));
             }
             else
             {
-                requestChangeService.TrackChange<TModel>(obj, CrudType.InsertOrUpdate, TableName, Get(GetId(obj)));
+                var snapshot = Get(GetId(obj));
+                CrudType crudType = 0;
+                if (snapshot == null)
+                {
+                    crudType = CrudType.Insert;
+                }
+                else
+                {
+                    crudType = CrudType.Update;
+                }
+                changeTrackingService.TrackChange<TModel, TId>(obj, crudType, TableName, snapshot, GetId(obj));
             }
 
 
@@ -168,15 +199,15 @@ namespace Simplic.Data.Sql
         /// <returns>True if successful</returns>
         public virtual bool Delete(TModel obj)
         {
-            if (requestChangeService.IsTrackable<TModel>(obj))
+            if (changeTrackingService.IsTrackable<TModel>(obj))
             {
-                requestChangeService.TrackChange<TModel>(obj, CrudType.Delete, TableName, null);
+                changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, null, GetId(obj));
             }
             else
             {
-                requestChangeService.TrackChange<TModel>(obj, CrudType.Delete, TableName, Get(GetId(obj)));
+                changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, Get(GetId(obj)), GetId(obj));
             }
-            
+
             return sqlService.OpenConnection((connection) =>
             {
                 return connection.Execute($"DELETE FROM {TableName} WHERE {PrimaryKeyColumn} = :id",
@@ -283,10 +314,10 @@ namespace Simplic.Data.Sql
         /// </summary>
         public virtual bool UseCache { get; set; } = false;
 
-        
+
 
 
     }
-    
-    
+
+
 }
