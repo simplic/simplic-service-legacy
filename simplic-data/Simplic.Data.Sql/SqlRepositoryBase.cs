@@ -138,9 +138,16 @@ namespace Simplic.Data.Sql
 
         private TModel CreateSnaphot(TModel item)
         {
-            if (item is ITrackable trackable)
-                trackable.Snapshot = changeTrackingService.CreateDeepCopy<TModel>(item);
+            try
+            {
+                if (item is ITrackable trackable)
+                    trackable.Snapshot = changeTrackingService.CreateDeepCopy<TModel>(item);
 
+            }
+            catch (Exception ex)
+            {
+                LogManagerInstance.Instance.Error($"Could not create a Snapshot of  {item?.GetType()}", ex );
+            }
             return item;
         }
 
@@ -190,7 +197,7 @@ namespace Simplic.Data.Sql
             }
             catch (Exception ex)
             {
-                LogManagerInstance.Instance.Error(ex.Message, ex);
+                LogManagerInstance.Instance.Error($"Could not track the save statement with {obj?.GetType()}", ex);
             }
 
 
@@ -228,7 +235,7 @@ namespace Simplic.Data.Sql
             }
             catch (Exception ex)
             {
-                LogManagerInstance.Instance.Error(ex.Message, ex);
+                LogManagerInstance.Instance.Error($"Could not track the delete statement with {obj?.GetType()}", ex);
             }
 
             return sqlService.OpenConnection((connection) =>
