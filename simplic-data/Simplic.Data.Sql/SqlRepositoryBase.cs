@@ -87,16 +87,23 @@ namespace Simplic.Data.Sql
                 obj = cacheService.Get<TModel>(key);
                 if (obj != null)
                 {
-                    if (obj is ITrackable trackable)
+                    try
                     {
-                        trackable.Snapshot = changeTrackingService.CreateDeepCopy<TModel>(obj);
-                        return obj;
-                    }
-                    else
-                    {
-                        return obj;
-                    }
+                        if (obj is ITrackable trackable)
+                        {
+                            trackable.Snapshot = changeTrackingService.CreateDeepCopy<TModel>(obj);
+                            return obj;
+                        }
+                        else
+                        {
+                            return obj;
+                        }
 
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
 
                 }
 
@@ -157,24 +164,32 @@ namespace Simplic.Data.Sql
         public virtual bool Save(TModel obj)
         {
             var columns = sqlColumnService.GetModelDBColumnNames(TableName, obj.GetType(), DifferentColumnNames);
-            if (changeTrackingService.IsTrackable<TModel>(obj))
+            try
             {
-
-                changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Update, TableName, null, GetId(obj));
-            }
-            else
-            {
-                var snapshot = Get(GetId(obj));
-                CrudType crudType = 0;
-                if (snapshot == null)
+                if (changeTrackingService.IsTrackable<TModel>(obj))
                 {
-                    crudType = CrudType.Insert;
+
+                    changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Update, TableName, null, GetId(obj));
                 }
                 else
                 {
-                    crudType = CrudType.Update;
+                    var snapshot = Get(GetId(obj));
+                    CrudType crudType = CrudType.Insert;
+                    if (snapshot == null)
+                    {
+                        crudType = CrudType.Insert;
+                    }
+                    else
+                    {
+                        crudType = CrudType.Update;
+                    }
+                    changeTrackingService.TrackChange<TModel, TId>(obj, crudType, TableName, snapshot, GetId(obj));
                 }
-                changeTrackingService.TrackChange<TModel, TId>(obj, crudType, TableName, snapshot, GetId(obj));
+
+            }
+            catch (Exception)
+            {
+                
             }
 
 
@@ -199,13 +214,20 @@ namespace Simplic.Data.Sql
         /// <returns>True if successful</returns>
         public virtual bool Delete(TModel obj)
         {
-            if (changeTrackingService.IsTrackable<TModel>(obj))
+            try
             {
-                changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, null, GetId(obj));
+                if (changeTrackingService.IsTrackable<TModel>(obj))
+                {
+                    changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, null, GetId(obj));
+                }
+                else
+                {
+                    changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, Get(GetId(obj)), GetId(obj));
+                }
             }
-            else
+            catch (Exception)
             {
-                changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, Get(GetId(obj)), GetId(obj));
+                
             }
 
             return sqlService.OpenConnection((connection) =>
