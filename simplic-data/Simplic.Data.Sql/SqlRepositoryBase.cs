@@ -188,9 +188,9 @@ namespace Simplic.Data.Sql
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                LogManagerInstance.Instance.Write(e.Message, e, LogType.Info, obj);
+                LogManagerInstance.Instance.Error(ex.Message, ex);
             }
 
 
@@ -226,9 +226,9 @@ namespace Simplic.Data.Sql
                     changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, Get(GetId(obj)), GetId(obj));
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                LogManagerInstance.Instance.Write(e.Message, e, LogType.Info, obj);
+                LogManagerInstance.Instance.Error(ex.Message, ex);
             }
 
             return sqlService.OpenConnection((connection) =>
