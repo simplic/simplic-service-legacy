@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Simplic.Cache;
 using Simplic.Change.Tracking;
+using Simplic.Log;
 using Simplic.Sql;
 using System;
 using System.Collections.Generic;
@@ -100,9 +101,9 @@ namespace Simplic.Data.Sql
                         }
 
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        
+                        LogManagerInstance.Instance.Write(e.Message, e, LogType.Info, obj);
                     }
 
                 }
@@ -187,9 +188,9 @@ namespace Simplic.Data.Sql
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
+                LogManagerInstance.Instance.Write(e.Message, e, LogType.Info, obj);
             }
 
 
@@ -225,9 +226,9 @@ namespace Simplic.Data.Sql
                     changeTrackingService.TrackChange<TModel, TId>(obj, CrudType.Delete, TableName, Get(GetId(obj)), GetId(obj));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
+                LogManagerInstance.Instance.Write(e.Message, e, LogType.Info, obj);
             }
 
             return sqlService.OpenConnection((connection) =>
