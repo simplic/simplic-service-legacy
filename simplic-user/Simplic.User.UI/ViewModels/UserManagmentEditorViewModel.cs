@@ -3,6 +3,7 @@ using Simplic.Group;
 using Simplic.TenantSystem;
 using Simplic.UI.MVC;
 using Simplic.User.UI.Utils;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -35,6 +36,7 @@ namespace Simplic.User.UI
         private ICommand _deleteCurrentUserCommand;
         private ICommand _skipSelectedUserCommand;
         private ICommand _addUserCommand;
+        private ICommand _addNewGroup;
         private string _filterString;
         private string _filterString2;
         private ObservableCollection<IDialogViewModel> _dialogs;
@@ -64,11 +66,29 @@ namespace Simplic.User.UI
             Organizations = new ObservableCollection<OrganizationViewModel>();
             Dialogs = new ObservableCollection<IDialogViewModel>();
             EditCurrentUserCommand = new RelayCommand(OnEditCurrentUser);
+            AddNewGroup = new RelayCommand(OnAddNewGroup);
             Fill();
         }
         #endregion
 
         #region methods
+        /// <summary>
+        /// Adds group new user. Opens <see cref=""/> dialog window
+        /// </summary>
+        /// <param name="arg"></param>
+        private void OnAddNewGroup(object arg)
+        {
+            var viewModel = new CreateNewGroupViewModel();
+            Dialogs.Add(viewModel);
+            if (viewModel.NewGroup != null)
+            {
+                var groups = Groups.ToList();
+                groups.Add(viewModel.NewGroup);
+                Groups.Clear();
+                Groups = new ObservableCollection<GroupViewModel>(groups.OrderBy(g => g.Name));
+            }
+        }
+
         /// <summary>
         /// Adds new user. Opens <see cref="UserDetailsView"/> dialog window
         /// </summary>
@@ -319,6 +339,15 @@ namespace Simplic.User.UI
         {
             get { return _groupBindigsChangedCommand; }
             set { PropertySetter(value, newValue => _groupBindigsChangedCommand = newValue); }
+        }
+
+        /// <summary>
+        /// Adds new group
+        /// </summary>
+        public ICommand AddNewGroup
+        {
+            get { return _addNewGroup; }
+            set { PropertySetter(value, newValue => _addNewGroup = newValue); }
         }
 
         /// <summary>
