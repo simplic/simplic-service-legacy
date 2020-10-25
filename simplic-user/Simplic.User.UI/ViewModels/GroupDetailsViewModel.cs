@@ -7,6 +7,9 @@ using System.Windows.Input;
 
 namespace Simplic.User.UI
 {
+    /// <summary>
+    /// View model for group details dialog window
+    /// </summary>
     class GroupDetailsViewModel : ViewModelBase, IUserDialogViewModel, ISaveableViewModel
     {
         #region fields
@@ -15,6 +18,10 @@ namespace Simplic.User.UI
         #endregion
 
         #region ctr
+        /// <summary>
+        /// Constructor for the view model
+        /// </summary>
+        /// <param name="group">Current group</param>
         public GroupDetailsViewModel(GroupViewModel group)
         {
             Group = group;
@@ -28,6 +35,9 @@ namespace Simplic.User.UI
             DialogClosing(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Dialog window close request method. Inherited from <see cref="IUserDialogViewModel"/>
+        /// </summary>
         public void RequestClose()
         {
             Close();
@@ -50,16 +60,28 @@ namespace Simplic.User.UI
         #endregion
 
         #region properties
+        /// <summary>
+        /// Save state command. Inherited from <see cref="ISaveableViewModel"/>
+        /// </summary>
         public ICommand SaveCommand { get { return new RelayCommand(OnSave); } }
 
+        /// <summary>
+        /// Dialog window modality flag. Inherited from <see cref="IUserDialogViewModel"/>
+        /// </summary>
         public bool IsModal => true;
 
+        /// <summary>
+        /// Current group
+        /// </summary>
         public GroupViewModel Group
         {
             get { return _group; }
             set { PropertySetter(value, newValue => _group = newValue); }
         }
 
+        /// <summary>
+        /// The name of the group, which can be changed through the UI
+        /// </summary>
         public string NewGroupName
         {
             get { return _newGroupName; }
@@ -68,6 +90,9 @@ namespace Simplic.User.UI
         #endregion
 
         #region events
+        /// <summary>
+        /// Dialog window close request method. Inherited from <see cref="IUserDialogViewModel"/>
+        /// </summary>
         public event EventHandler DialogClosing;
         #endregion
     }
