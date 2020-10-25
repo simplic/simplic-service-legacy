@@ -9,35 +9,57 @@ using System.Windows;
 
 namespace Simplic.User.UI
 {
+    /// <summary>
+    /// Contains data and methods to manipulate dialogs
+    /// </summary>
     public static class DialogBehavior
     {
         private static Dictionary<IDialogViewModel, Window> DialogBoxes = new Dictionary<IDialogViewModel, Window>();
         private static Dictionary<Window, NotifyCollectionChangedEventHandler> ChangeNotificationHandlers = new Dictionary<Window, NotifyCollectionChangedEventHandler>();
         private static Dictionary<ObservableCollection<IDialogViewModel>, List<IDialogViewModel>> DialogBoxViewModels = new Dictionary<ObservableCollection<IDialogViewModel>, List<IDialogViewModel>>();
 
+        /// <summary>
+        /// Notifies about the window closing process
+        /// </summary>
         public static readonly DependencyProperty ClosingProperty = DependencyProperty.RegisterAttached(
             "Closing",
             typeof(bool),
             typeof(DialogBehavior),
             new PropertyMetadata(false));
 
+        /// <summary>
+        /// Notifies that window is closed
+        /// </summary>
         public static readonly DependencyProperty ClosedProperty = DependencyProperty.RegisterAttached(
             "Closed",
             typeof(bool),
             typeof(DialogBehavior),
             new PropertyMetadata(false));
 
+        /// <summary>
+        /// Items source for dialog view models
+        /// </summary>
         public static readonly DependencyProperty DialogViewModelsProperty = DependencyProperty.RegisterAttached(
             "DialogViewModels",
             typeof(object),
             typeof(DialogBehavior),
             new PropertyMetadata(null, OnDialogViewModelsChange));
 
+        /// <summary>
+        /// Setter for <see cref="DialogViewModels"/> property
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="value"></param>
         public static void SetDialogViewModels(DependencyObject source, object value)
         {
             source.SetValue(DialogViewModelsProperty, value);
         }
 
+        /// <summary>
+        /// Getter for <see cref="DialogViewModels"/> property
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static object GetDialogViewModels(DependencyObject source)
         {
             return source.GetValue(DialogViewModelsProperty);
@@ -162,7 +184,6 @@ namespace Simplic.User.UI
                 dialog.SetValue(ClosedProperty, true);
             }
         }
-
 
         private static bool IsAssignableToGenericType(Type givenType, Type genericType)
         {

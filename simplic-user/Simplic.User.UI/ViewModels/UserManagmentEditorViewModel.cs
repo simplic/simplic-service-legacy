@@ -1,15 +1,19 @@
 ﻿using CommonServiceLocator;
-using Simplic.BaseDAL;
 using Simplic.Group;
 using Simplic.TenantSystem;
 using Simplic.UI.MVC;
+using Simplic.User.UI.Utils;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
 namespace Simplic.User.UI
 {
-    public class UserManagmentEditorViewModel : ViewModelBase, ISaveableViewModel
+    /// <summary>
+    /// Main view model. Controls list of users, groups and organizations view models
+    /// </summary>
+    public class UserManagmentEditorViewModel : ViewModelBase, ISaveableViewModel, IOpenSelectedUserDetails
     {
         #region fields
         private readonly IUserService _userService;
@@ -32,12 +36,16 @@ namespace Simplic.User.UI
         private ICommand _deleteCurrentUserCommand;
         private ICommand _skipSelectedUserCommand;
         private ICommand _addUserCommand;
+        private ICommand _addNewGroup;
         private string _filterString;
         private string _filterString2;
         private ObservableCollection<IDialogViewModel> _dialogs;
         #endregion
 
         #region ctr
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public UserManagmentEditorViewModel()
         {
             _userService = ServiceLocator.Current.GetInstance<IUserService>();
@@ -58,11 +66,33 @@ namespace Simplic.User.UI
             Organizations = new ObservableCollection<OrganizationViewModel>();
             Dialogs = new ObservableCollection<IDialogViewModel>();
             EditCurrentUserCommand = new RelayCommand(OnEditCurrentUser);
+            AddNewGroup = new RelayCommand(OnAddNewGroup);
             Fill();
         }
         #endregion
 
         #region methods
+        /// <summary>
+        /// Adds group new user. Opens <see cref=""/> dialog window
+        /// </summary>
+        /// <param name="arg"></param>
+        private void OnAddNewGroup(object arg)
+        {
+            var viewModel = new CreateNewGroupViewModel();
+            Dialogs.Add(viewModel);
+            if (viewModel.NewGroup != null)
+            {
+                var groups = Groups.ToList();
+                groups.Add(viewModel.NewGroup);
+                Groups.Clear();
+                Groups = new ObservableCollection<GroupViewModel>(groups.OrderBy(g => g.Name));
+            }
+        }
+
+        /// <summary>
+        /// Adds new user. Opens <see cref="UserDetailsView"/> dialog window
+        /// </summary>
+        /// <param name="arg"></param>
         private void OnAddUser(object arg)
         {
             var userDetailsVm = new UserDetailsViewModel(null, true);
@@ -70,6 +100,11 @@ namespace Simplic.User.UI
             Dialogs.Add(userDetailsVm);
         }
 
+        /// <summary>
+        /// Invokes during <see cref="UserDetailsView"/> dialog window closing
+        /// </summary>
+        /// <param name="sender">Reference to <see cref="UserDetailsViewModel"/> entity</param>
+        /// <param name="e"></param>
         private void OnAddUserDialogClosing(object sender, System.EventArgs e)
         {
             var userDetailsVm = sender as UserDetailsViewModel;
@@ -81,6 +116,10 @@ namespace Simplic.User.UI
             userDetailsVm.DialogClosing -= OnAddUserDialogClosing;
         }
 
+        /// <summary>
+        /// Edits selected organization. Opens <see cref="OrganizationDetailsView"/> dialog window
+        /// </summary>
+        /// <param name="arg">Reference to selected <see cref="OrganizationViewModel"/> entity.</param>
         private void OnEditCurrentOrganization(object arg)
         {
             if (!(arg is OrganizationViewModel org))
@@ -88,6 +127,10 @@ namespace Simplic.User.UI
             Dialogs.Add(new OrganizationDetailsViewModel(org));
         }
 
+        /// <summary>
+        /// Delets or adds links from organization to user and vice versa
+        /// </summary>
+        /// <param name="arg">>Reference to selected <see cref="OrganizationViewModel"/> entity.</param>
         private void OnOrganizationBindigsChanged(object arg)
         {
             if (SelectedUser == null || !(arg is OrganizationViewModel org))
@@ -104,6 +147,10 @@ namespace Simplic.User.UI
             }
         }
 
+        /// <summary>
+        /// Opens <see cref="GroupDetailsView"/> dialog window
+        /// </summary>
+        /// <param name="arg">Reference to selected <see cref="GroupViewModel"/> entity</param>
         private void OnEditCurrentGroup(object arg)
         {
             if (!(arg is GroupViewModel group))
@@ -111,6 +158,10 @@ namespace Simplic.User.UI
             Dialogs.Add(new GroupDetailsViewModel(group));            
         }
 
+        /// <summary>
+        /// Deletes current user
+        /// </summary>
+        /// <param name="arg">Reference to selected <see cref="UserViewModel"/> entity</param>
         private void OnDeleteCurrentUser(object arg)
         {
             var user = arg as UserViewModel;
@@ -119,6 +170,10 @@ namespace Simplic.User.UI
             user.IsActive = false;
         }
 
+        /// <summary>
+        /// Opens <see cref="UserDetailsView"/> dialog window
+        /// </summary>
+        /// <param name="arg">Reference to selected <see cref="UserViewModel"/> entity</param>
         private void OnEditCurrentUser(object arg)
         {
             if (!(arg is UserViewModel user))
@@ -126,17 +181,29 @@ namespace Simplic.User.UI
             Dialogs.Add(new UserDetailsViewModel(user, false));
         }
 
+        /// <summary>
+        /// Opens <see cref="UserDetailsView"/> dialog window
+        /// </summary>
+        /// <param name="arg"></param>
         private void OnOpenSelectedUserDetails(object arg)
         {
             Dialogs.Add(new UserDetailsViewModel(SelectedUser, false));
         }
 
+        /// <summary>
+        /// Marks selected user as inactive
+        /// </summary>
+        /// <param name="arg"></param>
         private void OnDeleteSelectedUser(object arg)
         {
             SelectedUser.IsActive = false;
             SelectedUser = null;
         }
 
+        /// <summary>
+        /// Delets or adds links from groups to user and vice versa
+        /// </summary>
+        /// <param name="arg">>Reference to selected <see cref="GroupViewModel"/> entity.</param>
         private void OnGroupBindigsChanged(object arg)
         {
             if (SelectedUser == null || !(arg is GroupViewModel group))
@@ -153,11 +220,14 @@ namespace Simplic.User.UI
             }
         }
 
+        /// <summary>
+        /// Initialization users, groups and organizations collections. Initialization links between these entities
+        /// </summary>
         private void Fill()
         {
             Users.Clear();
             FilteredUsers.Clear();
-            var users = _userService.GetAllSorted()?.ToList();
+            var users = _userService.GetAllSorted(false)?.ToList();
             if (users == null || !users.Any())
                 return;
             users.Sort((u1, u2) => u1.UserName.CompareTo(u2.UserName));
@@ -206,6 +276,9 @@ namespace Simplic.User.UI
             }
         }
 
+        /// <summary>
+        /// Filtes users for groups
+        /// </summary>
         private void FilterUsersForGroups()
         {
             if(string.IsNullOrEmpty(FilterString))
@@ -216,6 +289,9 @@ namespace Simplic.User.UI
             FilteredUsers = new ObservableCollection<UserViewModel>(Users.Where(u => u.UserName.ToLower().Contains(FilterString.ToLower())));
         }
 
+        /// <summary>
+        /// Filtes users for organizations
+        /// </summary>
         private void FilterUsersForOrganizations()
         {
             if (string.IsNullOrEmpty(FilterString2))
@@ -226,6 +302,10 @@ namespace Simplic.User.UI
             FilteredUsers2 = new ObservableCollection<UserViewModel>(Users.Where(u => u.UserName.ToLower().Contains(FilterString2.ToLower())));
         }
 
+        /// <summary>
+        /// Save changes
+        /// </summary>
+        /// <param name="arg"></param>
         private void OnSave(object arg)
         {
             foreach (var user in Users)
@@ -234,66 +314,108 @@ namespace Simplic.User.UI
         #endregion
 
         #region properties
+        /// <summary>
+        /// Users collection
+        /// </summary>
         public ObservableCollection<UserViewModel> Users
         {
             get { return _users; }
             set { PropertySetter(value, newValue => _users = newValue); }
         }
 
+        /// <summary>
+        /// Groups collection
+        /// </summary>
         public ObservableCollection<GroupViewModel> Groups
         {
             get { return _groups; }
             set { PropertySetter(value, newValue => _groups = newValue); }
         }
 
+        /// <summary>
+        /// Delets or adds links from groups to user and vice versa command
+        /// </summary>
         public ICommand GroupBindigsChangedCommand
         {
             get { return _groupBindigsChangedCommand; }
             set { PropertySetter(value, newValue => _groupBindigsChangedCommand = newValue); }
         }
 
+        /// <summary>
+        /// Adds new group
+        /// </summary>
+        public ICommand AddNewGroup
+        {
+            get { return _addNewGroup; }
+            set { PropertySetter(value, newValue => _addNewGroup = newValue); }
+        }
+
+        /// <summary>
+        /// Delete selected user command
+        /// </summary>
         public ICommand DeleteSelectedUserCommand
         {
             get { return _deleteSelectedUserCommand; }
             set { PropertySetter(value, newValue => _deleteSelectedUserCommand = newValue); }
         }
 
+        /// <summary>
+        /// Selected user
+        /// </summary>
         public UserViewModel SelectedUser
         {
             get { return _selectedUser; }
             set { PropertySetter(value, newValue => _selectedUser = newValue); }
         }
 
+        /// <summary>
+        /// Dialog view models collection opened by this entity
+        /// </summary>
         public ObservableCollection<IDialogViewModel> Dialogs
         {
             get { return _dialogs; }
             set { PropertySetter(value, newValue => _dialogs = newValue); }
         }
 
+        /// <summary>
+        /// Open selected user details dialog window command
+        /// </summary>
         public ICommand OpenSelectedUserDetailsCommand
         {
             get { return _openSelectedUserDetailsCommand; }
             set { PropertySetter(value, newValue => _openSelectedUserDetailsCommand = newValue); }
         }
 
+        /// <summary>
+        /// Edit current user command
+        /// </summary>
         public ICommand EditCurrentUserCommand
         {
             get { return _editCurrentUserCommand; }
             set { PropertySetter(value, newValue => _editCurrentUserCommand = newValue); }
         }
 
+        /// <summary>
+        /// Delete current user command
+        /// </summary>
         public ICommand DeleteCurrentUserCommand
         {
             get { return _deleteCurrentUserCommand; }
             set { PropertySetter(value, newValue => _deleteCurrentUserCommand = newValue); }
         }
 
+        /// <summary>
+        /// Filtered users collection for groups
+        /// </summary>
         public ObservableCollection<UserViewModel> FilteredUsers
         {
             get { return _filteredUsers; }
             set { PropertySetter(value, newValue => _filteredUsers = newValue); }
         }
 
+        /// <summary>
+        /// Groups's filter string
+        /// </summary>
         public string FilterString
         {
             get { return _filterString; }
@@ -304,30 +426,45 @@ namespace Simplic.User.UI
             }
         }
 
+        /// <summary>
+        /// Edit current group command
+        /// </summary>
         public ICommand EditCurrentGroupCommand
         {
             get { return _editCurrentGroupCommand; }
             set { PropertySetter(value, newValue => _editCurrentGroupCommand = newValue); }
         }
 
+        /// <summary>
+        /// Organizations collection
+        /// </summary>
         public ObservableCollection<OrganizationViewModel> Organizations
         {
             get { return _organizations; }
             set { PropertySetter(value, newValue => _organizations = newValue); }
         }
 
+        /// <summary>
+        /// Delets or adds links from organizations to user and vice versa command
+        /// </summary>
         public ICommand OrganizationBindigsChangedCommand
         {
             get { return _organizationBindigsChangedCommand; }
             set { PropertySetter(value, newValue => _organizationBindigsChangedCommand = newValue); }
         }
 
+        /// <summary>
+        /// Edit current organization command
+        /// </summary>
         public ICommand EditCurrentOrganizationCommand
         {
             get { return _editCurrentOrganizationCommand; }
             set { PropertySetter(value, newValue => _editCurrentOrganizationCommand = newValue); }
         }
 
+        /// <summary>
+        /// Organization's filter string
+        /// </summary>
         public string FilterString2
         {
             get { return _filterString2; }
@@ -338,24 +475,36 @@ namespace Simplic.User.UI
             }
         }
 
+        /// <summary>
+        /// Filtered users for organizations
+        /// </summary>
         public ObservableCollection<UserViewModel> FilteredUsers2
         {
             get { return _filteredUsers2; }
             set { PropertySetter(value, newValue => _filteredUsers2 = newValue); }
         }
 
+        /// <summary>
+        /// Skip selected user command
+        /// </summary>
         public ICommand SkipSelectedUserCommand
         {
             get { return _skipSelectedUserCommand; }
             set { PropertySetter(value, newValue => _skipSelectedUserCommand = newValue); }
         }
 
+        /// <summary>
+        /// Add new user command
+        /// </summary>
         public ICommand AddUserCommand
         {
             get { return _addUserCommand; }
             set { PropertySetter(value, newValue => _addUserCommand = newValue); }
         }
 
+        /// <summary>
+        /// Save state command. Inherited from <see cref="ISaveableViewModel"/>
+        /// </summary>
         public ICommand SaveCommand { get { return new RelayCommand(OnSave); } }
         #endregion
     }

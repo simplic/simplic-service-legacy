@@ -5,6 +5,9 @@ using Telerik.Windows.Controls;
 
 namespace Simplic.User.UI
 {
+    /// <summary>
+    /// View model for password change dialog window
+    /// </summary>
     class ChangeUserPasswordViewModel : Simplic.UI.MVC.ViewModelBase, IUserDialogViewModel, ISaveableViewModel
     {
         #region fields
@@ -14,10 +17,17 @@ namespace Simplic.User.UI
         #endregion
 
         #region events
+        /// <summary>
+        /// Notifies when a window is closed. Inherited from <see cref="IUserDialogViewModel"/>
+        /// </summary>
         public event EventHandler DialogClosing;
         #endregion
 
         #region ctr
+        /// <summary>
+        /// Constructor for the view model
+        /// </summary>
+        /// <param name="user">The current user for whom the password is changed</param>
         public ChangeUserPasswordViewModel(UserViewModel user)
         {
             _user = user;
@@ -31,11 +41,18 @@ namespace Simplic.User.UI
             DialogClosing(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Dialog window close request method. Inherited from <see cref="IUserDialogViewModel"/>
+        /// </summary>
         public void RequestClose()
         {
             Close();
         }
 
+        /// <summary>
+        /// Returns current password
+        /// </summary>
+        /// <returns></returns>
         public string GetPassword()
         {
             return _password;
@@ -58,8 +75,14 @@ namespace Simplic.User.UI
         #endregion
 
         #region properties
+        /// <summary>
+        /// Dialog window modality flag. Inherited from <see cref="IUserDialogViewModel"/>
+        /// </summary>
         public bool IsModal => true;
 
+        /// <summary>
+        /// Save state command. Inherited from <see cref="ISaveableViewModel"/>
+        /// </summary>
         public ICommand SaveCommand
         {
             get { return _changePasswordCommand; }

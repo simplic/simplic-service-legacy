@@ -17,6 +17,7 @@
         <local:UserDetailsView x:Key="{x:Type vm:UserDetailsViewModel}" x:Shared="False" />
         <local:GroupDetailsView x:Key="{x:Type vm:GroupDetailsViewModel}" x:Shared="False" />
         <local:OrganizationDetailsView x:Key="{x:Type vm:OrganizationDetailsViewModel}" x:Shared="False" />
+        <local:CreateNewGroupView x:Key="{x:Type vm:CreateNewGroupViewModel}" x:Shared="False" />
         <converters:GroupsToLabelConverter x:Key="GroupsToLabelConverter" />
         <converters:OrganizationsToLabelConverter x:Key="OrganizationsToLabelConverter" />
         <converters:SelectedUserIsNullConverter x:Key="SelectedUserIsNullConverter" />
@@ -47,11 +48,17 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <telerik:RadRibbonButton Command="{Binding Path=AddUserCommand}" Grid.Column="0" Margin="0,0,5,0"
+                                <telerik:RadRibbonButton Command="{Binding Path=AddNewGroup}" Grid.Column="0" Margin="0,0,5,0"
+                                                         LargeImage="{simplic:Icon Name=usermanagement_add_group_32x}"
+                                                         Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                         Text="{simplic:Localization Key=usermanagment_add_group_label}" Size="Large"/>
+                                
+                                <telerik:RadRibbonButton Command="{Binding Path=AddUserCommand}" Grid.Column="1" Margin="0,0,5,0"
                                                          LargeImage="{simplic:Icon Name=usermanagement_add_user_32x}" Text="{simplic:Localization Key=usermanagment_add_user_label}" Size="Large"/>
 
-                                <StackPanel Grid.Column="1" Orientation="Horizontal" IsEnabled="{Binding Path=SelectedUser, Converter={StaticResource SelectedUserIsNullConverter}}">
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" IsEnabled="{Binding Path=SelectedUser, Converter={StaticResource SelectedUserIsNullConverter}}">
                                     <telerik:RadRibbonButton Command="{Binding Path=OpenSelectedUserDetailsCommand}" LargeImage="{simplic:Icon Name=usermanagement_edit_user_32x}"
                                                              Text="{simplic:Localization Key=usermanagment_edit_user_label}" Size="Large" />
                                     <telerik:RadRibbonButton Margin="5,0,0,0" Command="{Binding Path=DeleteSelectedUserCommand}" LargeImage="{simplic:Icon Name=usermanagement_remove_user_32x}"
@@ -60,13 +67,13 @@
 
                                 <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}"
                                                            Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
-                                                           Margin="5,0,0,0" Name="_changeBtn" Grid.Column="2"
+                                                           Margin="5,0,0,0" Name="_changeBtn" Grid.Column="3"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
                                                            Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                                 <telerik:RadRibbonToggleButton LargeImage="{simplic:Icon Name=usermanagement_change_view_32x}"
                                                            Text="{simplic:Localization Key=usermanagment_change_view_label}" Size="Large"
-                                                           Margin="5,0,0,0" Name="_changeBtn2" Grid.Column="2"
+                                                           Margin="5,0,0,0" Name="_changeBtn2" Grid.Column="3"
                                                            Command="{Binding Path=SkipSelectedUserCommand}"
                                                            Visibility="{Binding Path=IsGroupsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:UserManagmentEditorView}}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"/>
                             </Grid>
@@ -85,7 +92,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
+                    <simplic:CursorGridViewControl MouseDoubleClick="CursorGridViewControl_MouseDoubleClick" Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
                              Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
                              ShowGroupPanel="False" RowIndicatorVisibility="Collapsed" NavigationBehaviour="GridDefault"
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">

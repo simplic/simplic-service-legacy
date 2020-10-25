@@ -123,7 +123,15 @@ namespace Simplic.Group.Service
         public bool Save(Group group)
         {
             return sqlService.OpenConnection((connection) =>
-            {
+            {   
+                if (group.Ident == 0)
+                {
+                    group.Ident = connection.Query<int>($"SELECT GET_Identity('{GroupTableName}')").First();
+                    if(group.GroupId == 0)
+                        group.GroupId = connection.Query<int>($"SELECT MAX (GroupId) FROM {GroupTableName}").First() + 100;
+                }
+
+
                 var affectedRows = connection.Execute($"INSERT INTO {GroupTableName} " +
                     $"(Ident, Name, GroupId, IsDefaultGroup) "
                      + " ON EXISTING UPDATE VALUES (:Ident, :Name, :GroupId, :IsDefaultGroup)", group);

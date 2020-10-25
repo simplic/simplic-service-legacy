@@ -79,11 +79,13 @@
     <Compile Include="Utils\IDraggableUser.cs" />
     <Compile Include="Utils\IgnoreMouseWheelBehavior.cs" />
     <Compile Include="Utils\INamedEntity.cs" />
+    <Compile Include="Utils\IOpenSelectedUserDetails.cs" />
     <Compile Include="Utils\ISaveableViewModel.cs" />
     <Compile Include="Utils\ListViewDragDropManager.cs" />
     <Compile Include="Utils\ListViewItemDragState.cs" />
     <Compile Include="Utils\MouseUtilities.cs" />
     <Compile Include="ViewModels\ChangeUserPasswordViewModel.cs" />
+    <Compile Include="ViewModels\CreateNewGroupViewModel.cs" />
     <Compile Include="ViewModels\GroupDetailsViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\OrganizationDetailsViewModel.cs" />
@@ -93,6 +95,9 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\ChangeUserPasswordView.xaml.cs">
       <DependentUpon>ChangeUserPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateNewGroupView.xaml.cs">
+      <DependentUpon>CreateNewGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GroupDetailsView.xaml.cs">
       <DependentUpon>GroupDetailsView.xaml</DependentUpon>
@@ -190,7 +195,7 @@
       <Version>6.0.18.619</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Group.Service">
-      <Version>6.0.18.619</Version>
+      <Version>6.0.218.619</Version>
     </PackageReference>
     <PackageReference Include="Simplic.Icon.UI">
       <Version>6.1.18.917</Version>
@@ -261,6 +266,10 @@
     <Page Include="Views\ChangeUserPasswordView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CreateNewGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GroupDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
