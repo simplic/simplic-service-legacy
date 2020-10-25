@@ -11,6 +11,9 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-taskscheduler/*
 
 pool:
   vmImage: 'windows-latest'

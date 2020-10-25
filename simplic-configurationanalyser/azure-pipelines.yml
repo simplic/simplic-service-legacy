@@ -11,6 +11,9 @@ pr:
   branches:
     include:
     - '*'
+  paths:
+    include:
+    - simplic-configurationanalyser/*
 
 pool:
   vmImage: 'windows-latest'
