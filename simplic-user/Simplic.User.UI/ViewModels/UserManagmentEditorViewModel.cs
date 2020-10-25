@@ -1,15 +1,15 @@
 ﻿using CommonServiceLocator;
-using Simplic.BaseDAL;
 using Simplic.Group;
 using Simplic.TenantSystem;
 using Simplic.UI.MVC;
+using Simplic.User.UI.Utils;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
 namespace Simplic.User.UI
 {
-    public class UserManagmentEditorViewModel : ViewModelBase, ISaveableViewModel
+    public class UserManagmentEditorViewModel : ViewModelBase, ISaveableViewModel, IOpenSelectedUserDetails
     {
         #region fields
         private readonly IUserService _userService;
@@ -157,7 +157,7 @@ namespace Simplic.User.UI
         {
             Users.Clear();
             FilteredUsers.Clear();
-            var users = _userService.GetAllSorted()?.ToList();
+            var users = _userService.GetAllSorted(false)?.ToList();
             if (users == null || !users.Any())
                 return;
             users.Sort((u1, u2) => u1.UserName.CompareTo(u2.UserName));

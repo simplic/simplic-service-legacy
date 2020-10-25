@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
@@ -9,6 +10,8 @@ namespace Simplic.User.UI
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values.Any(v => v == DependencyProperty.UnsetValue))
+                return Binding.DoNothing;
             if (!(bool)values[0])
                 return Visibility.Visible;
             return (bool)values[1] ? Visibility.Collapsed : Visibility.Visible;

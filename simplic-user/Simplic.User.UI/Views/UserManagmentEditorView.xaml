@@ -85,7 +85,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <simplic:CursorGridViewControl Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
+                    <simplic:CursorGridViewControl MouseDoubleClick="CursorGridViewControl_MouseDoubleClick" Grid.Row="1" ItemsSource="{Binding Path=Users}" AutoGenerateColumns="False" GridLinesVisibility="Both"
                              Visibility="{Binding Path=IsChecked, ElementName=_changeBtn, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
                              ShowGroupPanel="False" RowIndicatorVisibility="Collapsed" NavigationBehaviour="GridDefault"
                              SelectedItem="{Binding Path=SelectedUser, Mode=TwoWay}">

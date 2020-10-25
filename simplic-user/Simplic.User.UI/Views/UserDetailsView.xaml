@@ -5,6 +5,7 @@
         xmlns:dlgs="clr-namespace:Simplic.User.UI"
         xmlns:local="clr-namespace:Simplic.User.UI"
         xmlns:vm="clr-namespace:Simplic.User.UI"
+        xmlns:sui="clr-namespace:Simplic.UI;assembly=Simplic.UI"
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:converters="clr-namespace:Simplic.User.UI"
         Height="337" Width="900"
@@ -22,71 +23,107 @@
     <simplic:DefaultRibbonWindow.Title>
         <Binding Path="User" Converter="{StaticResource UserToTitleConverter}" />
     </simplic:DefaultRibbonWindow.Title>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Column="0" Grid.Row="0" Margin="0,20,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".3*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Label Grid.Column="0" Grid.Row="0" Content="{simplic:Localization Key=usermanagment_first_name_label}" Margin="5,5,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="0" />
-
-            <Label Grid.Column="0" Grid.Row="1" Content="{simplic:Localization Key=usermanagment_user_name_label}" Margin="5,0,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="2"
-                     IsEnabled="{Binding Path=IsCreate}"/>
-
-            <Label Grid.Column="0" Grid.Row="2" Content="{simplic:Localization Key=usermanagment_phone_label}" Margin="5,0,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="4" />
-        </Grid>
-
-        <Grid Grid.Column="1" Grid.Row="0" Margin="0,20,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".3*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Label Grid.Column="0" Grid.Row="0" Content="{simplic:Localization Key=usermanagment_last_name_label}" Margin="5,5,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="1" />
-
-            <Label Grid.Column="0" Grid.Row="1" Content="{simplic:Localization Key=usermanagment_email_label}" Margin="5,0,0,5" />
-            <simplic:TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Email, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="3" />
-
-            <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
-                <Button Height="27" Width="170" Margin="10,0,5,0" Content="{Binding Path=IsCreate, Converter={StaticResource PwdButtonContentConverter}}"
-                        Command="{Binding Path=ChangePasswordCommand}">
-                    <Button.Visibility>
+    <sui:KeyboardController Name="rsKeyboardController" AutomaticActivationOnLoad="True">
+        <sui:RibbonContextController Name="rsRibbonController">
+            <sui:RibbonContextController.RadRibbonContextTab>
+                <telerik:RadRibbonTab Header="Password">
+                    <telerik:RadRibbonTab.Visibility>
                         <MultiBinding Converter="{StaticResource PwdButtonVisibilityConverter}">
                             <Binding Path="IsCreate" />
                             <Binding Path="IsADUser" />
                         </MultiBinding>
-                    </Button.Visibility>
-                </Button>
-            </Grid>
-            <simplic:CheckBox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Width="120" IsChecked="{Binding Path=IsActive}"
-                      Margin="10,0,5,5" VerticalAlignment="Center" TabIndex="5" Content="{simplic:Localization Key=usermanagment_is_active_label}" Height="27" VerticalContentAlignment="Center" />
-            <simplic:CheckBox Grid.Column="0" Grid.Row="3" Content="{simplic:Localization Key=usermanagment_is_ad_user_label}" Width="80" IsChecked="{Binding Path=IsADUser}" Margin="10,0,0,0" VerticalAlignment="Center"
-                      Visibility="{Binding Path=IsCreate, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" />
-        </Grid>
-    </Grid>
+                    </telerik:RadRibbonTab.Visibility>
+                    <telerik:RadRibbonGroup Header="{simplic:Localization Key=usermanagment_set_pwd_label}" Name="actionRibbonGroup">
+                        <telerik:RadRibbonGroup.Visibility>
+                            <MultiBinding Converter="{StaticResource PwdButtonVisibilityConverter}">
+                                <Binding Path="IsCreate" />
+                                <Binding Path="IsADUser" />
+                            </MultiBinding>
+                        </telerik:RadRibbonGroup.Visibility>
+                        <telerik:RadRibbonButton Size="Large"
+                                                 VerticalAlignment="Center"
+                                                 LargeImage="{simplic:Icon Name=user_set_password_32x}"
+                                                 Command="{Binding Path=ChangePasswordCommand}">
+                        </telerik:RadRibbonButton>
+                    </telerik:RadRibbonGroup>
+                </telerik:RadRibbonTab>
+            </sui:RibbonContextController.RadRibbonContextTab>
+            <sui:RibbonContextController.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Column="0" Grid.Row="0" Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".3*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Grid.Row="0" Content="{simplic:Localization Key=usermanagment_first_name_label}" Margin="5,5,0,5" />
+                        <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="0" />
+
+                        <Label Grid.Column="0" Grid.Row="1" Content="{simplic:Localization Key=usermanagment_user_name_label}" Margin="5,0,0,5" />
+                        <simplic:TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="2"
+                     IsEnabled="{Binding Path=IsCreate}"/>
+
+                        <Label Grid.Column="0" Grid.Row="2" Content="{simplic:Localization Key=usermanagment_phone_label}" Margin="5,0,0,5" />
+                        <simplic:TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalContentAlignment="Center" TabIndex="4" />
+                    </Grid>
+
+                    <Grid Grid.Column="1" Grid.Row="0" Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".3*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Grid.Row="0" Content="{simplic:Localization Key=usermanagment_last_name_label}" Margin="5,5,0,5" />
+                        <simplic:TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5" VerticalContentAlignment="Center" TabIndex="1" />
+
+                        <Label Grid.Column="0" Grid.Row="1" Content="{simplic:Localization Key=usermanagment_email_label}" Margin="5,0,0,5" />
+                        <simplic:TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Email, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,5" VerticalAlignment="Top" VerticalContentAlignment="Center" TabIndex="3" />
+                        <Grid Grid.Column="1" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Column="0" Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <simplic:CheckBox HorizontalAlignment="Left" Width="70" Grid.Column="0" IsChecked="{Binding Path=IsActive}"
+                                    VerticalAlignment="Center" TabIndex="5" Content="{simplic:Localization Key=usermanagment_is_active_label}" Height="27" VerticalContentAlignment="Center" />
+                            </Grid>
+                            <simplic:CheckBox  Grid.Column="0" Grid.Row="1" Content="{simplic:Localization Key=usermanagment_is_ad_user_label}" Width="120" IsChecked="{Binding Path=IsADUser}" VerticalAlignment="Center"
+                                Visibility="{Binding Path=IsCreate, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Left" />
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </sui:RibbonContextController.Content>
+        </sui:RibbonContextController>
+    </sui:KeyboardController>
+    
 </simplic:DefaultRibbonWindow>

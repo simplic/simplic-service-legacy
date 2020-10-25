@@ -79,6 +79,7 @@
     <Compile Include="Utils\IDraggableUser.cs" />
     <Compile Include="Utils\IgnoreMouseWheelBehavior.cs" />
     <Compile Include="Utils\INamedEntity.cs" />
+    <Compile Include="Utils\IOpenSelectedUserDetails.cs" />
     <Compile Include="Utils\ISaveableViewModel.cs" />
     <Compile Include="Utils\ListViewDragDropManager.cs" />
     <Compile Include="Utils\ListViewItemDragState.cs" />
